@@ -1,4 +1,4 @@
-<!-- <script>
+<script>
 import axios from 'axios';
 export default {
   name: 'App',
@@ -30,7 +30,7 @@ export default {
 
 
 }
-</script> -->
+</script>
 
 
 <template>

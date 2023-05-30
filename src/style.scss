@@ -119,6 +119,11 @@
         1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
 }
 
+.bordo-bianco-span {
+    text-shadow: 1px 0 #fff, -1px 0 #fff, 0 1px #fff, 0 -1px #fff,
+        .5px .5px #fff, -.5px -.5px #fff, .5px -.5px #fff, -.5px .5px #fff;
+}
+
 .bordo-bianco-transparente {
     text-shadow: 2px 0 #ffffff38, -2px 0 #ffffff38, 0 2px #ffffff38, 0 -2px #ffffff38,
         1px 1px #ffffff38, -1px -1px #ffffff38, 1px -1px #ffffff38, -1px 1px #ffffff38;

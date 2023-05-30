@@ -175,7 +175,7 @@ function creaContenutoMain(contatore) {
 
     let elTitle = document.querySelector("._my_container .title");
     if (!(confArray[contatore][2])) {
-        elTitle.classList.add('bordo-bianco-transparente');
+        elTitle.classList.add('bordo-bianco');
     } else {
         elTitle.classList.add('ombra-titolo');
     }
@@ -220,11 +220,12 @@ function creaContenutoMain(contatore) {
         createElementAppend('h4', 'title', confArray[contatore][6], tagContainerTypes, 1);
         //style container
         tagContainerTypes.style = "position: absolute; display: flex; width: 50%; gap: 1em; bottom: 20%; right: 0%;align-items:center;animation: 1s appear;"
+        tagContainer.classList.add('.bordo-bianco-span')
 
 
     } else {
         spanWrapper.style = "";
-        spanWrapper.classList.add('bordo-bianco-transparente')
+        spanWrapper.classList.add('bordo-bianco-span')
     }
 }
 
@@ -267,7 +268,7 @@ function creaContenutoTop(contatore) {
 
     } else {
         spanWrapper.style = "";
-        spanWrapper.classList.add('bordo-bianco-transparente')
+        spanWrapper.classList.add('bordo-bianco-span')
     }
 }
 
@@ -308,7 +309,7 @@ function creaContenutoBottom(contatore) {
 
     } else {
         spanWrapper.style = "";
-        spanWrapper.classList.add('bordo-bianco-transparente')
+        spanWrapper.classList.add('bordo-bianco-span')
     }
 }
 
