@@ -1,39 +1,25 @@
 <script>
-import axios from 'axios';
+
+import AppHeader from './components/AppHeader.vue';
 export default {
   name: 'App',
   data() {
     return {
-      projects: [],
-      urlImg: 'http://127.0.0.1:8000' + '/storage/',
+  
     }
   },
 
-  methods: {
-
-    getProjects() {
-      axios.get('http://127.0.0.1:8000/api/projects').then(response => {
-        // console.log(response.data.results)
-        this.projects = response.data.results;
-        //console.log(this.projects)
-      });
-    },
+  components: {
+    AppHeader
   },
-
-  created() {
-    this.getProjects()
-  },
-
-  mounted() {
-    //console.log(this.urlImg + ptoject.cover_image)
-  }
-
-
+ 
 }
 </script>
 
 <template>
-  <div class="container p-5">
+  <AppHeader></AppHeader>
+  <router-view></router-view>
+  <!-- <div class="container p-5">
     <h1>Benvenuto nella sezione dei progetti</h1>
   </div>
 
@@ -48,7 +34,7 @@ export default {
       </div>
     </div>
 
-  </div>
+  </div> -->
 </template>
 
 <style scoped></style>
