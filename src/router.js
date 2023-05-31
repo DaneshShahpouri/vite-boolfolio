@@ -29,3 +29,7 @@ const router = createRouter({
     ]
 });
 export { router }
+
+
+//La parte grafica è in sospeso perchè sto provando a implementare un layout
+//scritto in jsvanilla in vue.

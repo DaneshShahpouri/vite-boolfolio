@@ -11,7 +11,7 @@ export default {
 <template>
     <nav>
 
-        <div class="nav-inner">
+        <div class="navbar nav-inner">
 
             <div class="logo-wrapper">
                 <h3>DS</h3>
@@ -42,16 +42,22 @@ export default {
 }
 
 nav {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    z-index: 2;
+
     display: flex;
     align-items: center;
     justify-content: center;
 
-    width: 100%;
+    width: 100vw;
     max-width: 1200px;
-    height: 100px;
+    height: 50px;
     margin: 0 auto;
 
-    background: rgb(255, 255, 255);
+    background: rgba(255, 255, 255, 0);
     padding: 0 1em;
 
 

@@ -4,33 +4,812 @@ export default {
     name: 'AppHome',
     data() {
         return {
+            confArray: [
+                ['showroom', 'Sezione della pagina dedicata alla presentazione', false],
+                ['projects', 'Qui di seguito troverai i vari progetti e potrai approfondirne i dettagli', false],
+                ['projects', "Questo Progetto è una prova incosistente, rappresentazione della manchevolezza umana, il vuoto come presenza fissa, l'incosistenza dell'esperire umano. Cancellami.", true, ['Progetto di prova esempio', 'https://sitiwebfox.it/images/realizzazione-siti-web-professionali.png', 'https://kinsta.com/it/wp-content/uploads/sites/2/2020/02/migliori-pratiche-di-web-design-1024x512.jpg'], '#FF5154', [['html', '#e47c0f'], ['css', '#57a2e7'], ['javascript', '#D6AB27'], ['laravel', '#f44336'], ['php', '#6C4BC0']], 'Fullstack'],
+                ['projects', 'Progetto2 di prova con elementi specifici per verede che succede se metto info lunghe che sembrano volere dire  qualcosa.', true, ['Prova due - prova', 'https://kinsta.com/it/wp-content/uploads/sites/2/2021/09/how-to-translate-a-website-1024x512.jpeg', 'https://www.ionos.it/digitalguide/fileadmin/DigitalGuide/Teaser/web-apps-t.jpg', 'https://www.raiscuola.rai.it/cropgd/1900x1069/dl/img/2021/02/09/1612868746079_monitor-1307227_1920.jpg', 'https://files.spazioweb.it/32/3d/323d8cfb-176d-4c90-9ba9-a4fe6eab5d58.jpeg'], '#5E2A40', [['html', '#e47c0f'], ['MySql', '#b65284'], ['laravel', '#f44336'], ['php', '#6C4BC0']], 'Backend'],
+                ['contacts', 'Danesh@mail.it', false],
+                ['extra', 'qui puoi vedere progetti extra', false]
+            ],
+            //variabili globali
+            contatore: 0,
+            contatoreOrizzontale: 0,
+            precontatore: "",
+            postcontatore: 1,
+            precontatoreOrizzontale: "",
+            postcontatoreOrizzontale: 1,
+            contatoreBackground: 0,
+            contatoreBackgroundOrizzontale: 0,
 
+            isAnimated: false,
         }
     },
 
-    methods: {
+    components: {
 
     },
 
+    methods: {
+        //Animazione Background
+        //Gestisce le animazioni dello sfondo e alcuni caratteri estetici
+        //Praticamente modulare, serve solo l'html di riferimento.
+        backgroundAnimation() {
+            let cerchioTop = document.getElementById('cerchio-top')
+            let cerchioBottom = document.getElementById('cerchio-bottom')
+            let cerchioHiddenTop = document.getElementById('cerchio-top-hidden')
+            let cerchioHiddenBottom = document.getElementById('cerchio-bottom-hidden')
+            let bg = document.getElementById('background')
 
 
+            switch (this.confArray[this.contatoreBackground][0]) {
+                case 'showroom':
+                    cerchioTop.style = "top:-30%; left:-20%;scale:3;"
+                    cerchioBottom.style = "bottom:0%; right:0%; scale:2;"
+                    break;
+                case 'projects':
+                    cerchioTop.style = "top:-10%; left:10%; scale:2.8;"
+                    cerchioBottom.style = "bottom:-40%; right:20%; scale:2.4;"
+                    break;
+                case 'contacts':
+                    cerchioTop.style = "top:-10%; left:10%; scale:2.8;"
+                    cerchioBottom.style = "bottom:-40%; right:20%; scale:2.4;"
+                    break;
+                case 'extra':
+                    cerchioTop.style = "top:-30%; left:50%;scale:2.4;"
+                    cerchioBottom.style = "bottom:0%; right:40%; scale:2.3;"
+                    break;
+            }
 
+            if (this.confArray[this.contatoreBackground][2] == true) {
+                // navbar.classList.add('navbar-dark')
+                //Cerchi nascossti
+                cerchioHiddenBottom.style = "display:block; background-color:rgba(0, 0, 0, 0) ;bottom:-40%; right:20%; scale:2.4;border:1px solid white"
+                cerchioHiddenTop.style = "display:block; background-color:rgba(0, 0, 0, 0) ;top:-10%; left:10%; scale:2.8; border:1px solid white"
+                //---------------
+
+                cerchioTop.style = "top:-10%; left:10%; scale:2.8; border:1px solid white"
+                cerchioBottom.style = "bottom:-40%; right:20%; scale:2.4;border:1px solid white"
+                cerchioTop.classList.add('cerchio-top-animazione')
+                cerchioTop.style = "background-color:rgba(255, 255, 255, 0.1); border:none;"
+                cerchioBottom.style = "background-color:rgba(255, 255, 255, 0.1);border:none;"
+                cerchioBottom.classList.add('cerchio-bottom-animazione')
+                bg.style = "background-color:" + this.confArray[this.contatoreBackground][4];
+
+            } else if (cerchioTop.classList.contains('cerchio-top-animazione')) {
+                // navbar.classList.remove('navbar-dark')
+                cerchioTop.classList.remove('cerchio-top-animazione')
+                cerchioBottom.classList.remove('cerchio-bottom-animazione')
+                //Cerchi nascossti
+                cerchioHiddenBottom.style = "display:block; background-color:rgba(160, 160, 160, 0.1) ;bottom:-40%; right:20%; scale:2.4;border:1px solid white; border:none"
+                cerchioHiddenTop.style = "display:block; background-color:rgba(160, 160, 160, 0.1) ;top:-10%; left:10%; scale:2.8; border:1px solid white; border:none"
+                cerchioHiddenTop.classList.add('cerchio-top-animazione-hidden')
+                cerchioHiddenBottom.classList.add('cerchio-bottom-animazione-hidden')
+                //---------------
+                bg.style = "background-color:white";
+            } else {
+                // navbar.classList.remove('navbar-dark')
+                //Cerchi nascossti
+                cerchioHiddenBottom.style = "display:block; background-color:rgba(160, 160, 160, 0.1) ;bottom:-40%; right:20%; scale:2.4;border:1px solid white; border:none"
+                cerchioHiddenTop.style = "display:block; background-color:rgba(160, 160, 160, 0.1) ;top:-10%; left:10%; scale:2.8; border:1px solid white; border:none"
+                cerchioHiddenTop.classList.add('cerchio-top-animazione-hidden')
+                cerchioHiddenBottom.classList.add('cerchio-bottom-animazione-hidden')
+                //---------------
+                bg.style = "background-color:white";
+            }
+
+            if (this.confArray[this.contatoreBackground][0] == 'extra') {
+                cerchioHiddenBottom.style = "display:block; background-color:rgba(0, 0, 255, 0.3);bottom:-40%; right:20%; scale:2.4;border:1px solid white; border:none"
+                cerchioHiddenTop.style = "display:block; background-color:rgba(255, 0, 0, 0.3) ;top:-10%; left:10%; scale:2.8; border:1px solid white; border:none"
+            }
+        },
+
+        //Animazione Aggiungi classe
+        //Scroll Verticale
+        // Dal centro al basso
+        scrollElCenterDown(elemento) {
+            elemento.classList.add('move-center-top');
+            let disbandClass = setTimeout(() => {
+                elemento.classList.remove('move-center-top');
+            }, 2200);
+        },
+        // Dal centro al alto
+        scrollElCenterUp(elemento) {
+            elemento.classList.add('move-center-bottom');
+            let disbandClass = setTimeout(() => {
+                elemento.classList.remove('move-center-bottom');
+            }, 2200);
+        },
+        //Dall alto al centro
+        scrollElTopCenter(elemento) {
+            elemento.classList.add('move-top-center');
+            let disbandClass = setTimeout(() => {
+                elemento.classList.remove('move-top-center');
+            }, 2200);
+        },
+        //Dall basso al centro
+        scrollElBottomCenter(elemento) {
+            elemento.classList.add('move-bottom-center');
+            let disbandClass = setTimeout(() => {
+                elemento.classList.remove('move-bottom-center');
+            }, 2200);
+        },
+        //Scroll Orizzontale
+        // Dal centro a sinistra
+        scrollElCenterLeft(elemento) {
+            elemento.classList.add('move-center-left');
+            let disbandClass = setTimeout(() => {
+                elemento.classList.remove('move-center-left');
+            }, 2200);
+        },
+        // Dal centro a destra
+        scrollElCenterRight(elemento) {
+            elemento.classList.add('move-center-right');
+            let disbandClass = setTimeout(() => {
+                elemento.classList.remove('move-center-right');
+            }, 2200);
+        },
+        // Dal  destra a centro
+        scrollElRightCenter(elemento) {
+            elemento.classList.add('move-right-center');
+            let disbandClass = setTimeout(() => {
+                elemento.classList.remove('move-right-center');
+            }, 2200);
+        },
+        // Dal  destra a centro
+        scrollElLeftCenter(elemento) {
+            elemento.classList.add('move-left-center');
+            let disbandClass = setTimeout(() => {
+                elemento.classList.remove('move-left-center');
+            }, 2200);
+        },
+
+        checkContatori() {
+            this.postcontatore = this.contatore + 1;
+            this.precontatore = this.contatore - 1;
+
+            if (this.contatore == 0) {
+                this.precontatore = this.confArray.length - 1
+            } else if (this.contatore == this.confArray.length - 1) {
+                this.postcontatore = 0
+            }
+
+        },
+
+        checkContatoriOrizzontali() {
+            if (this.confArray[this.contatore][2]) {
+                this.postcontatoreOrizzontale = this.contatoreOrizzontale + 1;
+                this.precontatoreOrizzontale = this.contatoreOrizzontale - 1;
+
+                if (this.contatoreOrizzontale == 0) {
+                    this.precontatoreOrizzontale = this.confArray[this.contatore][3].length - 1
+                } else if (this.contatoreOrizzontale == this.confArray[this.contatore][3].length - 1) {
+                    this.postcontatoreOrizzontale = 0
+                }
+            }
+
+        },
+
+        //setter
+        setPrecontatore() {
+            this.precontatore = parseInt(this.confArray.length - 1)
+        },
+
+        scrollDown() {
+            if (this.isAnimated == false) {
+                this.isAnimated = true;
+                //animazione
+                let MainScrollableEl = document.getElementById('container-1');
+                let BottomScrollableEl = document.getElementById('container-post');
+                this.scrollElCenterDown(MainScrollableEl);
+                this.scrollElBottomCenter(BottomScrollableEl);
+
+                //reset della variabile is animated e check
+                let timer = setTimeout(() => {
+                    this.isAnimated = false
+                    this.checkContatori()
+                }, 2200)
+
+                let changeIndex = setTimeout(() => {
+                    this.contatore++;
+                    if (this.contatore == this.confArray.length) {
+                        // console.log(this.confArray.length)
+                        this.contatore = 0;
+                    }
+                }, 900)
+
+                this.contatoreBackground = this.postcontatore
+                this.backgroundAnimation();
+                this.contatoreOrizzontale = 0;
+                this.contatoreBackgroundOrizzontale = 0;
+                this.checkContatoriOrizzontali();
+            }
+        },
+
+        scrollUp() {
+            if (this.isAnimated == false) {
+
+
+                this.isAnimated = true;
+                //Animazione
+                let MainScrollableEl = document.getElementById('container-1');
+                let TopScrollableEl = document.getElementById('container-pre');
+
+                this.scrollElCenterUp(MainScrollableEl)
+                this.scrollElTopCenter(TopScrollableEl);
+
+                let timer = setTimeout(() => {
+                    this.isAnimated = false
+                    this.checkContatori()
+                }, 2200)
+
+                let changeIndex = setTimeout(() => {
+
+                    this.contatore--;
+                    if (this.contatore < 0) {
+                        this.contatore = this.confArray.length - 1;
+                    }
+                }, 900)
+
+
+                this.contatoreBackground = this.precontatore
+                this.backgroundAnimation();
+                this.contatoreOrizzontale = 0;
+                this.contatoreBackgroundOrizzontale = 0;
+                this.checkContatoriOrizzontali();
+
+            }
+        },
+
+        scrollLeftRight(index) {
+            if (this.isAnimated == false && index >= 0 && index < this.confArray[this.contatore][3].length) {
+                this.isAnimated = true;
+
+                this.precontatoreOrizzontale = index;
+                this.postcontatoreOrizzontale = index;
+
+                if (index < this.contatoreOrizzontale) {
+                    let MainScrollableEl = document.getElementById('container-1');
+                    let LeftScrollableEl = document.getElementById('container-left');
+
+                    this.scrollElCenterRight(MainScrollableEl)
+                    this.scrollElRightCenter(LeftScrollableEl);
+                } else {
+                    let MainScrollableEl = document.getElementById('container-1');
+                    let RightScrollableEl = document.getElementById('container-right')
+
+
+                    this.scrollElCenterLeft(MainScrollableEl)
+                    this.scrollElLeftCenter(RightScrollableEl);
+
+                }
+
+
+                let timer = setTimeout(() => {
+                    this.isAnimated = false
+                    this.checkContatoriOrizzontali()
+                }, 1900)
+
+                let changeIndex = setTimeout(() => {
+                    this.contatoreOrizzontale = index;
+                }, 900)
+
+                //this.checkContatoriOrizzontali()
+                this.contatoreBackgroundOrizzontale = this.precontatoreOrizzontale
+                this.backgroundAnimation();
+            }
+        },
+
+        scrollDownTo(index) {
+            if (this.isAnimated == false) {
+                this.isAnimated = true;
+                //animazione
+
+                this.postcontatore = index;
+                this.precontatore = index;
+
+
+                if (index >= this.contatore) {
+                    let MainScrollableEl = document.getElementById('container-1');
+                    let BottomScrollableEl = document.getElementById('container-post');
+                    this.scrollElCenterDown(MainScrollableEl);
+                    this.scrollElBottomCenter(BottomScrollableEl);
+                } else {
+                    let MainScrollableEl = document.getElementById('container-1');
+                    let TopScrollableEl = document.getElementById('container-pre');
+                    this.scrollElCenterUp(MainScrollableEl)
+                    this.scrollElTopCenter(TopScrollableEl);
+                }
+
+
+                //reset della variabile is animated e check
+                let timer = setTimeout(() => {
+                    this.isAnimated = false
+                    this.checkContatori()
+                }, 2200)
+
+                let changeIndex = setTimeout(() => {
+                    this.contatore = index;
+                    if (this.contatore == this.confArray.length) {
+                        this.contatore = 0;
+                    }
+                }, 900)
+
+                this.contatoreBackground = this.postcontatore
+                this.backgroundAnimation();
+                this.contatoreOrizzontale = 0
+                this.contatoreBackgroundOrizzontale = 0;
+            }
+        },
+
+
+    },
+
+    created() {
+        window.onwheel = event => {
+            if (event.deltaY >= 0) {
+                this.scrollDown()
+
+            } else {
+                this.scrollUp()
+            }
+        },
+            this.setPrecontatore();
+        //Scrollable
+
+    },
+
+    mounted() {
+        //Animazione Background
+        this.backgroundAnimation()
+    },
 }
+
 </script>
 
 <template>
-    <div class="container p-5">
-        <h1>Benvenuto nella Home</h1>
-    </div>
+    <div id="showroom">
+        <!-- main -->
+        <div class="_container-wrapper">
+            <!-- minicounter -->
+            <div class="counter-box hidden d-flex justify-content-center align-item-center" id="mini-counter">
+                <div v-for="(pic, index) in confArray[contatore][3]" class="border-circle-mini-wrapper"
+                    @click="scrollLeftRight(index)">
+                    <div class="border-circle-mini" :class="this.contatoreOrizzontale == index ? 'active' : ''"
+                        :style="confArray[contatore][2] ? 'background-color:white' : ''"></div>
+                </div>
+            </div>
+            <!-- Counter -->
+            <div class="counter-box d-flex justify-content-center align-item-center" id="counter">
+                <div v-for="(page, index) in confArray" class="border-circle-wrapper" @click="scrollDownTo(index)">
+                    <div class="border-circle" :class="this.contatore == index ? 'active' : ''"
+                        :style="confArray[this.contatore][2] ? 'background-color:white' : ''"></div>
+                </div>
+            </div>
 
-    <div class="container d-flex justify-content-center align-item-center flex-wrap p-2">
+            <!-- Bottoni -->
+            <button v-if="confArray[contatore][2]" class="btn btn-arrow-left"
+                @click="scrollLeftRight((contatoreOrizzontale - 1))"
+                :style="contatoreOrizzontale > 0 ? 'transition: all 1s; opacity:1;' : 'transition: all 1s; opacity:.3;cursor:auto'"><i
+                    class="fa-solid fa-caret-left rounded-circle"></i></button>
+            <button v-if="confArray[contatore][2]" class="btn btn-arrow-right"
+                @click="scrollLeftRight((contatoreOrizzontale + 1))"
+                :style="contatoreOrizzontale < confArray[contatore][3].length - 1 ? 'transition: all 1s; opacity:1;' : 'transition: all 1s; opacity:.3;cursor:auto'"><i
+                    class="fa-solid fa-caret-right rounded-circle"></i></button>
 
-        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse porro ipsum consectetur quidem placeat aut vero
-            ab earum veniam voluptas! Porro, autem! Unde pariatur sit, deleniti sequi quas temporibus laudantium?</span>
-        <span>Questa è la sezione della Home</span>
+            <!-- screen -->
+            <!-- sopra -->
+            <div class="__container p-pre"
+                :class="confArray[precontatore][2] ? '' : 'justify-content-center align-items-center'" id="container-pre">
+                <h2 :style="confArray[this.precontatore][2] ? 'color:white' : ''"
+                    :class="confArray[this.precontatore][2] ? '' : 'bordo-bianco title'">{{
+                        this.confArray[this.precontatore][2] ?
+                        this.confArray[this.precontatore][3][0] :
+                        this.confArray[this.precontatore][0] }}</h2>
+                <span :style="confArray[this.precontatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                    class="_my_container-main">{{
+                        this.confArray[this.precontatore][1] }}</span>
+            </div>
 
+            <!-- Centrale -->
+            <div v-if="this.contatoreOrizzontale != 0"
+                class="__container p-center 'justify-content-center align-items-center" id="container-1">
+                <div class="container img-wrapper">
+                    <img :src="confArray[contatore][3][contatoreOrizzontale]" alt="prova">
+                </div>
+            </div>
+            <div v-else class="__container p-center"
+                :class="confArray[contatore][2] ? '' : 'justify-content-center align-items-center'" id="container-1">
+                <h2 :style="confArray[this.contatore][2] ? 'color:white' : ''"
+                    :class="confArray[contatore][2] ? '' : 'bordo-bianco title'">{{ this.confArray[this.contatore][2] ?
+                        this.confArray[this.contatore][3][0] :
+                        this.confArray[this.contatore][0] }}</h2>
+                <span :style="confArray[this.contatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                    class=" _my_container-main">{{
+                        this.confArray[this.contatore][1] }}</span>
+            </div>
+
+            <!-- Sotto -->
+            <div class="__container p-post"
+                :class="confArray[postcontatore][2] ? '' : 'justify-content-center align-items-center'" id="container-post">
+                <h2 :style="confArray[this.postcontatore][2] ? 'color:white' : ''"
+                    :class="confArray[postcontatore][2] ? '' : 'bordo-bianco title'">{{
+                        this.confArray[this.postcontatore][2] ?
+                        this.confArray[this.postcontatore][3][0] :
+                        this.confArray[this.postcontatore][0] }}</h2>
+                <span :style="confArray[this.postcontatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                    class="_my_container-main">{{
+                        this.confArray[this.postcontatore][1] }}</span>
+            </div>
+
+            <!-- Sinistra -->
+            <div v-if="this.confArray[this.contatore][3]">
+                <div v-if="this.precontatoreOrizzontale > 0"
+                    class="__container p-left 'justify-content-center align-items-center" id="container-left">
+                    <div class="container img-wrapper">
+                        <img :src="this.confArray[this.contatore][3][this.precontatoreOrizzontale]" alt="prova">
+                    </div>
+                </div>
+                <div v-else class="__container p-left"
+                    :class="confArray[contatore][2] ? '' : 'justify-content-center align-items-center'" id="container-left">
+                    <h2 :style="confArray[this.contatore][2] ? 'color:white' : ''"
+                        :class="confArray[contatore][2] ? '' : 'bordo-bianco title'">{{ this.confArray[this.contatore][2] ?
+                            this.confArray[this.contatore][3][0] :
+                            this.confArray[this.contatore][0] }}</h2>
+                    <span :style="confArray[this.contatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                        class=" _my_container-main">{{
+                            this.confArray[this.contatore][1] }}</span>
+                </div>
+            </div>
+            <div v-else class="__container p-left"
+                :class="confArray[contatore][2] ? '' : 'justify-content-center align-items-center'" id="container-left">
+                <h2 :style="confArray[this.contatore][2] ? 'color:white' : ''"
+                    :class="confArray[contatore][2] ? '' : 'bordo-bianco title'">{{ this.confArray[this.contatore][2] ?
+                        this.confArray[this.contatore][3][0] :
+                        this.confArray[this.contatore][0] }}</h2>
+                <span :style="confArray[this.contatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                    class=" _my_container-main">{{
+                        this.confArray[this.contatore][1] }}</span>
+            </div>
+
+
+            <!-- Destra -->
+            <div v-if="this.confArray[this.contatore][3]"
+                class="__container p-right 'justify-content-center align-items-center" id="container-right">
+                <div class="container img-wrapper">
+                    <img :src="this.confArray[this.contatore][3][this.postcontatoreOrizzontale]" alt="prova">
+                </div>
+            </div>
+            <div v-else class="__container p-right"
+                :class="confArray[contatore][2] ? '' : 'justify-content-center align-items-center'" id="container-right">
+                <h2 :style="confArray[this.contatore][2] ? 'color:white' : ''"
+                    :class="confArray[contatore][2] ? '' : 'bordo-bianco title'">{{ this.confArray[this.contatore][2] ?
+                        this.confArray[this.contatore][3][0] :
+                        this.confArray[this.contatore][0] }}</h2>
+                <span :style="confArray[this.contatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                    class=" _my_container-main">{{
+                        this.confArray[this.contatore][1] }}</span>
+            </div>
+            <!-- screen -->
+
+            <!-- Background -->
+            <div class="background" id="background">
+                <div class="background layout-black bg-dark" id="layout"
+                    :style="this.contatoreBackgroundOrizzontale != 0 ? 'opacity:1; transition:all 1s' : 'opacity:0;transition:all 1s'">
+                </div>
+                <div class="cerchio hidden top-showroom" id="cerchio-top-hidden"></div>
+                <div class="cerchio hidden bottom-showroom" id="cerchio-bottom-hidden"></div>
+                <div class="cerchio top-showroom" id="cerchio-top"></div>
+                <div class="cerchio bottom-showroom" id="cerchio-bottom"></div>
+            </div>
+
+        </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
+.navbar {
+    position: absolute;
+    top: 0%;
+    left: 0;
+    z-index: 2;
+    width: 100vw;
+    background: transparent;
+}
+
+#showroom {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+
+    .title {
+        text-transform: uppercase;
+    }
+
+
+    .img-wrapper {
+        height: 100%;
+        display: flex;
+        padding: 2em;
+        border: 1px solid white;
+
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+        }
+    }
+
+    // CounterIndexPrincipale
+    .counter-box {
+        position: absolute;
+        bottom: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 3;
+        height: 30px;
+
+        &#mini-counter {
+            top: 6%;
+
+            .border-circle-mini-wrapper {
+                cursor: pointer;
+                z-index: 4;
+                transition: all .4s;
+
+                padding: 1.2em 1.7em;
+
+                .border-circle-mini {
+                    background: #252525;
+                    border-radius: 0%;
+                    width: 4px;
+                    height: 4px;
+                    transition: all 1s;
+                    opacity: .2;
+                }
+
+                &:hover {
+
+                    .border-circle-mini {
+                        scale: 1.5;
+                        background: #00000093;
+                        border-radius: 20%;
+                        opacity: 1;
+                    }
+                }
+            }
+
+            .border-circle-mini.active {
+                border-radius: 50%;
+                width: 7px;
+                height: 7px;
+                box-shadow: 0px 0px 6px white;
+                opacity: 1;
+            }
+        }
+
+        .border-circle-wrapper {
+            cursor: pointer;
+            z-index: 4;
+            transition: all .4s;
+            padding: 1.2em 1.7em;
+            rotate: 45deg;
+
+            .border-circle {
+                border-radius: 50%;
+                width: 7px;
+                height: 7px;
+                background: #000;
+                transition: all 1s;
+                opacity: .2;
+
+            }
+
+            &:hover {
+                scale: 1.3;
+
+                .border-circle {
+                    border-radius: 20%;
+                    background: #00000093;
+                    opacity: 1;
+                }
+            }
+
+        }
+
+        .border-circle.active {
+            width: 10px;
+            height: 10px;
+            border-radius: 0%;
+            opacity: 1;
+        }
+    }
+
+    // fine CounterIndexPrincipale
+
+    // Schermi
+    .__container {
+        position: absolute;
+        z-index: 1;
+        width: 100vw;
+        height: 100vh;
+        border-radius: 10px;
+        padding: 8em;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+
+    }
+
+    // Posizioni
+    .p-pre {
+        bottom: 100vh;
+        left: 0vw;
+        // background-color: #1dd12353;
+    }
+
+    .p-center {
+        bottom: 0vh;
+        left: 0vw;
+        // background-color: #d2111153;
+
+    }
+
+    .p-post {
+        bottom: -100vh;
+        left: 0vw;
+        // background-color: #1dd12353;
+    }
+
+    .p-left {
+        left: -100vw;
+        bottom: 0vh;
+    }
+
+    .p-right {
+        left: 100vw;
+        bottom: 0vh;
+    }
+
+
+
+    #layout {
+        opacity: 0;
+        transition: all 1s;
+    }
+
+    .bordo-bianco {
+        text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
+            1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+    }
+
+    .bordo-bianco-transparente {
+        text-shadow: 2px 0 #ffffff38, -2px 0 #ffffff38, 0 2px #ffffff38, 0 -2px #ffffff38,
+            1px 1px #ffffff38, -1px -1px #ffffff38, 1px -1px #ffffff38, -1px 1px #ffffff38;
+    }
+
+    //-------------------------------------------------
+    //Background
+
+    .background {
+        position: absolute;
+        overflow: hidden;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        background: rgba(0, 9, 0, 0);
+        transition: all .8s;
+
+        .cerchio {
+            position: absolute;
+            border: 1px solid black;
+            border-radius: 50%;
+
+            scale: 2;
+            background: transparent;
+
+            width: 400px;
+            height: 400px;
+            transition: all .8s;
+        }
+
+    }
+
+    .cerchio-top-animazione {
+        animation: cerchio-top 18s infinite;
+    }
+
+    .cerchio-bottom-animazione {
+        animation: cerchio-bottom 15s infinite;
+    }
+
+    .cerchio-top-animazione-hidden {
+        animation: cerchio-top-hidden 20s infinite;
+    }
+
+    .cerchio-bottom-animazione-hidden {
+        animation: cerchio-bottom-hidden 20s infinite;
+    }
+
+    //-------------------------------------------------
+
+    // Classi animazioni Verticali
+    .move-center-top {
+        animation: 1s moveCenterTop;
+    }
+
+    .move-center-bottom {
+        animation: 1s moveCenterBottom;
+    }
+
+    .move-bottom-center {
+        animation: 1s moveBottomCenter;
+    }
+
+    .move-top-center {
+        animation: 1s moveTopCenter;
+    }
+
+    // Classi animazioni Orizzontali
+    .move-center-left {
+        animation: 1s moveCenterLeft;
+    }
+
+    .move-center-right {
+        animation: 1s moveCenterRight;
+    }
+
+    .move-right-center {
+        animation: 1s moveRightCenter;
+    }
+
+    .move-left-center {
+        animation: 1s moveLeftCenter;
+    }
+
+}
+
+//Btn
+//btn arrow
+.btn-arrow-left {
+    position: absolute;
+    left: 0%;
+    top: 50%;
+    width: 40px;
+    height: 40px;
+    margin-left: 1em;
+    border: none;
+    color: rgb(232, 226, 226);
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 3;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.135);
+        color: rgba(255, 255, 255);
+    }
+}
+
+
+.btn-arrow-right {
+    position: absolute;
+    right: 0%;
+    top: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 1em;
+    border: none;
+    color: rgb(232, 226, 226);
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 3;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.135);
+        color: rgba(255, 255, 255);
+    }
+
+    // transform: translateX(-100%);
+
+}
 </style>
