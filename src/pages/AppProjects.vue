@@ -43,9 +43,12 @@ export default {
 
             <img :src="project.cover_image == null ? 'https://www.kuleuven.be/communicatie/congresbureau/fotos-en-afbeeldingen/no-image.png/image' : (this.urlImg + project.cover_image)"
                 class="card-img-top h-100" alt="...">
-            <h4 class="card-title">{{ project.title }}</h4>
-            <div class="card-body">
+            <h4 class="card-title px-3 pt-2 ">{{ project.title }}</h4>
+            <div class="card-body d-flex flex-column justify-content-center align-items-center">
                 <p class="card-text">{{ project.description.substring(1, 60) + '..' }}</p>
+                <router-link :to="{ name: 'projects/show', params: { slug: project.slug } }"
+                    class="btn btn-outline-primary">Vedi
+                    Dettagli</router-link>
             </div>
         </div>
 
