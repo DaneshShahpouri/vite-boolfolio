@@ -1,26 +1,19 @@
 <script>
+import { store } from '../store.js';
 import axios from 'axios';
 export default {
     name: 'AppHome',
     data() {
         return {
-            confArray: [
-                ['showroom', 'Sezione della pagina dedicata alla presentazione', false],
-                ['projects', 'Qui di seguito troverai i vari progetti e potrai approfondirne i dettagli', false],
-                ['projects', "Questo Progetto è una prova incosistente, rappresentazione della manchevolezza umana, il vuoto come presenza fissa, l'incosistenza dell'esperire umano. Cancellami.", true, ['Progetto di prova esempio', 'https://sitiwebfox.it/images/realizzazione-siti-web-professionali.png', 'https://kinsta.com/it/wp-content/uploads/sites/2/2020/02/migliori-pratiche-di-web-design-1024x512.jpg'], '#FF5154', [['html', '#e47c0f'], ['css', '#57a2e7'], ['javascript', '#D6AB27'], ['laravel', '#f44336'], ['php', '#6C4BC0']], 'Fullstack'],
-                ['projects', 'Progetto2 di prova con elementi specifici per verede che succede se metto info lunghe che sembrano volere dire  qualcosa.', true, ['Prova due - prova', 'https://kinsta.com/it/wp-content/uploads/sites/2/2021/09/how-to-translate-a-website-1024x512.jpeg', 'https://www.ionos.it/digitalguide/fileadmin/DigitalGuide/Teaser/web-apps-t.jpg', 'https://www.raiscuola.rai.it/cropgd/1900x1069/dl/img/2021/02/09/1612868746079_monitor-1307227_1920.jpg', 'https://files.spazioweb.it/32/3d/323d8cfb-176d-4c90-9ba9-a4fe6eab5d58.jpeg'], '#5E2A40', [['html', '#e47c0f'], ['MySql', '#b65284'], ['laravel', '#f44336'], ['php', '#6C4BC0']], 'Backend'],
-                ['contacts', 'Danesh@mail.it', false],
-                ['extra', 'qui puoi vedere progetti extra', false]
-            ],
+            store,
+            prevProjects: [],
+
             //variabili globali
-            contatore: 0,
-            contatoreOrizzontale: 0,
             precontatore: "",
             postcontatore: 1,
             precontatoreOrizzontale: "",
             postcontatoreOrizzontale: 1,
-            contatoreBackground: 0,
-            contatoreBackgroundOrizzontale: 0,
+
 
             isAnimated: false,
         }
@@ -31,6 +24,56 @@ export default {
     },
 
     methods: {
+        getImpProjects() {
+            axios.get('http://127.0.0.1:8000/api/home').then(response => {
+                this.prevProjects = response.data.results;
+                let newConf = [];
+
+
+                newConf.push(this.store.newConfArray[0])
+                newConf.push(this.store.newConfArray[1])
+
+                this.prevProjects.forEach(project => {
+
+                    let newEl = [
+                        'projects',
+                        project.description,
+                        true,
+                        [
+                            project.title,
+                            'http://127.0.0.1:8000/storage/' + project.cover_image,
+                        ],
+                        '#FF5154'
+                    ];
+
+                    let Eltechnologies = [];
+                    //console.log(project)
+
+                    project.technologies.forEach(technology => {
+                        let singleTechnology = [
+                            technology.name,
+                            technology.color
+                        ];
+                        Eltechnologies.push(singleTechnology)
+                    })
+
+                    newEl.push(Eltechnologies),
+                        newEl.push(project.type)
+
+
+
+                    newConf.push(newEl)
+
+                });
+
+                newConf.push(this.store.newConfArray[4])
+                newConf.push(this.store.newConfArray[5])
+
+                console.log(newConf)
+                this.store.confArray = newConf
+            })
+        },
+
         //Animazione Background
         //Gestisce le animazioni dello sfondo e alcuni caratteri estetici
         //Praticamente modulare, serve solo l'html di riferimento.
@@ -42,7 +85,7 @@ export default {
             let bg = document.getElementById('background')
 
 
-            switch (this.confArray[this.contatoreBackground][0]) {
+            switch (this.store.confArray[this.store.contatoreBackground][0]) {
                 case 'showroom':
                     cerchioTop.style = "top:-30%; left:-20%;scale:3;"
                     cerchioBottom.style = "bottom:0%; right:0%; scale:2;"
@@ -61,7 +104,7 @@ export default {
                     break;
             }
 
-            if (this.confArray[this.contatoreBackground][2] == true) {
+            if (this.store.confArray[this.store.contatoreBackground][2] == true) {
                 // navbar.classList.add('navbar-dark')
                 //Cerchi nascossti
                 cerchioHiddenBottom.style = "display:block; background-color:rgba(0, 0, 0, 0) ;bottom:-40%; right:20%; scale:2.4;border:1px solid white"
@@ -74,7 +117,7 @@ export default {
                 cerchioTop.style = "background-color:rgba(255, 255, 255, 0.1); border:none;"
                 cerchioBottom.style = "background-color:rgba(255, 255, 255, 0.1);border:none;"
                 cerchioBottom.classList.add('cerchio-bottom-animazione')
-                bg.style = "background-color:" + this.confArray[this.contatoreBackground][4];
+                bg.style = "background-color:" + this.store.confArray[this.store.contatoreBackground][4];
 
             } else if (cerchioTop.classList.contains('cerchio-top-animazione')) {
                 // navbar.classList.remove('navbar-dark')
@@ -98,7 +141,7 @@ export default {
                 bg.style = "background-color:white";
             }
 
-            if (this.confArray[this.contatoreBackground][0] == 'extra') {
+            if (this.store.confArray[this.store.contatoreBackground][0] == 'extra') {
                 cerchioHiddenBottom.style = "display:block; background-color:rgba(0, 0, 255, 0.3);bottom:-40%; right:20%; scale:2.4;border:1px solid white; border:none"
                 cerchioHiddenTop.style = "display:block; background-color:rgba(255, 0, 0, 0.3) ;top:-10%; left:10%; scale:2.8; border:1px solid white; border:none"
             }
@@ -165,25 +208,25 @@ export default {
         },
 
         checkContatori() {
-            this.postcontatore = this.contatore + 1;
-            this.precontatore = this.contatore - 1;
+            this.postcontatore = this.store.contatore + 1;
+            this.precontatore = this.store.contatore - 1;
 
-            if (this.contatore == 0) {
-                this.precontatore = this.confArray.length - 1
-            } else if (this.contatore == this.confArray.length - 1) {
+            if (this.store.contatore == 0) {
+                this.precontatore = this.store.confArray.length - 1
+            } else if (this.store.contatore == this.store.confArray.length - 1) {
                 this.postcontatore = 0
             }
 
         },
 
         checkContatoriOrizzontali() {
-            if (this.confArray[this.contatore][2]) {
-                this.postcontatoreOrizzontale = this.contatoreOrizzontale + 1;
-                this.precontatoreOrizzontale = this.contatoreOrizzontale - 1;
+            if (this.store.confArray[this.store.contatore][2]) {
+                this.postcontatoreOrizzontale = this.store.contatoreOrizzontale + 1;
+                this.precontatoreOrizzontale = this.store.contatoreOrizzontale - 1;
 
-                if (this.contatoreOrizzontale == 0) {
-                    this.precontatoreOrizzontale = this.confArray[this.contatore][3].length - 1
-                } else if (this.contatoreOrizzontale == this.confArray[this.contatore][3].length - 1) {
+                if (this.store.contatoreOrizzontale == 0) {
+                    this.precontatoreOrizzontale = this.store.confArray[this.store.contatore][3].length - 1
+                } else if (this.store.contatoreOrizzontale == this.store.confArray[this.store.contatore][3].length - 1) {
                     this.postcontatoreOrizzontale = 0
                 }
             }
@@ -192,7 +235,7 @@ export default {
 
         //setter
         setPrecontatore() {
-            this.precontatore = parseInt(this.confArray.length - 1)
+            this.precontatore = parseInt(this.store.confArray.length - 1)
         },
 
         scrollDown() {
@@ -211,17 +254,17 @@ export default {
                 }, 2200)
 
                 let changeIndex = setTimeout(() => {
-                    this.contatore++;
-                    if (this.contatore == this.confArray.length) {
-                        // console.log(this.confArray.length)
-                        this.contatore = 0;
+                    this.store.contatore++;
+                    if (this.store.contatore == this.store.confArray.length) {
+                        // console.log(this.store.confArray.length)
+                        this.store.contatore = 0;
                     }
                 }, 900)
 
-                this.contatoreBackground = this.postcontatore
+                this.store.contatoreBackground = this.postcontatore
                 this.backgroundAnimation();
-                this.contatoreOrizzontale = 0;
-                this.contatoreBackgroundOrizzontale = 0;
+                this.store.contatoreOrizzontale = 0;
+                this.store.contatoreBackgroundOrizzontale = 0;
                 this.checkContatoriOrizzontali();
             }
         },
@@ -245,30 +288,30 @@ export default {
 
                 let changeIndex = setTimeout(() => {
 
-                    this.contatore--;
-                    if (this.contatore < 0) {
-                        this.contatore = this.confArray.length - 1;
+                    this.store.contatore--;
+                    if (this.store.contatore < 0) {
+                        this.store.contatore = this.store.confArray.length - 1;
                     }
                 }, 900)
 
 
-                this.contatoreBackground = this.precontatore
+                this.store.contatoreBackground = this.precontatore
                 this.backgroundAnimation();
-                this.contatoreOrizzontale = 0;
-                this.contatoreBackgroundOrizzontale = 0;
+                this.store.contatoreOrizzontale = 0;
+                this.store.contatoreBackgroundOrizzontale = 0;
                 this.checkContatoriOrizzontali();
 
             }
         },
 
         scrollLeftRight(index) {
-            if (this.isAnimated == false && index >= 0 && index < this.confArray[this.contatore][3].length) {
+            if (this.isAnimated == false && index >= 0 && index < this.store.confArray[this.store.contatore][3].length) {
                 this.isAnimated = true;
 
                 this.precontatoreOrizzontale = index;
                 this.postcontatoreOrizzontale = index;
 
-                if (index < this.contatoreOrizzontale) {
+                if (index <= this.store.contatoreOrizzontale) {
                     let MainScrollableEl = document.getElementById('container-1');
                     let LeftScrollableEl = document.getElementById('container-left');
 
@@ -291,11 +334,11 @@ export default {
                 }, 1900)
 
                 let changeIndex = setTimeout(() => {
-                    this.contatoreOrizzontale = index;
+                    this.store.contatoreOrizzontale = index;
                 }, 900)
 
                 //this.checkContatoriOrizzontali()
-                this.contatoreBackgroundOrizzontale = this.precontatoreOrizzontale
+                this.store.contatoreBackgroundOrizzontale = this.precontatoreOrizzontale
                 this.backgroundAnimation();
             }
         },
@@ -309,7 +352,7 @@ export default {
                 this.precontatore = index;
 
 
-                if (index >= this.contatore) {
+                if (index >= this.store.contatore) {
                     let MainScrollableEl = document.getElementById('container-1');
                     let BottomScrollableEl = document.getElementById('container-post');
                     this.scrollElCenterDown(MainScrollableEl);
@@ -329,16 +372,16 @@ export default {
                 }, 2200)
 
                 let changeIndex = setTimeout(() => {
-                    this.contatore = index;
-                    if (this.contatore == this.confArray.length) {
-                        this.contatore = 0;
+                    this.store.contatore = index;
+                    if (this.store.contatore == this.store.confArray.length) {
+                        this.store.contatore = 0;
                     }
                 }, 900)
 
-                this.contatoreBackground = this.postcontatore
+                this.store.contatoreBackground = this.postcontatore
                 this.backgroundAnimation();
-                this.contatoreOrizzontale = 0
-                this.contatoreBackgroundOrizzontale = 0;
+                this.store.contatoreOrizzontale = 0
+                this.store.contatoreBackgroundOrizzontale = 0;
             }
         },
 
@@ -354,9 +397,9 @@ export default {
                 this.scrollUp()
             }
         },
-            this.setPrecontatore();
-        //Scrollable
 
+            this.getImpProjects(),
+            this.setPrecontatore();
     },
 
     mounted() {
@@ -373,129 +416,217 @@ export default {
         <div class="_container-wrapper">
             <!-- minicounter -->
             <div class="counter-box hidden d-flex justify-content-center align-item-center" id="mini-counter">
-                <div v-for="(pic, index) in confArray[contatore][3]" class="border-circle-mini-wrapper"
-                    @click="scrollLeftRight(index)">
-                    <div class="border-circle-mini" :class="this.contatoreOrizzontale == index ? 'active' : ''"
-                        :style="confArray[contatore][2] ? 'background-color:white' : ''"></div>
+                <div v-for="(pic, index) in store.confArray[store.contatoreBackground][3]"
+                    class="border-circle-mini-wrapper" @click="scrollLeftRight(index)">
+                    <div class="border-circle-mini" :class="this.store.contatoreOrizzontale == index ? 'active' : ''"
+                        :style="store.confArray[store.contatoreBackground][2] ? 'background-color:white' : ''"></div>
                 </div>
             </div>
             <!-- Counter -->
             <div class="counter-box d-flex justify-content-center align-item-center" id="counter">
-                <div v-for="(page, index) in confArray" class="border-circle-wrapper" @click="scrollDownTo(index)">
-                    <div class="border-circle" :class="this.contatore == index ? 'active' : ''"
-                        :style="confArray[this.contatore][2] ? 'background-color:white' : ''"></div>
+                <div v-for="(page, index) in store.confArray" class="border-circle-wrapper" @click="scrollDownTo(index)">
+                    <div class="border-circle" :class="this.store.contatoreBackground == index ? 'active' : ''"
+                        :style="store.confArray[this.store.contatoreBackground][2] ? 'background-color:white' : ''"></div>
                 </div>
             </div>
 
             <!-- Bottoni -->
-            <button v-if="confArray[contatore][2]" class="btn btn-arrow-left"
-                @click="scrollLeftRight((contatoreOrizzontale - 1))"
-                :style="contatoreOrizzontale > 0 ? 'transition: all 1s; opacity:1;' : 'transition: all 1s; opacity:.3;cursor:auto'"><i
+            <button v-if="store.confArray[store.contatore][2]" class="btn btn-arrow-left"
+                @click="scrollLeftRight((store.contatoreOrizzontale - 1))"
+                :style="store.contatoreOrizzontale > 0 ? 'transition: all 1s; opacity:1;' : 'transition: all 1s; opacity:.3;cursor:auto'"><i
                     class="fa-solid fa-caret-left rounded-circle"></i></button>
-            <button v-if="confArray[contatore][2]" class="btn btn-arrow-right"
-                @click="scrollLeftRight((contatoreOrizzontale + 1))"
-                :style="contatoreOrizzontale < confArray[contatore][3].length - 1 ? 'transition: all 1s; opacity:1;' : 'transition: all 1s; opacity:.3;cursor:auto'"><i
+            <button v-if="store.confArray[store.contatore][2]" class="btn btn-arrow-right"
+                @click="scrollLeftRight((store.contatoreOrizzontale + 1))"
+                :style="store.contatoreOrizzontale < store.confArray[store.contatore][3].length - 1 ? 'transition: all 1s; opacity:1;' : 'transition: all 1s; opacity:.3;cursor:auto'"><i
                     class="fa-solid fa-caret-right rounded-circle"></i></button>
 
             <!-- screen -->
             <!-- sopra -->
             <div class="__container p-pre"
-                :class="confArray[precontatore][2] ? '' : 'justify-content-center align-items-center'" id="container-pre">
-                <h2 :style="confArray[this.precontatore][2] ? 'color:white' : ''"
-                    :class="confArray[this.precontatore][2] ? '' : 'bordo-bianco title'">{{
-                        this.confArray[this.precontatore][2] ?
-                        this.confArray[this.precontatore][3][0] :
-                        this.confArray[this.precontatore][0] }}</h2>
-                <span :style="confArray[this.precontatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                :class="store.confArray[precontatore][2] ? '' : 'justify-content-center align-items-center'"
+                id="container-pre">
+                <h2 :style="store.confArray[this.precontatore][2] ? 'color:white' : ''"
+                    :class="store.confArray[this.precontatore][2] ? '' : 'bordo-bianco title'">{{
+                        this.store.confArray[this.precontatore][2] ?
+                        this.store.confArray[this.precontatore][3][0] :
+                        this.store.confArray[this.precontatore][0] }}</h2>
+                <span :style="store.confArray[this.precontatore][2] ? 'width:60%;color:white' : 'width:auto'"
                     class="_my_container-main">{{
-                        this.confArray[this.precontatore][1] }}</span>
+                        this.store.confArray[this.precontatore][1] }}</span>
+
+                <div v-if="this.store.confArray[this.precontatore][2] && this.store.contatoreOrizzontale == 0"
+                    class="container w-50 d-flex flex-column align-items-center justify-content-center" id="spansecondario">
+                    <!-- Tipo -->
+                    <div class="types d-flex">
+                        <h5 class="text-white">Tipologia_</h5>
+                        <h5 class="text-white">{{ this.store.confArray[this.precontatore][6].name }}</h5>
+                    </div>
+
+                    <!-- Tecnologie -->
+                    <div class="technologies d-flex">
+                        <h4 class="text-white mr-3">Tecnologie_</h4>
+                        <div class="badge-wrapper ml-3">
+                            <span class="badge" v-for="element in this.store.confArray[this.precontatore][5]"
+                                :style="'background-color:' + element[1]">{{
+                                    element[0] }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Centrale -->
-            <div v-if="this.contatoreOrizzontale != 0"
+            <div v-if="this.store.contatoreOrizzontale != 0"
                 class="__container p-center 'justify-content-center align-items-center" id="container-1">
                 <div class="container img-wrapper">
-                    <img :src="confArray[contatore][3][contatoreOrizzontale]" alt="prova">
+                    <img :src="store.confArray[store.contatore][3][store.contatoreOrizzontale]" alt="prova">
                 </div>
             </div>
             <div v-else class="__container p-center"
-                :class="confArray[contatore][2] ? '' : 'justify-content-center align-items-center'" id="container-1">
-                <h2 :style="confArray[this.contatore][2] ? 'color:white' : ''"
-                    :class="confArray[contatore][2] ? '' : 'bordo-bianco title'">{{ this.confArray[this.contatore][2] ?
-                        this.confArray[this.contatore][3][0] :
-                        this.confArray[this.contatore][0] }}</h2>
-                <span :style="confArray[this.contatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center'"
+                id="container-1">
+                <h2 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
+                    :class="store.confArray[store.contatore][2] ? '' : 'bordo-bianco title'">{{
+                        this.store.confArray[this.store.contatore][2] ?
+                        this.store.confArray[this.store.contatore][3][0] :
+                        this.store.confArray[this.store.contatore][0] }}</h2>
+                <span :style="store.confArray[this.store.contatore][2] ? 'width:60%;color:white' : 'width:auto'"
                     class=" _my_container-main">{{
-                        this.confArray[this.contatore][1] }}</span>
+                        this.store.confArray[this.store.contatore][1] }}</span>
+
+
+                <div v-if="this.store.confArray[this.store.contatore][2] && this.store.contatoreOrizzontale == 0"
+                    class="container w-50 d-flex flex-column align-items-center justify-content-center" id="spansecondario">
+                    <!-- Tipo -->
+                    <div class="types d-flex">
+                        <h5 class="text-white">Tipologia_</h5>
+                        <h5 class="text-white">{{ this.store.confArray[this.store.contatore][6].name }}</h5>
+                    </div>
+
+                    <!-- Tecnologie -->
+                    <div class="technologies d-flex">
+                        <h4 class="text-white mr-3">Tecnologie_</h4>
+                        <div class="badge-wrapper ml-3">
+                            <span class="badge" v-for="element in this.store.confArray[this.store.contatore][5]"
+                                :style="'background-color:' + element[1]">{{
+                                    element[0] }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Sotto -->
             <div class="__container p-post"
-                :class="confArray[postcontatore][2] ? '' : 'justify-content-center align-items-center'" id="container-post">
-                <h2 :style="confArray[this.postcontatore][2] ? 'color:white' : ''"
-                    :class="confArray[postcontatore][2] ? '' : 'bordo-bianco title'">{{
-                        this.confArray[this.postcontatore][2] ?
-                        this.confArray[this.postcontatore][3][0] :
-                        this.confArray[this.postcontatore][0] }}</h2>
-                <span :style="confArray[this.postcontatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                :class="store.confArray[postcontatore][2] ? '' : 'justify-content-center align-items-center'"
+                id="container-post">
+                <h2 :style="store.confArray[this.postcontatore][2] ? 'color:white' : ''"
+                    :class="store.confArray[postcontatore][2] ? '' : 'bordo-bianco title'">{{
+                        this.store.confArray[this.postcontatore][2] ?
+                        this.store.confArray[this.postcontatore][3][0] :
+                        this.store.confArray[this.postcontatore][0] }}</h2>
+                <span :style="store.confArray[this.postcontatore][2] ? 'width:60%;color:white' : 'width:auto'"
                     class="_my_container-main">{{
-                        this.confArray[this.postcontatore][1] }}</span>
+                        this.store.confArray[this.postcontatore][1] }}</span>
+
+                <div v-if="this.store.confArray[this.postcontatore][2] && this.store.contatoreOrizzontale == 0"
+                    class="container w-50 d-flex flex-column align-items-center justify-content-center" id="spansecondario">
+                    <!-- Tipo -->
+                    <div class="types d-flex">
+                        <h5 class="text-white">Tipologia_</h5>
+                        <h5 class="text-white">{{ this.store.confArray[this.postcontatore][6].name }}</h5>
+                    </div>
+
+                    <!-- Tecnologie -->
+                    <div class="technologies d-flex">
+                        <h4 class="text-white mr-3">Tecnologie_</h4>
+                        <div class="badge-wrapper ml-3">
+                            <span class="badge" v-for="element in this.store.confArray[this.postcontatore][5]"
+                                :style="'background-color:' + element[1]">{{
+                                    element[0] }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Sinistra -->
-            <div v-if="this.confArray[this.contatore][3]">
+            <div v-if="this.store.confArray[this.store.contatore][3]">
                 <div v-if="this.precontatoreOrizzontale > 0"
                     class="__container p-left 'justify-content-center align-items-center" id="container-left">
                     <div class="container img-wrapper">
-                        <img :src="this.confArray[this.contatore][3][this.precontatoreOrizzontale]" alt="prova">
+                        <img :src="this.store.confArray[this.store.contatore][3][this.precontatoreOrizzontale]" alt="prova">
                     </div>
                 </div>
                 <div v-else class="__container p-left"
-                    :class="confArray[contatore][2] ? '' : 'justify-content-center align-items-center'" id="container-left">
-                    <h2 :style="confArray[this.contatore][2] ? 'color:white' : ''"
-                        :class="confArray[contatore][2] ? '' : 'bordo-bianco title'">{{ this.confArray[this.contatore][2] ?
-                            this.confArray[this.contatore][3][0] :
-                            this.confArray[this.contatore][0] }}</h2>
-                    <span :style="confArray[this.contatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                    :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center'"
+                    id="container-left">
+                    <h2 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
+                        :class="store.confArray[store.contatore][2] ? '' : 'bordo-bianco title'">{{
+                            this.store.confArray[this.store.contatore][2] ?
+                            this.store.confArray[this.store.contatore][3][0] :
+                            this.store.confArray[this.store.contatore][0] }}</h2>
+                    <span :style="store.confArray[this.store.contatore][2] ? 'width:60%;color:white' : 'width:auto'"
                         class=" _my_container-main">{{
-                            this.confArray[this.contatore][1] }}</span>
+                            this.store.confArray[this.store.contatore][1] }}</span>
+
+                    <div v-if="this.store.confArray[this.store.contatore][2] && this.precontatoreOrizzontale == 0"
+                        class="container w-50 d-flex flex-column align-items-center justify-content-center"
+                        id="spansecondario">
+                        <!-- Tipo -->
+                        <div class="types d-flex">
+                            <h5 class="text-white">Tipologia_</h5>
+                            <h5 class="text-white">{{ this.store.confArray[this.store.contatore][6].name }}</h5>
+                        </div>
+
+                        <!-- Tecnologie -->
+                        <div class="technologies d-flex">
+                            <h4 class="text-white mr-3">Tecnologie_</h4>
+                            <div class="badge-wrapper ml-3">
+                                <span class="badge" v-for="element in this.store.confArray[this.store.contatore][5]"
+                                    :style="'background-color:' + element[1]">{{
+                                        element[0] }}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div v-else class="__container p-left"
-                :class="confArray[contatore][2] ? '' : 'justify-content-center align-items-center'" id="container-left">
-                <h2 :style="confArray[this.contatore][2] ? 'color:white' : ''"
-                    :class="confArray[contatore][2] ? '' : 'bordo-bianco title'">{{ this.confArray[this.contatore][2] ?
-                        this.confArray[this.contatore][3][0] :
-                        this.confArray[this.contatore][0] }}</h2>
-                <span :style="confArray[this.contatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center'"
+                id="container-left">
+                <h2 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
+                    :class="store.confArray[store.contatore][2] ? '' : 'bordo-bianco title'">{{
+                        this.store.confArray[this.store.contatore][2] ?
+                        this.store.confArray[this.store.contatore][3][0] :
+                        this.store.confArray[this.store.contatore][0] }}</h2>
+                <span :style="store.confArray[this.store.contatore][2] ? 'width:60%;color:white' : 'width:auto'"
                     class=" _my_container-main">{{
-                        this.confArray[this.contatore][1] }}</span>
+                        this.store.confArray[this.store.contatore][1] }}</span>
             </div>
 
 
             <!-- Destra -->
-            <div v-if="this.confArray[this.contatore][3]"
+            <div v-if="this.store.confArray[this.store.contatore][3]"
                 class="__container p-right 'justify-content-center align-items-center" id="container-right">
                 <div class="container img-wrapper">
-                    <img :src="this.confArray[this.contatore][3][this.postcontatoreOrizzontale]" alt="prova">
+                    <img :src="this.store.confArray[this.store.contatore][3][this.postcontatoreOrizzontale]" alt="prova">
                 </div>
             </div>
             <div v-else class="__container p-right"
-                :class="confArray[contatore][2] ? '' : 'justify-content-center align-items-center'" id="container-right">
-                <h2 :style="confArray[this.contatore][2] ? 'color:white' : ''"
-                    :class="confArray[contatore][2] ? '' : 'bordo-bianco title'">{{ this.confArray[this.contatore][2] ?
-                        this.confArray[this.contatore][3][0] :
-                        this.confArray[this.contatore][0] }}</h2>
-                <span :style="confArray[this.contatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center'"
+                id="container-right">
+                <h2 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
+                    :class="store.confArray[store.contatore][2] ? '' : 'bordo-bianco title'">{{
+                        this.store.confArray[this.store.contatore][2] ?
+                        this.store.confArray[this.store.contatore][3][0] :
+                        this.store.confArray[this.store.contatore][0] }}</h2>
+                <span :style="store.confArray[this.store.contatore][2] ? 'width:60%;color:white' : 'width:auto'"
                     class=" _my_container-main">{{
-                        this.confArray[this.contatore][1] }}</span>
+                        this.store.confArray[this.store.contatore][1] }}</span>
             </div>
             <!-- screen -->
 
             <!-- Background -->
             <div class="background" id="background">
                 <div class="background layout-black bg-dark" id="layout"
-                    :style="this.contatoreBackgroundOrizzontale != 0 ? 'opacity:1; transition:all 1s' : 'opacity:0;transition:all 1s'">
+                    :style="this.store.contatoreBackgroundOrizzontale != 0 ? 'opacity:1; transition:all 1s' : 'opacity:0;transition:all 1s'">
                 </div>
                 <div class="cerchio hidden top-showroom" id="cerchio-top-hidden"></div>
                 <div class="cerchio hidden bottom-showroom" id="cerchio-bottom-hidden"></div>
@@ -769,6 +900,12 @@ export default {
         animation: 1s moveLeftCenter;
     }
 
+}
+
+#spansecondario {
+    position: absolute;
+    bottom: 25%;
+    right: 10%;
 }
 
 //Btn
