@@ -396,6 +396,11 @@ export default {
                 <div v-for="(page, index) in store.confArray" class="border-circle-wrapper" @click="scrollTo(index)">
                     <div class="border-circle" :class="this.store.contatoreBackground == index ? 'active' : ''"
                         :style="store.confArray[this.store.contatoreBackground][2] ? 'background-color:white' : ''"></div>
+                    <span class="overspan" :style="store.confArray[this.store.contatoreBackground][2] ? 'color:white' : ''">
+                        {{ (store.confArray[index][2] == false ? store.confArray[index][0] : store.confArray[index][3][0])
+                        }}
+                        <!-- {{ store.confArray[index][0] }} -->
+                    </span>
                 </div>
             </div>
 
@@ -659,6 +664,14 @@ export default {
         z-index: 3;
         height: 30px;
 
+        &:hover .border-circle-wrapper .overspan {
+            opacity: .3;
+        }
+
+        &:hover .border-circle.active+.overspan {
+            opacity: 1;
+        }
+
         &#mini-counter {
             top: 6%;
 
@@ -704,6 +717,9 @@ export default {
             transition: all .4s;
             padding: 1.2em 1.7em;
             rotate: 45deg;
+            position: relative;
+
+
 
             .border-circle {
                 border-radius: 50%;
@@ -715,8 +731,27 @@ export default {
 
             }
 
+            .overspan {
+                position: absolute;
+                display: inline;
+
+                text-align: center;
+                text-transform: capitalize;
+                font-size: .8em;
+
+                transition: all .7s;
+                opacity: 0;
+                transform: translateX(-50%);
+
+                font-size: 0.8em;
+            }
+
             &:hover {
                 scale: 1.3;
+
+                .overspan {
+                    opacity: .7;
+                }
 
                 .border-circle {
                     border-radius: 20%;
@@ -724,6 +759,8 @@ export default {
                     opacity: 1;
                 }
             }
+
+
 
         }
 
@@ -733,7 +770,11 @@ export default {
             border-radius: 0%;
             opacity: 1;
         }
+
+
     }
+
+
 
     // fine CounterIndexPrincipale
     // Schermi

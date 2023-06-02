@@ -53,9 +53,9 @@ export default {
                         :style="store.confArray[store.contatoreBackground][2] ? 'border:1px solid white' : ''">
                         <i class="fa-solid fa-magnifying-glass"></i></button>
                     <div class="btn-filler"></div>
-                    <div role="search" class="modulo-search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
-                            :class="this.store.confArray[2] ? 'input-light' : 'input-dark'">
+                    <div class="modulo-search" :style="store.searchInput == '' ? '' : 'opacity:1 !important'">
+                        <input v-model="store.searchInput" class="form-control me-2" type="search" placeholder="Search"
+                            aria-label="Search" :class="this.store.confArray[2] ? 'input-light' : 'input-dark'">
                     </div>
                 </form>
             </div>
@@ -187,14 +187,20 @@ export default {
             z-index: 2;
             transition: all 1s;
 
-            &:hover+.btn-filler {
-                height: 50px;
-            }
+        }
 
-            &:hover {
-                border-color: white;
-                color: white;
-            }
+
+        &:hover .btn-search {
+            border-color: white;
+            color: white;
+        }
+
+        &:hover .btn-filler {
+            height: 50px;
+        }
+
+        &:hover .modulo-search {
+            opacity: 1;
         }
 
         .btn-filler {
@@ -210,26 +216,25 @@ export default {
             animation: 1s appear;
         }
     }
+}
 
-    .modulo-search {
-        width: 230px;
-        position: absolute;
-        top: 7px;
-        right: 0;
-        transform: translateX(-60px);
-        transition: all 1s;
+.modulo-search {
+    width: 230px;
+    position: absolute;
+    top: 7px;
+    right: 0;
+    transform: translateX(-60px);
+    transition: all 1s;
+    opacity: 0;
 
-        .input-light {
-            background-color: rgba(0, 0, 0, 0.235);
-            color: white
-        }
+    .input-light {
+        background-color: rgba(0, 0, 0, 0.235);
+        color: white
+    }
 
-        .input-dark {
-            background-color: rgba(245, 245, 245, 0.235);
-            color: rgb(26, 25, 25)
-        }
-
-
+    .input-dark {
+        background-color: rgba(245, 245, 245, 0.235);
+        color: rgb(26, 25, 25)
     }
 }
 

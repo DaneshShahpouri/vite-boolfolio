@@ -10,26 +10,39 @@ const router = createRouter({
         {
             name: 'home',
             path: '/',
-            component: AppHome
+            component: AppHome,
+            meta: {
+                title: 'Home'
+            }
         },
         {
             name: 'projects',
             path: '/projects',
-            component: AppProjects
+            component: AppProjects,
+            meta: {
+                title: 'Projects'
+            }
         },
         {
             name: 'about',
             path: '/about',
-            component: AppAbout
+            component: AppAbout,
+            meta: {
+                title: 'About'
+            }
         }, {
             name: 'projects/show',
             path: '/projects/:slug',
-            component: singleProject
+            component: singleProject,
+            meta: {
+                title: 'Show'
+            }
         }
     ]
 });
+
 router.beforeEach((to) => {
-    document.title = to.meta?.title ?? 'Boolfolio'
+    document.title = to.meta?.title ? 'Boolfolio - ' + to.meta.title : 'Boolfolio'
 });
 
 export { router }
