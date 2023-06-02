@@ -14,16 +14,13 @@ export default {
             precontatoreOrizzontale: "",
             postcontatoreOrizzontale: 1,
 
-
             isAnimated: false,
         }
     },
 
-    components: {
-
-    },
 
     methods: {
+        //Chiamata  Axios
         getImpProjects() {
             axios.get('http://127.0.0.1:8000/api/home').then(response => {
                 this.prevProjects = response.data.results;
@@ -43,7 +40,7 @@ export default {
                             project.title,
                             'http://127.0.0.1:8000/storage/' + project.cover_image,
                         ],
-                        '#FF5154'
+                        project.layout_color
                     ];
 
                     let Eltechnologies = [];
@@ -69,7 +66,7 @@ export default {
                 newConf.push(this.store.newConfArray[4])
                 newConf.push(this.store.newConfArray[5])
 
-                console.log(newConf)
+                //console.log(newConf)
                 this.store.confArray = newConf
             })
         },
@@ -154,28 +151,28 @@ export default {
             elemento.classList.add('move-center-top');
             let disbandClass = setTimeout(() => {
                 elemento.classList.remove('move-center-top');
-            }, 2200);
+            }, 1200);
         },
         // Dal centro al alto
         scrollElCenterUp(elemento) {
             elemento.classList.add('move-center-bottom');
             let disbandClass = setTimeout(() => {
                 elemento.classList.remove('move-center-bottom');
-            }, 2200);
+            }, 1200);
         },
         //Dall alto al centro
         scrollElTopCenter(elemento) {
             elemento.classList.add('move-top-center');
             let disbandClass = setTimeout(() => {
                 elemento.classList.remove('move-top-center');
-            }, 2200);
+            }, 1200);
         },
         //Dall basso al centro
         scrollElBottomCenter(elemento) {
             elemento.classList.add('move-bottom-center');
             let disbandClass = setTimeout(() => {
                 elemento.classList.remove('move-bottom-center');
-            }, 2200);
+            }, 1200);
         },
         //Scroll Orizzontale
         // Dal centro a sinistra
@@ -183,28 +180,28 @@ export default {
             elemento.classList.add('move-center-left');
             let disbandClass = setTimeout(() => {
                 elemento.classList.remove('move-center-left');
-            }, 2200);
+            }, 1200);
         },
         // Dal centro a destra
         scrollElCenterRight(elemento) {
             elemento.classList.add('move-center-right');
             let disbandClass = setTimeout(() => {
                 elemento.classList.remove('move-center-right');
-            }, 2200);
+            }, 1200);
         },
         // Dal  destra a centro
         scrollElRightCenter(elemento) {
             elemento.classList.add('move-right-center');
             let disbandClass = setTimeout(() => {
                 elemento.classList.remove('move-right-center');
-            }, 2200);
+            }, 1200);
         },
         // Dal  destra a centro
         scrollElLeftCenter(elemento) {
             elemento.classList.add('move-left-center');
             let disbandClass = setTimeout(() => {
                 elemento.classList.remove('move-left-center');
-            }, 2200);
+            }, 1200);
         },
 
         checkContatori() {
@@ -238,72 +235,7 @@ export default {
             this.precontatore = parseInt(this.store.confArray.length - 1)
         },
 
-        scrollDown() {
-            if (this.isAnimated == false) {
-                this.isAnimated = true;
-                //animazione
-                let MainScrollableEl = document.getElementById('container-1');
-                let BottomScrollableEl = document.getElementById('container-post');
-                this.scrollElCenterDown(MainScrollableEl);
-                this.scrollElBottomCenter(BottomScrollableEl);
-
-                //reset della variabile is animated e check
-                let timer = setTimeout(() => {
-                    this.isAnimated = false
-                    this.checkContatori()
-                }, 2200)
-
-                let changeIndex = setTimeout(() => {
-                    this.store.contatore++;
-                    if (this.store.contatore == this.store.confArray.length) {
-                        // console.log(this.store.confArray.length)
-                        this.store.contatore = 0;
-                    }
-                }, 900)
-
-                this.store.contatoreBackground = this.postcontatore
-                this.backgroundAnimation();
-                this.store.contatoreOrizzontale = 0;
-                this.store.contatoreBackgroundOrizzontale = 0;
-                this.checkContatoriOrizzontali();
-            }
-        },
-
-        scrollUp() {
-            if (this.isAnimated == false) {
-
-
-                this.isAnimated = true;
-                //Animazione
-                let MainScrollableEl = document.getElementById('container-1');
-                let TopScrollableEl = document.getElementById('container-pre');
-
-                this.scrollElCenterUp(MainScrollableEl)
-                this.scrollElTopCenter(TopScrollableEl);
-
-                let timer = setTimeout(() => {
-                    this.isAnimated = false
-                    this.checkContatori()
-                }, 2200)
-
-                let changeIndex = setTimeout(() => {
-
-                    this.store.contatore--;
-                    if (this.store.contatore < 0) {
-                        this.store.contatore = this.store.confArray.length - 1;
-                    }
-                }, 900)
-
-
-                this.store.contatoreBackground = this.precontatore
-                this.backgroundAnimation();
-                this.store.contatoreOrizzontale = 0;
-                this.store.contatoreBackgroundOrizzontale = 0;
-                this.checkContatoriOrizzontali();
-
-            }
-        },
-
+        //Slide ORizzntale
         scrollLeftRight(index) {
             if (this.isAnimated == false && index >= 0 && index < this.store.confArray[this.store.contatore][3].length) {
                 this.isAnimated = true;
@@ -342,28 +274,50 @@ export default {
                 this.backgroundAnimation();
             }
         },
-
-        scrollDownTo(index) {
+        //scroll
+        scrollTo(index) {
             if (this.isAnimated == false) {
                 this.isAnimated = true;
                 //animazione
 
-                this.postcontatore = index;
-                this.precontatore = index;
+
+                if (index < 0) {
+                    this.precontatore = this.store.confArray.length - 1
+                    this.postcontatore = 1;
+                } else if (index == 0) {
+                    this.precontatore = index
+                    this.postcontatore = 1;
+                } else if (index > this.store.confArray.length - 1) {
+                    this.postcontatore = 0;
+                    this.precontatore = index - 1
+                } else if (index == this.store.confArray.length - 1) {
+                    this.postcontatore = index;
+                    this.precontatore = index - 1
+                } else {
+                    this.postcontatore = index;
+                    this.precontatore = index;
+                }
 
 
                 if (index >= this.store.contatore) {
+
                     let MainScrollableEl = document.getElementById('container-1');
                     let BottomScrollableEl = document.getElementById('container-post');
                     this.scrollElCenterDown(MainScrollableEl);
                     this.scrollElBottomCenter(BottomScrollableEl);
                 } else {
+
                     let MainScrollableEl = document.getElementById('container-1');
                     let TopScrollableEl = document.getElementById('container-pre');
                     this.scrollElCenterUp(MainScrollableEl)
                     this.scrollElTopCenter(TopScrollableEl);
                 }
 
+                if (index < 0) {
+                    index = this.store.confArray.length - 1
+                } else if (index > this.store.confArray.length - 1) {
+                    index = 0
+                }
 
                 //reset della variabile is animated e check
                 let timer = setTimeout(() => {
@@ -372,15 +326,14 @@ export default {
                 }, 2200)
 
                 let changeIndex = setTimeout(() => {
+
                     this.store.contatore = index;
-                    if (this.store.contatore == this.store.confArray.length) {
-                        this.store.contatore = 0;
-                    }
+
+                    this.store.contatoreOrizzontale = 0
                 }, 900)
 
-                this.store.contatoreBackground = this.postcontatore
+                this.store.contatoreBackground = index
                 this.backgroundAnimation();
-                this.store.contatoreOrizzontale = 0
                 this.store.contatoreBackgroundOrizzontale = 0;
             }
         },
@@ -391,10 +344,11 @@ export default {
     created() {
         window.onwheel = event => {
             if (event.deltaY >= 0) {
-                this.scrollDown()
+                this.scrollTo(this.store.contatore + 1)
 
             } else {
-                this.scrollUp()
+                //
+                this.scrollTo(this.store.contatore - 1)
             }
         },
 
@@ -404,8 +358,21 @@ export default {
 
     mounted() {
         //Animazione Background
+        this.backgroundAnimation();
+        this.store.contatore = 0;
+        this.postcontatore = 1;
+        this.precontatore = this.store.confArray.length - 1;
+        this.store.contatoreBackground = 0;
         this.backgroundAnimation()
+        //console.log('mounted fatto')
     },
+
+    unmounted() {
+        this.store.contatoreBackgroundOrizzontale = 0;
+        this.store.contatoreBackground = 0;
+        this.store.contatoreOrizzontale = 0;
+        this.store.contatore = 0;
+    }
 }
 
 </script>
@@ -418,13 +385,14 @@ export default {
             <div class="counter-box hidden d-flex justify-content-center align-item-center" id="mini-counter">
                 <div v-for="(pic, index) in store.confArray[store.contatoreBackground][3]"
                     class="border-circle-mini-wrapper" @click="scrollLeftRight(index)">
-                    <div class="border-circle-mini" :class="this.store.contatoreOrizzontale == index ? 'active' : ''"
+                    <div class="border-circle-mini"
+                        :class="this.store.contatoreBackgroundOrizzontale == index ? 'active' : ''"
                         :style="store.confArray[store.contatoreBackground][2] ? 'background-color:white' : ''"></div>
                 </div>
             </div>
             <!-- Counter -->
             <div class="counter-box d-flex justify-content-center align-item-center" id="counter">
-                <div v-for="(page, index) in store.confArray" class="border-circle-wrapper" @click="scrollDownTo(index)">
+                <div v-for="(page, index) in store.confArray" class="border-circle-wrapper" @click="scrollTo(index)">
                     <div class="border-circle" :class="this.store.contatoreBackground == index ? 'active' : ''"
                         :style="store.confArray[this.store.contatoreBackground][2] ? 'background-color:white' : ''"></div>
                 </div>
@@ -443,14 +411,14 @@ export default {
             <!-- screen -->
             <!-- sopra -->
             <div class="__container p-pre"
-                :class="store.confArray[precontatore][2] ? '' : 'justify-content-center align-items-center'"
+                :class="store.confArray[precontatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-pre">
-                <h2 :style="store.confArray[this.precontatore][2] ? 'color:white' : ''"
-                    :class="store.confArray[this.precontatore][2] ? '' : 'bordo-bianco title'">{{
+                <h1 :style="store.confArray[this.precontatore][2] ? 'color:white' : ''"
+                    :class="store.confArray[this.precontatore][2] ? 'ombra-titolo' : 'bordo-bianco title ombra-titolo'">{{
                         this.store.confArray[this.precontatore][2] ?
                         this.store.confArray[this.precontatore][3][0] :
-                        this.store.confArray[this.precontatore][0] }}</h2>
-                <span :style="store.confArray[this.precontatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                        this.store.confArray[this.precontatore][0] }}</h1>
+                <span :style="store.confArray[this.precontatore][2] ? 'width:55%;color:white' : 'width:auto'"
                     class="_my_container-main">{{
                         this.store.confArray[this.precontatore][1] }}</span>
 
@@ -467,7 +435,7 @@ export default {
                         <h4 class="text-white mr-3">Tecnologie_</h4>
                         <div class="badge-wrapper ml-3">
                             <span class="badge" v-for="element in this.store.confArray[this.precontatore][5]"
-                                :style="'background-color:' + element[1]">{{
+                                :style="'background-color:rgb(50, 50, 50); border: 1px solid' + element[1] + ';color:' + element[1]">{{
                                     element[0] }}</span>
                         </div>
                     </div>
@@ -475,21 +443,15 @@ export default {
             </div>
 
             <!-- Centrale -->
-            <div v-if="this.store.contatoreOrizzontale != 0"
-                class="__container p-center 'justify-content-center align-items-center" id="container-1">
-                <div class="container img-wrapper">
-                    <img :src="store.confArray[store.contatore][3][store.contatoreOrizzontale]" alt="prova">
-                </div>
-            </div>
-            <div v-else class="__container p-center"
-                :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center'"
+            <div v-if="this.store.contatoreOrizzontale == 0" class="__container p-center"
+                :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-1">
-                <h2 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
-                    :class="store.confArray[store.contatore][2] ? '' : 'bordo-bianco title'">{{
+                <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white;' : ''"
+                    :class="store.confArray[store.contatore][2] ? 'ombra-titolo' : 'bordo-bianco title'">{{
                         this.store.confArray[this.store.contatore][2] ?
                         this.store.confArray[this.store.contatore][3][0] :
-                        this.store.confArray[this.store.contatore][0] }}</h2>
-                <span :style="store.confArray[this.store.contatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                        this.store.confArray[this.store.contatore][0] }}</h1>
+                <span :style="store.confArray[this.store.contatore][2] ? 'width:55%;color:white' : 'width:auto'"
                     class=" _my_container-main">{{
                         this.store.confArray[this.store.contatore][1] }}</span>
 
@@ -507,23 +469,28 @@ export default {
                         <h4 class="text-white mr-3">Tecnologie_</h4>
                         <div class="badge-wrapper ml-3">
                             <span class="badge" v-for="element in this.store.confArray[this.store.contatore][5]"
-                                :style="'background-color:' + element[1]">{{
+                                :style="'background-color:rgb(50, 50, 50); border: 1px solid' + element[1] + ';color:' + element[1]">{{
                                     element[0] }}</span>
                         </div>
                     </div>
                 </div>
             </div>
+            <div v-else class="__container p-center 'justify-content-center align-items-center" id="container-1">
+                <div class="container img-wrapper">
+                    <img :src="store.confArray[store.contatore][3][store.contatoreOrizzontale]" alt="prova">
+                </div>
+            </div>
 
             <!-- Sotto -->
             <div class="__container p-post"
-                :class="store.confArray[postcontatore][2] ? '' : 'justify-content-center align-items-center'"
+                :class="store.confArray[postcontatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-post">
-                <h2 :style="store.confArray[this.postcontatore][2] ? 'color:white' : ''"
-                    :class="store.confArray[postcontatore][2] ? '' : 'bordo-bianco title'">{{
+                <h1 :style="store.confArray[this.postcontatore][2] ? 'color:white' : ''"
+                    :class="store.confArray[postcontatore][2] ? 'ombra-titolo' : 'bordo-bianco title'">{{
                         this.store.confArray[this.postcontatore][2] ?
                         this.store.confArray[this.postcontatore][3][0] :
-                        this.store.confArray[this.postcontatore][0] }}</h2>
-                <span :style="store.confArray[this.postcontatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                        this.store.confArray[this.postcontatore][0] }}</h1>
+                <span :style="store.confArray[this.postcontatore][2] ? 'width:55%;color:white' : 'width:auto'"
                     class="_my_container-main">{{
                         this.store.confArray[this.postcontatore][1] }}</span>
 
@@ -537,10 +504,10 @@ export default {
 
                     <!-- Tecnologie -->
                     <div class="technologies d-flex">
-                        <h4 class="text-white mr-3">Tecnologie_</h4>
+                        <h4 class="text-white ml-3">Tecnologie_</h4>
                         <div class="badge-wrapper ml-3">
                             <span class="badge" v-for="element in this.store.confArray[this.postcontatore][5]"
-                                :style="'background-color:' + element[1]">{{
+                                :style="'background-color:rgb(50, 50, 50); border: 1px solid' + element[1] + ';color:' + element[1]">{{
                                     element[0] }}</span>
                         </div>
                     </div>
@@ -556,14 +523,14 @@ export default {
                     </div>
                 </div>
                 <div v-else class="__container p-left"
-                    :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center'"
+                    :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                     id="container-left">
-                    <h2 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
-                        :class="store.confArray[store.contatore][2] ? '' : 'bordo-bianco title'">{{
+                    <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
+                        :class="store.confArray[store.contatore][2] ? 'ombra-titolo' : 'bordo-bianco title'">{{
                             this.store.confArray[this.store.contatore][2] ?
                             this.store.confArray[this.store.contatore][3][0] :
-                            this.store.confArray[this.store.contatore][0] }}</h2>
-                    <span :style="store.confArray[this.store.contatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                            this.store.confArray[this.store.contatore][0] }}</h1>
+                    <span :style="store.confArray[this.store.contatore][2] ? 'width:55%;color:white' : 'width:auto'"
                         class=" _my_container-main">{{
                             this.store.confArray[this.store.contatore][1] }}</span>
 
@@ -581,7 +548,7 @@ export default {
                             <h4 class="text-white mr-3">Tecnologie_</h4>
                             <div class="badge-wrapper ml-3">
                                 <span class="badge" v-for="element in this.store.confArray[this.store.contatore][5]"
-                                    :style="'background-color:' + element[1]">{{
+                                    :style="'background-color:rgb(50, 50, 50); border: 1px solid' + element[1] + ';color:' + element[1]">{{
                                         element[0] }}</span>
                             </div>
                         </div>
@@ -589,14 +556,14 @@ export default {
                 </div>
             </div>
             <div v-else class="__container p-left"
-                :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center'"
+                :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-left">
-                <h2 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
-                    :class="store.confArray[store.contatore][2] ? '' : 'bordo-bianco title'">{{
+                <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
+                    :class="store.confArray[store.contatore][2] ? 'ombra-titolo' : 'bordo-bianco title'">{{
                         this.store.confArray[this.store.contatore][2] ?
                         this.store.confArray[this.store.contatore][3][0] :
-                        this.store.confArray[this.store.contatore][0] }}</h2>
-                <span :style="store.confArray[this.store.contatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                        this.store.confArray[this.store.contatore][0] }}</h1>
+                <span :style="store.confArray[this.store.contatore][2] ? 'width:55%;color:white' : 'width:auto'"
                     class=" _my_container-main">{{
                         this.store.confArray[this.store.contatore][1] }}</span>
             </div>
@@ -610,14 +577,14 @@ export default {
                 </div>
             </div>
             <div v-else class="__container p-right"
-                :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center'"
+                :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-right">
-                <h2 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
-                    :class="store.confArray[store.contatore][2] ? '' : 'bordo-bianco title'">{{
+                <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
+                    :class="store.confArray[store.contatore][2] ? 'ombra-titolo' : 'bordo-bianco title'">{{
                         this.store.confArray[this.store.contatore][2] ?
                         this.store.confArray[this.store.contatore][3][0] :
-                        this.store.confArray[this.store.contatore][0] }}</h2>
-                <span :style="store.confArray[this.store.contatore][2] ? 'width:60%;color:white' : 'width:auto'"
+                        this.store.confArray[this.store.contatore][0] }}</h1>
+                <span :style="store.confArray[this.store.contatore][2] ? 'width:55%;color:white' : 'width:auto'"
                     class=" _my_container-main">{{
                         this.store.confArray[this.store.contatore][1] }}</span>
             </div>
@@ -632,6 +599,7 @@ export default {
                 <div class="cerchio hidden bottom-showroom" id="cerchio-bottom-hidden"></div>
                 <div class="cerchio top-showroom" id="cerchio-top"></div>
                 <div class="cerchio bottom-showroom" id="cerchio-bottom"></div>
+                <div class="cerchio cerchio-centro" id="cerchio-nav"></div>
             </div>
 
         </div>
@@ -658,12 +626,15 @@ export default {
         text-transform: uppercase;
     }
 
-
     .img-wrapper {
         height: 100%;
+        height: 80vh;
         display: flex;
-        padding: 2em;
-        border: 1px solid white;
+        padding: 0em;
+        //padding-top: 1em;
+        background-color: #000;
+        border-radius: 10px;
+        //border: 1px solid white;
 
         img {
             height: 100%;
@@ -758,7 +729,6 @@ export default {
     }
 
     // fine CounterIndexPrincipale
-
     // Schermi
     .__container {
         position: absolute;
@@ -766,7 +736,7 @@ export default {
         width: 100vw;
         height: 100vh;
         border-radius: 10px;
-        padding: 8em;
+        padding: 6em 3em;
         display: flex;
         flex-direction: column;
         gap: 1em;
@@ -803,11 +773,13 @@ export default {
         bottom: 0vh;
     }
 
-
-
     #layout {
         opacity: 0;
         transition: all 1s;
+    }
+
+    .ombra-titolo {
+        text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
     }
 
     .bordo-bianco {
@@ -844,6 +816,17 @@ export default {
             width: 400px;
             height: 400px;
             transition: all .8s;
+        }
+
+        .cerchio-centro {
+            width: 400px;
+            height: 300px;
+            top: -25%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #000000;
+            scale: 1;
+            transition: all .5s;
         }
 
     }
@@ -906,6 +889,18 @@ export default {
     position: absolute;
     bottom: 25%;
     right: 10%;
+}
+
+.technologies {
+    gap: 1em;
+
+    span {
+        margin: 0em .3em;
+    }
+}
+
+.router-link-exact-active {
+    color: red;
 }
 
 //Btn

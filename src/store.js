@@ -22,4 +22,7 @@ export const store = reactive({
     ['contacts', 'Danesh@mail.it', false],
     ['extra', 'qui puoi vedere progetti extra', false]
     ],
+
+    //Variabili header
+    
 });
