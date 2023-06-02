@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-    <div class="container d-flex flex-column">
+    <div class="container d-flex flex-column mt-5 pt-5">
         <h1>Pagina del singolo prodotto</h1>
     </div>
 </template>

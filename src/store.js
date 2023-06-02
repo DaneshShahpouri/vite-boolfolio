@@ -23,6 +23,4 @@ export const store = reactive({
     ['extra', 'qui puoi vedere progetti extra', false]
     ],
 
-    //Variabili header
-    
 });

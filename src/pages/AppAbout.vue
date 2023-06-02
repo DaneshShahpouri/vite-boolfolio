@@ -12,11 +12,15 @@ export default {
 
     },
 
+    mounted() {
+        //console.log(this.$router.currentRoute.value.name)
+    }
+
 }
 </script>
 
 <template>
-    <div class="container p-5">
+    <div class="container p-5 mt-5">
         <h1>About</h1>
     </div>
 

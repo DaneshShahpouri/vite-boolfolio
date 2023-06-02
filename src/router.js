@@ -28,6 +28,10 @@ const router = createRouter({
         }
     ]
 });
+router.beforeEach((to) => {
+    document.title = to.meta?.title ?? 'Boolfolio'
+});
+
 export { router }
 
 

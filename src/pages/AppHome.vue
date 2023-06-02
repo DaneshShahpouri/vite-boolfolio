@@ -335,6 +335,7 @@ export default {
                 this.store.contatoreBackground = index
                 this.backgroundAnimation();
                 this.store.contatoreBackgroundOrizzontale = 0;
+
             }
         },
 
@@ -347,13 +348,13 @@ export default {
                 this.scrollTo(this.store.contatore + 1)
 
             } else {
-                //
                 this.scrollTo(this.store.contatore - 1)
             }
         },
 
             this.getImpProjects(),
             this.setPrecontatore();
+
     },
 
     mounted() {
@@ -364,7 +365,7 @@ export default {
         this.precontatore = this.store.confArray.length - 1;
         this.store.contatoreBackground = 0;
         this.backgroundAnimation()
-        //console.log('mounted fatto')
+
     },
 
     unmounted() {
@@ -413,21 +414,22 @@ export default {
             <div class="__container p-pre"
                 :class="store.confArray[precontatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-pre">
-                <h1 :style="store.confArray[this.precontatore][2] ? 'color:white' : ''"
+                <h1 :style="store.confArray[this.precontatore][2] ? 'color:white; text-align:center; margin-top:1em' : ''"
                     :class="store.confArray[this.precontatore][2] ? 'ombra-titolo' : 'bordo-bianco title ombra-titolo'">{{
                         this.store.confArray[this.precontatore][2] ?
                         this.store.confArray[this.precontatore][3][0] :
                         this.store.confArray[this.precontatore][0] }}</h1>
-                <span :style="store.confArray[this.precontatore][2] ? 'width:55%;color:white' : 'width:auto'"
+                <span
+                    :style="store.confArray[this.precontatore][2] ? 'width:45%;color:white;margin:4em; padding:1em;' : 'width:auto'"
                     class="_my_container-main">{{
                         this.store.confArray[this.precontatore][1] }}</span>
 
                 <div v-if="this.store.confArray[this.precontatore][2] && this.store.contatoreOrizzontale == 0"
                     class="container w-50 d-flex flex-column align-items-center justify-content-center" id="spansecondario">
                     <!-- Tipo -->
-                    <div class="types d-flex">
-                        <h5 class="text-white">Tipologia_</h5>
-                        <h5 class="text-white">{{ this.store.confArray[this.precontatore][6].name }}</h5>
+                    <div class="types d-flex mb-3">
+                        <h4 class="text-white">Tipologia_</h4>
+                        <h3 class="text-white ms-3">{{ this.store.confArray[this.precontatore][6].name }}</h3>
                     </div>
 
                     <!-- Tecnologie -->
@@ -446,12 +448,13 @@ export default {
             <div v-if="this.store.contatoreOrizzontale == 0" class="__container p-center"
                 :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-1">
-                <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white;' : ''"
+                <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white; text-align:center; margin-top:1em' : ''"
                     :class="store.confArray[store.contatore][2] ? 'ombra-titolo' : 'bordo-bianco title'">{{
                         this.store.confArray[this.store.contatore][2] ?
                         this.store.confArray[this.store.contatore][3][0] :
                         this.store.confArray[this.store.contatore][0] }}</h1>
-                <span :style="store.confArray[this.store.contatore][2] ? 'width:55%;color:white' : 'width:auto'"
+                <span
+                    :style="store.confArray[this.store.contatore][2] ? 'width:45%;color:white;margin:4em; padding:1em;' : 'width:auto'"
                     class=" _my_container-main">{{
                         this.store.confArray[this.store.contatore][1] }}</span>
 
@@ -459,9 +462,9 @@ export default {
                 <div v-if="this.store.confArray[this.store.contatore][2] && this.store.contatoreOrizzontale == 0"
                     class="container w-50 d-flex flex-column align-items-center justify-content-center" id="spansecondario">
                     <!-- Tipo -->
-                    <div class="types d-flex">
-                        <h5 class="text-white">Tipologia_</h5>
-                        <h5 class="text-white">{{ this.store.confArray[this.store.contatore][6].name }}</h5>
+                    <div class="types d-flex mb-3">
+                        <h4 class="text-white">Tipologia_</h4>
+                        <h3 class="text-white ms-3">{{ this.store.confArray[this.store.contatore][6].name }}</h3>
                     </div>
 
                     <!-- Tecnologie -->
@@ -485,21 +488,22 @@ export default {
             <div class="__container p-post"
                 :class="store.confArray[postcontatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-post">
-                <h1 :style="store.confArray[this.postcontatore][2] ? 'color:white' : ''"
+                <h1 :style="store.confArray[this.postcontatore][2] ? 'color:white; text-align:center; margin-top:1em' : ''"
                     :class="store.confArray[postcontatore][2] ? 'ombra-titolo' : 'bordo-bianco title'">{{
                         this.store.confArray[this.postcontatore][2] ?
                         this.store.confArray[this.postcontatore][3][0] :
                         this.store.confArray[this.postcontatore][0] }}</h1>
-                <span :style="store.confArray[this.postcontatore][2] ? 'width:55%;color:white' : 'width:auto'"
+                <span
+                    :style="store.confArray[this.postcontatore][2] ? 'width:45%;color:white;margin:4em; padding:1em;' : 'width:auto'"
                     class="_my_container-main">{{
                         this.store.confArray[this.postcontatore][1] }}</span>
 
                 <div v-if="this.store.confArray[this.postcontatore][2] && this.store.contatoreOrizzontale == 0"
                     class="container w-50 d-flex flex-column align-items-center justify-content-center" id="spansecondario">
                     <!-- Tipo -->
-                    <div class="types d-flex">
-                        <h5 class="text-white">Tipologia_</h5>
-                        <h5 class="text-white">{{ this.store.confArray[this.postcontatore][6].name }}</h5>
+                    <div class="types d-flex mb-3">
+                        <h4 class="text-white">Tipologia_</h4>
+                        <h3 class="text-white ms-3">{{ this.store.confArray[this.postcontatore][6].name }}</h3>
                     </div>
 
                     <!-- Tecnologie -->
@@ -525,12 +529,13 @@ export default {
                 <div v-else class="__container p-left"
                     :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                     id="container-left">
-                    <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
+                    <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white; text-align:center; margin-top:1em' : ''"
                         :class="store.confArray[store.contatore][2] ? 'ombra-titolo' : 'bordo-bianco title'">{{
                             this.store.confArray[this.store.contatore][2] ?
                             this.store.confArray[this.store.contatore][3][0] :
                             this.store.confArray[this.store.contatore][0] }}</h1>
-                    <span :style="store.confArray[this.store.contatore][2] ? 'width:55%;color:white' : 'width:auto'"
+                    <span
+                        :style="store.confArray[this.store.contatore][2] ? 'width:45%;color:white;margin:4em; padding:1em;' : 'width:auto'"
                         class=" _my_container-main">{{
                             this.store.confArray[this.store.contatore][1] }}</span>
 
@@ -538,9 +543,9 @@ export default {
                         class="container w-50 d-flex flex-column align-items-center justify-content-center"
                         id="spansecondario">
                         <!-- Tipo -->
-                        <div class="types d-flex">
-                            <h5 class="text-white">Tipologia_</h5>
-                            <h5 class="text-white">{{ this.store.confArray[this.store.contatore][6].name }}</h5>
+                        <div class="types d-flex mb-3">
+                            <h4 class="text-white">Tipologia_</h4>
+                            <h3 class="text-white ms-3">{{ this.store.confArray[this.store.contatore][6].name }}</h3>
                         </div>
 
                         <!-- Tecnologie -->
@@ -558,12 +563,13 @@ export default {
             <div v-else class="__container p-left"
                 :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-left">
-                <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
+                <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white; text-align:center; margin-top:1em' : ''"
                     :class="store.confArray[store.contatore][2] ? 'ombra-titolo' : 'bordo-bianco title'">{{
                         this.store.confArray[this.store.contatore][2] ?
                         this.store.confArray[this.store.contatore][3][0] :
                         this.store.confArray[this.store.contatore][0] }}</h1>
-                <span :style="store.confArray[this.store.contatore][2] ? 'width:55%;color:white' : 'width:auto'"
+                <span
+                    :style="store.confArray[this.store.contatore][2] ? 'width:45%;color:white;margin:4em; padding:1em;' : 'width:auto'"
                     class=" _my_container-main">{{
                         this.store.confArray[this.store.contatore][1] }}</span>
             </div>
@@ -579,12 +585,13 @@ export default {
             <div v-else class="__container p-right"
                 :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-right">
-                <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
+                <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white; text-align:center; margin-top:1em' : ''"
                     :class="store.confArray[store.contatore][2] ? 'ombra-titolo' : 'bordo-bianco title'">{{
                         this.store.confArray[this.store.contatore][2] ?
                         this.store.confArray[this.store.contatore][3][0] :
                         this.store.confArray[this.store.contatore][0] }}</h1>
-                <span :style="store.confArray[this.store.contatore][2] ? 'width:55%;color:white' : 'width:auto'"
+                <span
+                    :style="store.confArray[this.store.contatore][2] ? 'width:45%;color:white;margin:4em; padding:1em;' : 'width:auto'"
                     class=" _my_container-main">{{
                         this.store.confArray[this.store.contatore][1] }}</span>
             </div>
@@ -599,7 +606,7 @@ export default {
                 <div class="cerchio hidden bottom-showroom" id="cerchio-bottom-hidden"></div>
                 <div class="cerchio top-showroom" id="cerchio-top"></div>
                 <div class="cerchio bottom-showroom" id="cerchio-bottom"></div>
-                <div class="cerchio cerchio-centro" id="cerchio-nav"></div>
+                <!-- <div class="cerchio cerchio-centro" id="cerchio-nav"></div> -->
             </div>
 
         </div>

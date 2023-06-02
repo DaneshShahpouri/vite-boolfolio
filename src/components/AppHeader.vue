@@ -6,6 +6,12 @@ export default {
             store,
             openSearchBar: false,
         }
+    },
+    methods: {
+
+    },
+    mounted() {
+
     }
 }
 </script>
@@ -17,7 +23,7 @@ export default {
             <div class="container-fluid d-flex justify-content-space-around">
 
                 <div class="logo-wrapper">
-                    <h5 id="logo" href="#"
+                    <h5 id="logo"
                         :style="store.confArray[store.contatoreBackground][2] ? 'color: white;' : 'color: black;'">DS</h5>
                     <div class="rombo"
                         :style="store.confArray[store.contatoreBackground][2] ? 'border: 1px solid white;' : 'border: 1px solid black;'">
@@ -27,16 +33,18 @@ export default {
                 <div id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <router-link :active="isActive" class="nav-link" :to="{ name: 'home' }">Home</router-link>
+                            <router-link class="nav-link" :to="{ name: 'home' }">Home</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link :active="isActive" class="nav-link"
-                                :to="{ name: 'projects' }">Projects</router-link>
+                            <router-link class="nav-link" :to="{ name: 'projects' }">Projects</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link :active="isActive" class="nav-link" :to="{ name: 'about' }">About</router-link>
+                            <router-link class="nav-link" :to="{ name: 'about' }">About</router-link>
                         </li>
                     </ul>
+                    <div class="cerchio cerchio-centro" id="cerchio-nav"
+                        :style="this.$route.name == 'home' ? 'width: 400px;height: 300px;top: -315%;left: 50%;' : 'width: 400px;height: 300px;top: -345%;left: 50%;'">
+                    </div>
                 </div>
 
                 <form class="btn-wrapper" action="">
@@ -60,14 +68,14 @@ export default {
 .navbar-wrapper {
     position: absolute;
     top: 0;
-    width: 100vw;
+    width: 100%;
     margin: 0 auto;
 
 
     nav {
         position: absolute;
         left: 0%;
-        width: 100vw;
+        width: 100%;
         //transform: translateX(-50%);
         top: 0;
         z-index: 2;
@@ -109,6 +117,35 @@ export default {
 
         }
 
+        .navbar-nav {
+            position: relative;
+            z-index: 2
+        }
+
+        .cerchio {
+            position: absolute;
+            border: 1px solid black;
+            border-radius: 50%;
+            z-index: 1;
+            scale: 2;
+            background: transparent;
+
+            width: 400px;
+            height: 400px;
+            transition: all .8s;
+        }
+
+        .cerchio-centro {
+            width: 400px;
+            height: 300px;
+            top: -305%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #000000;
+            scale: 1;
+
+        }
+
         .nav-item {
 
             .nav-link {
@@ -132,6 +169,8 @@ export default {
         }
 
     }
+
+
 
     .btn-wrapper {
         width: 50px;

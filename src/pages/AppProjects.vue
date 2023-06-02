@@ -24,6 +24,7 @@ export default {
     },
 
     mounted() {
+        // console.log(this.$router.currentRoute.value.name)
         //console.log(this.urlImg + ptoject.cover_image)
     }
 
@@ -32,8 +33,8 @@ export default {
 </script>
 
 <template>
-    <div class="container p-5">
-        <h1>Benvenuto nella sezione dei progetti</h1>
+    <div class="container p-5 mt-5">
+        <h1>Progetti</h1>
     </div>
 
     <div class="container d-flex justify-content-center align-item-center flex-wrap p-2">
