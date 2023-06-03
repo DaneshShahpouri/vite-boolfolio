@@ -343,17 +343,19 @@ export default {
     },
 
     created() {
-        window.onwheel = event => {
-            if (event.deltaY >= 0) {
-                this.scrollTo(this.store.contatore + 1)
+        if (this.$route.name == 'home') {
+            window.onwheel = event => {
+                if (event.deltaY >= 0) {
+                    this.scrollTo(this.store.contatore + 1)
 
-            } else {
-                this.scrollTo(this.store.contatore - 1)
-            }
-        },
+                } else {
+                    this.scrollTo(this.store.contatore - 1)
+                }
+            },
 
-            this.getImpProjects(),
-            this.setPrecontatore();
+                this.getImpProjects(),
+                this.setPrecontatore();
+        }
 
     },
 
@@ -720,7 +722,6 @@ export default {
             position: relative;
 
 
-
             .border-circle {
                 border-radius: 50%;
                 width: 7px;
@@ -728,17 +729,14 @@ export default {
                 background: #000;
                 transition: all 1s;
                 opacity: .2;
-
             }
 
             .overspan {
                 position: absolute;
                 display: inline;
-
                 text-align: center;
                 text-transform: capitalize;
                 font-size: .8em;
-
                 transition: all .7s;
                 opacity: 0;
                 transform: translateX(-50%);
@@ -759,9 +757,6 @@ export default {
                     opacity: 1;
                 }
             }
-
-
-
         }
 
         .border-circle.active {
@@ -770,11 +765,7 @@ export default {
             border-radius: 0%;
             opacity: 1;
         }
-
-
     }
-
-
 
     // fine CounterIndexPrincipale
     // Schermi
@@ -788,7 +779,6 @@ export default {
         display: flex;
         flex-direction: column;
         gap: 1em;
-
     }
 
     // Posizioni
@@ -802,7 +792,6 @@ export default {
         bottom: 0vh;
         left: 0vw;
         // background-color: #d2111153;
-
     }
 
     .p-post {

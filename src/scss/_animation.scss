@@ -14,6 +14,16 @@
     }
 }
 
+@keyframes loading {
+    0% {
+        rotate: 0deg
+    }
+
+    100% {
+        rotate: 360deg;
+    }
+}
+
 @keyframes moveCenterTop {
     0% {
         bottom: 0vh;
