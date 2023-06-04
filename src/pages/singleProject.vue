@@ -1,10 +1,18 @@
+
 <script>
+import { store } from '../store.js';
 export default {
     name: "singleProject",
     data() {
         return {
+            store,
+            PostSlug: '',
         }
-    }
+    },
+
+    mounted() {
+        this.PostSlug = this.$route.params.slug
+    },
 }
 </script>
 

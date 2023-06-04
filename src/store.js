@@ -26,4 +26,9 @@ export const store = reactive({
 
     //Searchbar
     searchInput: '',
+
+    //Projects
+    isLoading: true,
+    isSuccess: false,
+    projects: [],
 });

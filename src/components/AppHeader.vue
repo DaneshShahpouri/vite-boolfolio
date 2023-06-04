@@ -5,10 +5,49 @@ export default {
         return {
             store,
             openSearchBar: false,
+            tempProjects: [],
         }
     },
     methods: {
+        getTempProjects() {
+            this.store.projects = [];
+            axios.get('http://127.0.0.1:8000/api/projects').then(response => {
 
+                this.store.isLoading = true;
+                if (response.data.results) {
+
+                    response.data.results.forEach(project => {
+                        if (this.store.searchInput != '') {
+
+                            if (project.title.toLocaleLowerCase().includes(this.store.searchInput.toLocaleLowerCase())) {
+                                this.store.projects.push(project)
+
+                            }
+                        } else {
+                            this.store.projects.push(project)
+                        }
+                    });
+
+                    this.store.isSuccess = true;
+
+                    if (this.store.projects.length == 0) {
+                        this.store.isSuccess = false
+                    }
+
+                } else {
+
+                    this.store.isSuccess = false;
+                }
+
+                this.store.isLoading = false
+            });
+
+        },
+
+        search() {
+            this.store.isLoading = true;
+            this.getTempProjects();
+        }
     },
     mounted() {
 
@@ -17,9 +56,11 @@ export default {
 </script>
 
 <template>
-    <div class="navbar-wrapper d-flex justify-content-space-around">
+    <div class="navbar-wrapper d-flex justify-content-space-around"
+        :class="this.$route.name == projects ? '_fixed' : '_absolute'">
 
-        <nav class="navbar navbar-expand-lg navbar-dark">
+        <nav class="navbar navbar-expand-lg "
+            :class="this.$route.name == 'home' ? '_fixed navbar-dark' : '_fixed navbar-light'">
             <div class="container-fluid d-flex justify-content-space-around">
 
                 <div class="logo-wrapper">
@@ -42,22 +83,26 @@ export default {
                             <router-link class="nav-link" :to="{ name: 'about' }">About</router-link>
                         </li>
                     </ul>
-                    <div class="cerchio cerchio-centro" id="cerchio-nav"
+                    <div class="cerchio" id="cerchio-nav"
+                        :class="this.$route.name == 'home' ? 'cerchio-centro' : ' cerchio-centro-pr'"
                         :style="this.$route.name == 'home' ? 'width: 400px;height: 300px;top: -315%;left: 50%;' : 'width: 400px;height: 300px;top: -345%;left: 50%;'">
                     </div>
+                    <div class="layout-black" :style="this.$route.name == 'home' ? '' : ''"></div>
                 </div>
 
-                <form class="btn-wrapper" action="">
+                <form v-if="this.$route.name == 'projects'" class="btn-wrapper" action="" @submit.prevent=" search()">
                     <button class="btn btn-search" type="submit"
-                        :class="store.confArray[store.contatoreBackground][2] ? 'btn-dark' : 'btn-light'"
-                        :style="store.confArray[store.contatoreBackground][2] ? 'border:1px solid white' : ''">
+                        :class="store.confArray[store.contatoreBackground][2] || store.searchInput != '' ? 'btn-dark' : 'btn-light'"
+                        :style="store.confArray[store.contatoreBackground][2] || store.searchInput != '' ? 'border:1px solid white' : ''">
                         <i class="fa-solid fa-magnifying-glass"></i></button>
-                    <div class="btn-filler"></div>
-                    <div class="modulo-search" :style="store.searchInput == '' ? '' : 'opacity:1 !important'">
+                    <div class="btn-filler" :style="this.store.searchInput != '' ? 'height: 50px;' : ''"></div>
+                    <div class="modulo-search">
                         <input v-model="store.searchInput" class="form-control me-2" type="search" placeholder="Search"
-                            aria-label="Search" :class="this.store.confArray[2] ? 'input-light' : 'input-dark'">
+                            aria-label="Search" :class="this.store.confArray[2] ? 'input-light' : 'input-dark'"
+                            :style="store.searchInput == '' ? '' : 'opacity:1'">
                     </div>
                 </form>
+                <div v-else class="btn-wrapper"></div>
             </div>
         </nav>
     </div>
@@ -65,18 +110,22 @@ export default {
 </template>
 
 <style  lang="scss" scoped>
-.navbar-wrapper {
+._absolute {
     position: absolute;
+}
+
+._fixed {
+    position: fixed;
+}
+
+.navbar-wrapper {
     top: 0;
     width: 100%;
     margin: 0 auto;
 
-
     nav {
-        position: absolute;
         left: 0%;
         width: 100%;
-        //transform: translateX(-50%);
         top: 0;
         z-index: 2;
 
@@ -91,7 +140,7 @@ export default {
                 margin: 0 1.5em;
                 border-radius: 20px;
                 text-decoration: none;
-                font-weight: 100;
+                font-weight: 300;
                 transition: all 1s;
                 color: white;
                 position: relative;
@@ -146,10 +195,33 @@ export default {
 
         }
 
+        .cerchio-centro-pr {
+            width: 400px;
+            height: 300px;
+            top: -305%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffffffe4;
+            border: 1px solid black;
+            scale: 1;
+        }
+
+
+        .layout-black {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 1;
+            height: 100px;
+            width: 100vw;
+            background: rgb(63, 94, 251);
+            background: linear-gradient(0deg, rgba(63, 94, 251, 0) 80%, rgba(0, 0, 0, 0.3) 100%);
+        }
+
         .nav-item {
 
             .nav-link {
-                font-weight: 200;
+                font-weight: 400;
                 margin: 0em .4em;
                 padding: 0.2em 0.4em;
                 transition: all .2s;
@@ -165,7 +237,7 @@ export default {
 
 
         .nav-link.router-link-active {
-            color: white;
+            font-weight: 500;
         }
 
     }
@@ -199,7 +271,7 @@ export default {
             height: 50px;
         }
 
-        &:hover .modulo-search {
+        &:hover .modulo-search .input-light {
             opacity: 1;
         }
 
@@ -207,7 +279,7 @@ export default {
             position: absolute;
             left: 0;
             bottom: 0;
-            background: #059a8e;
+            background: rgb(2, 143, 198);
             width: 50px;
             height: 0px;
             border-radius: 8px;
@@ -225,16 +297,22 @@ export default {
     right: 0;
     transform: translateX(-60px);
     transition: all 1s;
-    opacity: 0;
+
+    z-index: 2;
 
     .input-light {
-        background-color: rgba(0, 0, 0, 0.235);
-        color: white
-    }
+        background-color: rgba(245, 245, 245, 0.598);
+        color: rgb(20, 2, 2);
+        opacity: 0;
+        transition: all 1s;
 
-    .input-dark {
-        background-color: rgba(245, 245, 245, 0.235);
-        color: rgb(26, 25, 25)
+        border: none;
+
+        &:focus {
+            opacity: 1;
+            box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.126);
+            outline: none
+        }
     }
 }
 
