@@ -421,30 +421,30 @@ export default {
             <div class="__container p-pre"
                 :class="store.confArray[precontatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-pre">
-                <h1 :style="store.confArray[this.precontatore][2] ? 'color:white; text-align:center; margin-top:1em' : ''"
-                    :class="store.confArray[this.precontatore][2] ? 'ombra-titolo' : 'bordo-bianco title ombra-titolo'">{{
+                <h1 :style="store.confArray[this.precontatore][2] ? 'color:white' : ''"
+                    :class="store.confArray[this.precontatore][2] ? 'ombra-titolo _my-title-works' : 'bordo-bianco title ombra-titolo'">
+                    {{
                         this.store.confArray[this.precontatore][2] ?
                         this.store.confArray[this.precontatore][3][0] :
                         this.store.confArray[this.precontatore][0] }}</h1>
-                <span
-                    :style="store.confArray[this.precontatore][2] ? 'width:45%;color:white;margin:4em; padding:1em;' : 'width:auto'"
-                    class="_my_container-main">{{
+                <span :style="store.confArray[this.precontatore][2] ? 'color:white' : 'width:auto; text-align:center'"
+                    :class="store.confArray[this.precontatore][2] ? '_my-span-works' : ''" class="_my_container-main">{{
                         this.store.confArray[this.precontatore][1] }}</span>
 
                 <div v-if="this.store.confArray[this.precontatore][2] && this.store.contatoreOrizzontale == 0"
-                    class="container w-50 d-flex flex-column align-items-center justify-content-center" id="spansecondario">
+                    class="container" id="spansecondario">
                     <!-- Tipo -->
                     <div class="types d-flex mb-3">
-                        <h4 class="text-white">Tipologia_</h4>
-                        <h3 class="text-white ms-3">{{ this.store.confArray[this.precontatore][6].name }}</h3>
+                        <h4 class="text-danger">Type_</h4>
+                        <h3 class="text-light ms-3">{{ this.store.confArray[this.precontatore][6].name }}</h3>
                     </div>
 
                     <!-- Tecnologie -->
                     <div class="technologies d-flex">
-                        <h4 class="text-white mr-3">Tecnologie_</h4>
+                        <h4 class="text-warning mr-3">Technologies_</h4>
                         <div class="badge-wrapper ml-3">
                             <span class="badge" v-for="element in this.store.confArray[this.precontatore][5]"
-                                :style="'background-color:rgb(50, 50, 50); border: 1px solid' + element[1] + ';color:' + element[1]">{{
+                                :style="'background-color:' + element[1] + ';color:white'">{{
                                     element[0] }}</span>
                         </div>
                     </div>
@@ -455,31 +455,30 @@ export default {
             <div v-if="this.store.contatoreOrizzontale == 0" class="__container p-center"
                 :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-1">
-                <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white; text-align:center; margin-top:1em' : ''"
-                    :class="store.confArray[store.contatore][2] ? 'ombra-titolo' : 'bordo-bianco title'">{{
+                <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
+                    :class="store.confArray[store.contatore][2] ? 'ombra-titolo _my-title-works' : 'bordo-bianco title'">{{
                         this.store.confArray[this.store.contatore][2] ?
                         this.store.confArray[this.store.contatore][3][0] :
                         this.store.confArray[this.store.contatore][0] }}</h1>
-                <span
-                    :style="store.confArray[this.store.contatore][2] ? 'width:45%;color:white;margin:4em; padding:1em;' : 'width:auto'"
-                    class=" _my_container-main">{{
+                <span :style="store.confArray[this.store.contatore][2] ? 'color:white' : 'width:auto; text-align:center'"
+                    :class="store.confArray[this.store.contatore][2] ? '_my-span-works' : ''" class=" _my_container-main">{{
                         this.store.confArray[this.store.contatore][1] }}</span>
 
 
                 <div v-if="this.store.confArray[this.store.contatore][2] && this.store.contatoreOrizzontale == 0"
-                    class="container w-50 d-flex flex-column align-items-center justify-content-center" id="spansecondario">
+                    class="container" id="spansecondario">
                     <!-- Tipo -->
                     <div class="types d-flex mb-3">
-                        <h4 class="text-white">Tipologia_</h4>
-                        <h3 class="text-white ms-3">{{ this.store.confArray[this.store.contatore][6].name }}</h3>
+                        <h4 class="text-danger">Type_</h4>
+                        <h3 class="text-light ms-3">{{ this.store.confArray[this.store.contatore][6].name }}</h3>
                     </div>
 
                     <!-- Tecnologie -->
                     <div class="technologies d-flex">
-                        <h4 class="text-white mr-3">Tecnologie_</h4>
+                        <h4 class="text-warning mr-3">Technologies_</h4>
                         <div class="badge-wrapper ml-3">
                             <span class="badge" v-for="element in this.store.confArray[this.store.contatore][5]"
-                                :style="'background-color:rgb(50, 50, 50); border: 1px solid' + element[1] + ';color:' + element[1]">{{
+                                :style="'background-color:' + element[1] + ';color:white'">{{
                                     element[0] }}</span>
                         </div>
                     </div>
@@ -495,30 +494,29 @@ export default {
             <div class="__container p-post"
                 :class="store.confArray[postcontatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-post">
-                <h1 :style="store.confArray[this.postcontatore][2] ? 'color:white; text-align:center; margin-top:1em' : ''"
-                    :class="store.confArray[postcontatore][2] ? 'ombra-titolo' : 'bordo-bianco title'">{{
+                <h1 :style="store.confArray[this.postcontatore][2] ? 'color:white' : ''"
+                    :class="store.confArray[postcontatore][2] ? 'ombra-titolo _my-title-works' : 'bordo-bianco title'">{{
                         this.store.confArray[this.postcontatore][2] ?
                         this.store.confArray[this.postcontatore][3][0] :
                         this.store.confArray[this.postcontatore][0] }}</h1>
-                <span
-                    :style="store.confArray[this.postcontatore][2] ? 'width:45%;color:white;margin:4em; padding:1em;' : 'width:auto'"
-                    class="_my_container-main">{{
+                <span :style="store.confArray[this.postcontatore][2] ? 'color:white' : 'width:auto; text-align:center'"
+                    :class="store.confArray[this.postcontatore][2] ? '_my-span-works' : ''" class="_my_container-main">{{
                         this.store.confArray[this.postcontatore][1] }}</span>
 
                 <div v-if="this.store.confArray[this.postcontatore][2] && this.store.contatoreOrizzontale == 0"
-                    class="container w-50 d-flex flex-column align-items-center justify-content-center" id="spansecondario">
+                    class="container" id="spansecondario">
                     <!-- Tipo -->
                     <div class="types d-flex mb-3">
-                        <h4 class="text-white">Tipologia_</h4>
-                        <h3 class="text-white ms-3">{{ this.store.confArray[this.postcontatore][6].name }}</h3>
+                        <h4 class="text-danger">Type_</h4>
+                        <h3 class="text-light ms-3">{{ this.store.confArray[this.postcontatore][6].name }}</h3>
                     </div>
 
                     <!-- Tecnologie -->
                     <div class="technologies d-flex">
-                        <h4 class="text-white ml-3">Tecnologie_</h4>
+                        <h4 class="text-warning ml-3">Technologies_</h4>
                         <div class="badge-wrapper ml-3">
                             <span class="badge" v-for="element in this.store.confArray[this.postcontatore][5]"
-                                :style="'background-color:rgb(50, 50, 50); border: 1px solid' + element[1] + ';color:' + element[1]">{{
+                                :style="'background-color:' + element[1] + ';color:white'">{{
                                     element[0] }}</span>
                         </div>
                     </div>
@@ -536,31 +534,31 @@ export default {
                 <div v-else class="__container p-left"
                     :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                     id="container-left">
-                    <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white; text-align:center; margin-top:1em' : ''"
-                        :class="store.confArray[store.contatore][2] ? 'ombra-titolo' : 'bordo-bianco title'">{{
+                    <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
+                        :class="store.confArray[store.contatore][2] ? 'ombra-titolo _my-title-works' : 'bordo-bianco title'">
+                        {{
                             this.store.confArray[this.store.contatore][2] ?
                             this.store.confArray[this.store.contatore][3][0] :
                             this.store.confArray[this.store.contatore][0] }}</h1>
-                    <span
-                        :style="store.confArray[this.store.contatore][2] ? 'width:45%;color:white;margin:4em; padding:1em;' : 'width:auto'"
+                    <span :style="store.confArray[this.postcontatore][2] ? 'color:white' : 'width:auto; text-align:center'"
+                        :class="store.confArray[this.postcontatore][2] ? '_my-span-works' : ''"
                         class=" _my_container-main">{{
                             this.store.confArray[this.store.contatore][1] }}</span>
 
                     <div v-if="this.store.confArray[this.store.contatore][2] && this.precontatoreOrizzontale == 0"
-                        class="container w-50 d-flex flex-column align-items-center justify-content-center"
-                        id="spansecondario">
+                        class="container" id="spansecondario">
                         <!-- Tipo -->
                         <div class="types d-flex mb-3">
-                            <h4 class="text-white">Tipologia_</h4>
-                            <h3 class="text-white ms-3">{{ this.store.confArray[this.store.contatore][6].name }}</h3>
+                            <h4 class="text-danger">Type_</h4>
+                            <h3 class="text-light ms-3">{{ this.store.confArray[this.store.contatore][6].name }}</h3>
                         </div>
 
                         <!-- Tecnologie -->
                         <div class="technologies d-flex">
-                            <h4 class="text-white mr-3">Tecnologie_</h4>
+                            <h4 class="text-warning mr-3">Technologies_</h4>
                             <div class="badge-wrapper ml-3">
                                 <span class="badge" v-for="element in this.store.confArray[this.store.contatore][5]"
-                                    :style="'background-color:rgb(50, 50, 50); border: 1px solid' + element[1] + ';color:' + element[1]">{{
+                                    :style="'background-color:' + element[1] + ';color:white'">{{
                                         element[0] }}</span>
                             </div>
                         </div>
@@ -570,14 +568,13 @@ export default {
             <div v-else class="__container p-left"
                 :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-left">
-                <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white; text-align:center; margin-top:1em' : ''"
-                    :class="store.confArray[store.contatore][2] ? 'ombra-titolo' : 'bordo-bianco title'">{{
+                <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
+                    :class="store.confArray[store.contatore][2] ? 'ombra-titolo _my-title-works' : 'bordo-bianco title'">{{
                         this.store.confArray[this.store.contatore][2] ?
                         this.store.confArray[this.store.contatore][3][0] :
                         this.store.confArray[this.store.contatore][0] }}</h1>
-                <span
-                    :style="store.confArray[this.store.contatore][2] ? 'width:45%;color:white;margin:4em; padding:1em;' : 'width:auto'"
-                    class=" _my_container-main">{{
+                <span :style="store.confArray[this.store.contatore][2] ? 'color:white' : 'width:auto; text-align:center'"
+                    :class="store.confArray[this.postcontatore][2] ? '_my-span-works' : ''" class=" _my_container-main">{{
                         this.store.confArray[this.store.contatore][1] }}</span>
             </div>
 
@@ -592,13 +589,13 @@ export default {
             <div v-else class="__container p-right"
                 :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-right">
-                <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white; text-align:center; margin-top:1em' : ''"
-                    :class="store.confArray[store.contatore][2] ? 'ombra-titolo' : 'bordo-bianco title'">{{
+                <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
+                    :class="store.confArray[store.contatore][2] ? 'ombra-titolo _my-title-works' : 'bordo-bianco title'">{{
                         this.store.confArray[this.store.contatore][2] ?
                         this.store.confArray[this.store.contatore][3][0] :
                         this.store.confArray[this.store.contatore][0] }}</h1>
                 <span
-                    :style="store.confArray[this.store.contatore][2] ? 'width:45%;color:white;margin:4em; padding:1em;' : 'width:auto'"
+                    :style="store.confArray[this.store.contatore][2] ? 'width:45%;color:white;margin:4em; padding:1em;' : 'width:auto; text-align:center'"
                     class=" _my_container-main">{{
                         this.store.confArray[this.store.contatore][1] }}</span>
             </div>
@@ -638,6 +635,42 @@ export default {
 
     .title {
         text-transform: uppercase;
+    }
+
+    ._my-title-works {
+        margin-left: 3em;
+        margin-top: 1em;
+        text-transform: uppercase;
+
+        @media screen and (max-width: 991px) {
+            text-align: center;
+            margin-left: 0em;
+            margin-top: 1em;
+        }
+
+        @media screen and (max-width: 492px) {
+            margin-top: 1.2em;
+        }
+    }
+
+    ._my-span-works {
+        width: 45%;
+        margin: 1em 3em;
+        padding: 1em;
+        text-align: center;
+        border-bottom: 1px solid white;
+
+        @media screen and (max-width: 991px) {
+            width: auto;
+            margin: 1em 1em;
+            padding: 1em;
+        }
+
+        @media screen and (max-width: 492px) {
+            padding: .5em;
+            margin: .5em;
+            font-size: .9em;
+        }
     }
 
     .img-wrapper {
@@ -777,8 +810,21 @@ export default {
         border-radius: 10px;
         padding: 6em 3em;
         display: flex;
+        justify-content: start;
         flex-direction: column;
         gap: 1em;
+
+        @media screen and (max-width: 991px) {
+            gap: .5em
+        }
+
+        @media screen and (max-width: 492px) {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            padding-top: 5em;
+            padding: 3em 1.5em;
+        }
     }
 
     // Posizioni
@@ -923,16 +969,54 @@ export default {
 }
 
 #spansecondario {
-    position: absolute;
-    bottom: 25%;
-    right: 10%;
+    position: relative;
+    width: 100%;
+    padding: 2em 5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+
+    .badge-wrapper {
+        width: 50%;
+    }
+
+    @media screen and (max-width: 992px) {
+        align-items: center;
+        margin-top: 3em;
+
+        .badge-wrapper {
+            width: 100%;
+        }
+    }
+
+    @media screen and (max-width: 492px) {
+
+        padding: 1em 1em;
+        margin-top: 1em;
+
+        h4 {
+            font-size: 1em;
+        }
+
+        h3 {
+            font-size: 1.4em;
+        }
+    }
 }
 
 .technologies {
     gap: 1em;
 
     span {
+        border: 1px solid white;
         margin: 0em .3em;
+    }
+
+    @media screen and (max-width: 991px) {
+        flex-direction: column;
+        gap: .3em;
+
     }
 }
 
