@@ -1,6 +1,8 @@
 <script>
 import axios from 'axios';
 import { store } from '../store.js';
+import AppFooter from '../components/AppFooter.vue';
+
 export default {
     name: 'AppProjects',
     data() {
@@ -10,6 +12,10 @@ export default {
             tempProjects: [],
             urlImg: 'http://127.0.0.1:8000' + '/storage/',
         }
+    },
+
+    components: {
+        AppFooter
     },
 
     methods: {
@@ -62,6 +68,8 @@ export default {
         // console.log(this.$router.currentRoute.value.name)
         //console.log(this.urlImg + ptoject.cover_image)
         //console.log(this.tempProjects)
+        this.store.currentPage = 'projects';
+        console.log(this.store.currentPage)
     },
 
     updated() {
@@ -71,7 +79,7 @@ export default {
 
 <template>
     <div class="container p-5 mt-5">
-        <h1>Progetti</h1>
+        <h1 class="text-uppercase text-center mt-5">Works_</h1>
     </div>
     <!-- Caricamento -->
     <div v-if="this.store.isLoading == true" class="container" id="loading-screen">
@@ -83,9 +91,9 @@ export default {
     <!-- Schermo Principale -->
     <div v-if="this.store.isLoading == false && this.store.isSuccess == true">
 
-        <div class="container d-flex justify-content-start align-item-center flex-column flex-wrap p-2">
+        <div class="container d-flex justify-content-start align-item-center flex-column ">
 
-            <div class="_mycard m-4" v-for="project in this.store.projects">
+            <div class="_mycard" v-for="project in this.store.projects">
 
                 <div class="img-wrapper">
                     <img :src="project.cover_image == null ? 'https://www.kuleuven.be/communicatie/congresbureau/fotos-en-afbeeldingen/no-image.png/image' : (this.urlImg + project.cover_image)"
@@ -95,8 +103,8 @@ export default {
                     <h4 class="_mycard-title ">{{ project.title }}</h4>
                     <div class="_mycard-body">
                         <p class="_mycard-text">{{ project.description }}</p>
-                        <router-link :to="{ name: 'projects/show', params: { slug: project.slug } }"
-                            class="btn btn-outline-primary">Vedi
+                        <router-link :to="{ name: 'works/show', params: { slug: project.slug } }"
+                            class="btn btn-outline-dark">Vedi
                             Dettagli</router-link>
                     </div>
                 </div>
@@ -112,6 +120,8 @@ export default {
             </div>
         </div>
     </div>
+
+    <AppFooter></AppFooter>
 </template>
 
 <style lang="scss" scoped>
@@ -123,28 +133,35 @@ export default {
     display: flex;
     justify-content: start;
     align-items: center;
-    gap: 4em;
+    gap: 3em;
 
     .img-wrapper {
         width: 25vw;
         height: 25vw;
-        max-width: 400px;
-        max-height: 400px;
+        //max-width: 400px;
+        //max-height: 400px;
         min-width: 250px;
         min-height: 250px;
-        border-radius: 50%;
+        //border-radius: 50%;
         overflow: hidden;
-        border: 2px solid black;
+        border: 1px solid black;
+
+        rotate: 45deg;
+        margin: 2em;
+        aspect-ratio: 1 / 1;
 
         img {
             width: 100%;
+            height: 100%;
+            scale: 1.2;
             object-fit: cover;
             object-position: center;
+            rotate: -45deg;
         }
     }
 
     .text-info {
-        width: 40vw;
+        width: 50vw;
         height: 100%;
         margin-left: 2em;
         display: flex;
@@ -155,8 +172,10 @@ export default {
         ._mycard-title {
             text-transform: uppercase;
             color: black;
-            font-size: 2.5em;
+            // font-size: 2.2em;
             border-bottom: 1px solid black;
+            text-align: center;
+            margin-top: 1em;
         }
 
         ._mycard-body {
@@ -169,11 +188,21 @@ export default {
             color: rgb(64, 63, 63);
         }
     }
+
+    @media screen and (max-width: 772px) {
+        flex-direction: column;
+        gap: 1em;
+
+        .text-info {
+            margin-left: 0em;
+            width: 70vw;
+        }
+    }
 }
 
 
 #loading-screen {
-    height: 100vh;
+    height: 50vh;
     widows: 100vw;
     display: flex;
     flex-direction: column;
@@ -187,5 +216,15 @@ export default {
             animation: loading 1s linear infinite;
         }
     }
+}
+
+.bordo-bianco {
+    text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
+        1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+}
+
+.bordo-bianco-transparente {
+    text-shadow: 2px 0 #ffffff38, -2px 0 #ffffff38, 0 2px #ffffff38, 0 -2px #ffffff38,
+        1px 1px #ffffff38, -1px -1px #ffffff38, 1px -1px #ffffff38, -1px 1px #ffffff38;
 }
 </style>

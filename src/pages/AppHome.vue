@@ -83,11 +83,11 @@ export default {
 
 
             switch (this.store.confArray[this.store.contatoreBackground][0]) {
-                case 'showroom':
+                case 'Danesh Shahpouri':
                     cerchioTop.style = "top:-30%; left:-20%;scale:3;"
                     cerchioBottom.style = "bottom:0%; right:0%; scale:2;"
                     break;
-                case 'projects':
+                case 'works':
                     cerchioTop.style = "top:-10%; left:10%; scale:2.8;"
                     cerchioBottom.style = "bottom:-40%; right:20%; scale:2.4;"
                     break;
@@ -366,7 +366,9 @@ export default {
         this.postcontatore = 1;
         this.precontatore = this.store.confArray.length - 1;
         this.store.contatoreBackground = 0;
-        this.backgroundAnimation()
+        this.backgroundAnimation();
+        this.store.currentPage = 'home';
+        console.log(this.store.currentPage)
 
     },
 
@@ -385,7 +387,7 @@ export default {
         <!-- main -->
         <div class="_container-wrapper">
             <!-- minicounter -->
-            <div class="counter-box hidden d-flex justify-content-center align-item-center" id="mini-counter">
+            <div class="counter-box hidden" id="mini-counter">
                 <div v-for="(pic, index) in store.confArray[store.contatoreBackground][3]"
                     class="border-circle-mini-wrapper" @click="scrollLeftRight(index)">
                     <div class="border-circle-mini"
@@ -394,7 +396,7 @@ export default {
                 </div>
             </div>
             <!-- Counter -->
-            <div class="counter-box d-flex justify-content-center align-item-center" id="counter">
+            <div class="counter-box" id="counter">
                 <div v-for="(page, index) in store.confArray" class="border-circle-wrapper" @click="scrollTo(index)">
                     <div class="border-circle" :class="this.store.contatoreBackground == index ? 'active' : ''"
                         :style="store.confArray[this.store.contatoreBackground][2] ? 'background-color:white' : ''"></div>
@@ -422,29 +424,47 @@ export default {
                 :class="store.confArray[precontatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-pre">
                 <h1 :style="store.confArray[this.precontatore][2] ? 'color:white' : ''"
-                    :class="store.confArray[this.precontatore][2] ? 'ombra-titolo _my-title-works' : 'bordo-bianco title ombra-titolo'">
+                    :class="store.confArray[this.precontatore][2] ? 'bordo-nero ombra-titolo _my-title-works' : 'bordo-bianco title ombra-titolo'">
                     {{
                         this.store.confArray[this.precontatore][2] ?
                         this.store.confArray[this.precontatore][3][0] :
                         this.store.confArray[this.precontatore][0] }}</h1>
-                <span :style="store.confArray[this.precontatore][2] ? 'color:white' : 'width:auto; text-align:center'"
+                <span
+                    v-if="this.store.confArray[this.precontatore][0] != 'extra' && this.store.confArray[this.precontatore][0] != 'contacts'"
+                    :style="store.confArray[this.precontatore][2] ? 'color:white' : 'width:70%; text-align:center'"
                     :class="store.confArray[this.precontatore][2] ? '_my-span-works' : ''" class="_my_container-main">{{
                         this.store.confArray[this.precontatore][1] }}</span>
+
+                <a class="_youtube" target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
+                    v-if="this.store.confArray[this.precontatore][0] == 'extra'"><i class="fa-brands fa-youtube"></i>
+                    Youtube Channel</a>
+
+                <div class="social-container" v-if="this.store.confArray[this.precontatore][0] == 'contacts'">
+                    <a href="https://www.google.com/intl/it/gmail/about" target="_blank" class="gmail bordo-bianco"><i
+                            class="fa-regular fa-envelope"></i>
+                        Danesh.Shahpouri@gmail.com</a>
+                    <a href="https://github.com/DaneshShahpouri" target="_blank" class="github bordo-bianco">
+                        <i class="fa-brands fa-github"></i>
+                        Github/DaneshShahpouri</a>
+                    <a href="https://www.linkedin.com/in/danesh-shahpouri/" target="_blank" class="linkedin bordo-bianco">
+                        <i class="fa-brands fa-linkedin"></i>
+                        linkedin/Danesh-shahpouri</a>
+                </div>
 
                 <div v-if="this.store.confArray[this.precontatore][2] && this.store.contatoreOrizzontale == 0"
                     class="container" id="spansecondario">
                     <!-- Tipo -->
                     <div class="types d-flex mb-3">
-                        <h4 class="text-danger">Type_</h4>
-                        <h3 class="text-light ms-3">{{ this.store.confArray[this.precontatore][6].name }}</h3>
+                        <h4 class="text-light bordo-nero">Type_</h4>
+                        <h3 class="text-light bordo-nero ms-3">{{ this.store.confArray[this.precontatore][6].name }}</h3>
                     </div>
 
                     <!-- Tecnologie -->
                     <div class="technologies d-flex">
-                        <h4 class="text-warning mr-3">Technologies_</h4>
-                        <div class="badge-wrapper ml-3">
+                        <h4 class="text-light text-center mr-3 bordo-nero">Technologies_</h4>
+                        <div class="badge-wrapper text-center ml-3">
                             <span class="badge" v-for="element in this.store.confArray[this.precontatore][5]"
-                                :style="'background-color:' + element[1] + ';color:white'">{{
+                                :style="'background-color: transparent; border:2px solid ' + element[1] + ';color:white'">{{
                                     element[0] }}</span>
                         </div>
                     </div>
@@ -456,29 +476,48 @@ export default {
                 :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-1">
                 <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
-                    :class="store.confArray[store.contatore][2] ? 'ombra-titolo _my-title-works' : 'bordo-bianco title'">{{
+                    :class="store.confArray[store.contatore][2] ? 'bordo-nero ombra-titolo _my-title-works' : 'bordo-bianco title'">
+                    {{
                         this.store.confArray[this.store.contatore][2] ?
                         this.store.confArray[this.store.contatore][3][0] :
                         this.store.confArray[this.store.contatore][0] }}</h1>
-                <span :style="store.confArray[this.store.contatore][2] ? 'color:white' : 'width:auto; text-align:center'"
+                <span
+                    v-if="this.store.confArray[this.store.contatore][0] != 'extra' && this.store.confArray[this.store.contatore][0] != 'contacts'"
+                    :style="store.confArray[this.store.contatore][2] ? 'color:white' : 'width:70%; text-align:center'"
                     :class="store.confArray[this.store.contatore][2] ? '_my-span-works' : ''" class=" _my_container-main">{{
                         this.store.confArray[this.store.contatore][1] }}</span>
+
+                <a class="_youtube" target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
+                    v-if="this.store.confArray[this.store.contatore][0] == 'extra'"><i class="fa-brands fa-youtube"></i>
+                    Youtube Channel</a>
+
+                <div class="social-container" v-if="this.store.confArray[this.store.contatore][0] == 'contacts'">
+                    <a href="https://www.google.com/intl/it/gmail/about" target="_blank" class="gmail bordo-bianco"><i
+                            class="fa-regular fa-envelope"></i>
+                        Danesh.Shahpouri@gmail.com</a>
+                    <a href="https://github.com/DaneshShahpouri" target="_blank" class="github bordo-bianco">
+                        <i class="fa-brands fa-github"></i>
+                        Github/DaneshShahpouri</a>
+                    <a href="https://www.linkedin.com/in/danesh-shahpouri/" target="_blank" class="linkedin bordo-bianco">
+                        <i class="fa-brands fa-linkedin"></i>
+                        linkedin/Danesh-shahpouri</a>
+                </div>
 
 
                 <div v-if="this.store.confArray[this.store.contatore][2] && this.store.contatoreOrizzontale == 0"
                     class="container" id="spansecondario">
                     <!-- Tipo -->
                     <div class="types d-flex mb-3">
-                        <h4 class="text-danger">Type_</h4>
-                        <h3 class="text-light ms-3">{{ this.store.confArray[this.store.contatore][6].name }}</h3>
+                        <h4 class="text-light bordo-nero">Type_</h4>
+                        <h3 class="text-light bordo-nero ms-3">{{ this.store.confArray[this.store.contatore][6].name }}</h3>
                     </div>
 
                     <!-- Tecnologie -->
                     <div class="technologies d-flex">
-                        <h4 class="text-warning mr-3">Technologies_</h4>
-                        <div class="badge-wrapper ml-3">
+                        <h4 class="text-light text-center mr-3 bordo-nero">Technologies_</h4>
+                        <div class="badge-wrapper text-center ml-3">
                             <span class="badge" v-for="element in this.store.confArray[this.store.contatore][5]"
-                                :style="'background-color:' + element[1] + ';color:white'">{{
+                                :style="'background-color: transparent; border:2px solid ' + element[1] + ';color:white'">{{
                                     element[0] }}</span>
                         </div>
                     </div>
@@ -495,28 +534,47 @@ export default {
                 :class="store.confArray[postcontatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-post">
                 <h1 :style="store.confArray[this.postcontatore][2] ? 'color:white' : ''"
-                    :class="store.confArray[postcontatore][2] ? 'ombra-titolo _my-title-works' : 'bordo-bianco title'">{{
+                    :class="store.confArray[postcontatore][2] ? 'bordo-nero ombra-titolo _my-title-works' : 'bordo-bianco title'">
+                    {{
                         this.store.confArray[this.postcontatore][2] ?
                         this.store.confArray[this.postcontatore][3][0] :
                         this.store.confArray[this.postcontatore][0] }}</h1>
-                <span :style="store.confArray[this.postcontatore][2] ? 'color:white' : 'width:auto; text-align:center'"
+                <span
+                    v-if="this.store.confArray[this.postcontatore][0] != 'extra' && this.store.confArray[this.postcontatore][0] != 'contacts'"
+                    :style="store.confArray[this.postcontatore][2] ? 'color:white' : 'width:70%; text-align:center'"
                     :class="store.confArray[this.postcontatore][2] ? '_my-span-works' : ''" class="_my_container-main">{{
                         this.store.confArray[this.postcontatore][1] }}</span>
+
+                <a class="_youtube" target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
+                    v-if="this.store.confArray[this.postcontatore][0] == 'extra'"><i class="fa-brands fa-youtube"></i>
+                    Youtube Channel</a>
+
+                <div class="social-container" v-if="this.store.confArray[this.postcontatore][0] == 'contacts'">
+                    <a href="https://www.google.com/intl/it/gmail/about" target="_blank" class="gmail bordo-bianco"><i
+                            class="fa-regular fa-envelope"></i>
+                        Danesh.Shahpouri@gmail.com</a>
+                    <a href="https://github.com/DaneshShahpouri" target="_blank" class="github bordo-bianco">
+                        <i class="fa-brands fa-github"></i>
+                        Github/DaneshShahpouri</a>
+                    <a href="https://www.linkedin.com/in/danesh-shahpouri/" target="_blank" class="linkedin bordo-bianco">
+                        <i class="fa-brands fa-linkedin"></i>
+                        linkedin/Danesh-shahpouri</a>
+                </div>
 
                 <div v-if="this.store.confArray[this.postcontatore][2] && this.store.contatoreOrizzontale == 0"
                     class="container" id="spansecondario">
                     <!-- Tipo -->
                     <div class="types d-flex mb-3">
-                        <h4 class="text-danger">Type_</h4>
-                        <h3 class="text-light ms-3">{{ this.store.confArray[this.postcontatore][6].name }}</h3>
+                        <h4 class="text-light bordo-nero">Type_</h4>
+                        <h3 class="text-light bordo-nero ms-3">{{ this.store.confArray[this.postcontatore][6].name }}</h3>
                     </div>
 
                     <!-- Tecnologie -->
                     <div class="technologies d-flex">
-                        <h4 class="text-warning ml-3">Technologies_</h4>
-                        <div class="badge-wrapper ml-3">
+                        <h4 class="text-light text-center ml-3 bordo-nero">Technologies_</h4>
+                        <div class="badge-wrapper text-center ml-3">
                             <span class="badge" v-for="element in this.store.confArray[this.postcontatore][5]"
-                                :style="'background-color:' + element[1] + ';color:white'">{{
+                                :style="'background-color: transparent; border:2px solid ' + element[1] + ';color:white'">{{
                                     element[0] }}</span>
                         </div>
                     </div>
@@ -535,30 +593,50 @@ export default {
                     :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                     id="container-left">
                     <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
-                        :class="store.confArray[store.contatore][2] ? 'ombra-titolo _my-title-works' : 'bordo-bianco title'">
+                        :class="store.confArray[store.contatore][2] ? 'bordo-nero ombra-titolo _my-title-works' : 'bordo-bianco title'">
                         {{
                             this.store.confArray[this.store.contatore][2] ?
                             this.store.confArray[this.store.contatore][3][0] :
                             this.store.confArray[this.store.contatore][0] }}</h1>
-                    <span :style="store.confArray[this.postcontatore][2] ? 'color:white' : 'width:auto; text-align:center'"
-                        :class="store.confArray[this.postcontatore][2] ? '_my-span-works' : ''"
+                    <span
+                        v-if="this.store.confArray[this.store.contatore][0] != 'extra' && this.store.confArray[this.store.contatore][0] != 'contacts'"
+                        :style="store.confArray[this.store.contatore][2] ? 'color:white' : 'width:70%; text-align:center'"
+                        :class="store.confArray[this.store.contatore][2] ? '_my-span-works' : ''"
                         class=" _my_container-main">{{
                             this.store.confArray[this.store.contatore][1] }}</span>
+
+                    <a class="_youtube" target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
+                        v-if="this.store.confArray[this.store.contatore][0] == 'extra'"><i class="fa-brands fa-youtube"></i>
+                        Youtube Channel</a>
+
+                    <div class="social-container" v-if="this.store.confArray[this.store.contatore][0] == 'contacts'">
+                        <a href="https://www.google.com/intl/it/gmail/about" target="_blank" class="gmail bordo-bianco"><i
+                                class="fa-regular fa-envelope"></i>
+                            Danesh.Shahpouri@gmail.com</a>
+                        <a href="https://github.com/DaneshShahpouri" target="_blank" class="github bordo-bianco">
+                            <i class="fa-brands fa-github"></i>
+                            Github/DaneshShahpouri</a>
+                        <a href="https://www.linkedin.com/in/danesh-shahpouri/" target="_blank"
+                            class="linkedin bordo-bianco">
+                            <i class="fa-brands fa-linkedin"></i>
+                            linkedin/Danesh-shahpouri</a>
+                    </div>
 
                     <div v-if="this.store.confArray[this.store.contatore][2] && this.precontatoreOrizzontale == 0"
                         class="container" id="spansecondario">
                         <!-- Tipo -->
                         <div class="types d-flex mb-3">
-                            <h4 class="text-danger">Type_</h4>
-                            <h3 class="text-light ms-3">{{ this.store.confArray[this.store.contatore][6].name }}</h3>
+                            <h4 class="text-light bordo-nero">Type_</h4>
+                            <h3 class="text-light bordo-nero ms-3">{{ this.store.confArray[this.store.contatore][6].name }}
+                            </h3>
                         </div>
 
                         <!-- Tecnologie -->
                         <div class="technologies d-flex">
-                            <h4 class="text-warning mr-3">Technologies_</h4>
-                            <div class="badge-wrapper ml-3">
+                            <h4 class="text-light text-center mr-3 bordo-nero">Technologies_</h4>
+                            <div class="badge-wrapper text-center ml-3">
                                 <span class="badge" v-for="element in this.store.confArray[this.store.contatore][5]"
-                                    :style="'background-color:' + element[1] + ';color:white'">{{
+                                    :style="'background-color: transparent; border:2px solid ' + element[1] + ';color:white'">{{
                                         element[0] }}</span>
                             </div>
                         </div>
@@ -569,13 +647,32 @@ export default {
                 :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-left">
                 <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
-                    :class="store.confArray[store.contatore][2] ? 'ombra-titolo _my-title-works' : 'bordo-bianco title'">{{
+                    :class="store.confArray[store.contatore][2] ? 'bordo-nero ombra-titolo _my-title-works' : 'bordo-bianco title'">
+                    {{
                         this.store.confArray[this.store.contatore][2] ?
                         this.store.confArray[this.store.contatore][3][0] :
                         this.store.confArray[this.store.contatore][0] }}</h1>
-                <span :style="store.confArray[this.store.contatore][2] ? 'color:white' : 'width:auto; text-align:center'"
+                <span
+                    v-if="this.store.confArray[this.store.contatore][0] != 'extra' && this.store.confArray[this.store.contatore][0] != 'contacts'"
+                    :style="store.confArray[this.store.contatore][2] ? 'color:white' : 'width:70%; text-align:center'"
                     :class="store.confArray[this.postcontatore][2] ? '_my-span-works' : ''" class=" _my_container-main">{{
                         this.store.confArray[this.store.contatore][1] }}</span>
+
+                <a class="_youtube" target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
+                    v-if="this.store.confArray[this.store.contatore][0] == 'extra'"><i class="fa-brands fa-youtube"></i>
+                    Youtube Channel</a>
+
+                <div class="social-container" v-if="this.store.confArray[this.store.contatore][0] == 'contacts'">
+                    <a href="https://www.google.com/intl/it/gmail/about" target="_blank" class="gmail bordo-bianco"><i
+                            class="fa-regular fa-envelope"></i>
+                        Danesh.Shahpouri@gmail.com</a>
+                    <a href="https://github.com/DaneshShahpouri" target="_blank" class="github bordo-bianco">
+                        <i class="fa-brands fa-github"></i>
+                        Github/DaneshShahpouri</a>
+                    <a href="https://www.linkedin.com/in/danesh-shahpouri/" target="_blank" class="linkedin bordo-bianco">
+                        <i class="fa-brands fa-linkedin"></i>
+                        linkedin/Danesh-shahpouri</a>
+                </div>
             </div>
 
 
@@ -590,14 +687,18 @@ export default {
                 :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-right">
                 <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
-                    :class="store.confArray[store.contatore][2] ? 'ombra-titolo _my-title-works' : 'bordo-bianco title'">{{
+                    :class="store.confArray[store.contatore][2] ? 'bordo-nero ombra-titolo _my-title-works' : 'bordo-bianco title'">
+                    {{
                         this.store.confArray[this.store.contatore][2] ?
                         this.store.confArray[this.store.contatore][3][0] :
                         this.store.confArray[this.store.contatore][0] }}</h1>
-                <span
-                    :style="store.confArray[this.store.contatore][2] ? 'width:45%;color:white;margin:4em; padding:1em;' : 'width:auto; text-align:center'"
+                <span v-if="this.store.confArray[this.store.contatore][0] != 'extra'"
+                    :style="store.confArray[this.store.contatore][2] ? 'width:45%;color:white;margin:4em; padding:1em;' : 'width:70%; text-align:center'"
                     class=" _my_container-main">{{
                         this.store.confArray[this.store.contatore][1] }}</span>
+
+                <a class="_youtube" target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
+                    v-else><i class="fa-brands fa-youtube"></i> Youtube Channel</a>
             </div>
             <!-- screen -->
 
@@ -640,6 +741,7 @@ export default {
     ._my-title-works {
         margin-left: 3em;
         margin-top: 1em;
+        margin-bottom: 0;
         text-transform: uppercase;
 
         @media screen and (max-width: 991px) {
@@ -656,6 +758,7 @@ export default {
     ._my-span-works {
         width: 45%;
         margin: 1em 3em;
+        margin-top: 0;
         padding: 1em;
         text-align: center;
         border-bottom: 1px solid white;
@@ -675,10 +778,11 @@ export default {
 
     .img-wrapper {
         height: 100%;
-        height: 80vh;
+        height: 75vh;
         display: flex;
         padding: 0em;
         //padding-top: 1em;
+        margin-top: 1em;
         background-color: #000;
         border-radius: 10px;
         //border: 1px solid white;
@@ -688,10 +792,18 @@ export default {
             width: 100%;
             object-fit: contain;
         }
+
+        @media screen and (max-width: 652px) {
+            height: 100vh;
+            margin-top: 0em;
+        }
     }
 
     // CounterIndexPrincipale
     .counter-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         position: absolute;
         bottom: 5%;
         left: 50%;
@@ -708,7 +820,10 @@ export default {
         }
 
         &#mini-counter {
-            top: 6%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: 7.5%;
 
             .border-circle-mini-wrapper {
                 cursor: pointer;
@@ -744,6 +859,10 @@ export default {
                 box-shadow: 0px 0px 6px white;
                 opacity: 1;
             }
+
+            @media screen and (max-width: 652px) {
+                display: none;
+            }
         }
 
         .border-circle-wrapper {
@@ -774,7 +893,7 @@ export default {
                 opacity: 0;
                 transform: translateX(-50%);
 
-                font-size: 0.8em;
+                font-size: 0.65em;
             }
 
             &:hover {
@@ -797,6 +916,10 @@ export default {
             height: 10px;
             border-radius: 0%;
             opacity: 1;
+        }
+
+        @media screen and (max-width: 652px) {
+            display: none;
         }
     }
 
@@ -868,6 +991,11 @@ export default {
     .bordo-bianco {
         text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
             1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+    }
+
+    .bordo-nero {
+        text-shadow: 2px 0 black, -2px 0 black, 0 2px black, 0 -2px black,
+            1px 1px black, -1px -1px black, 1px -1px black, -1px 1px black;
     }
 
     .bordo-bianco-transparente {
@@ -1064,5 +1192,73 @@ export default {
 
     // transform: translateX(-100%);
 
+}
+
+._youtube {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    text-shadow: -1px 1px 2px black;
+    transition: all .4s;
+
+    i {
+        font-size: 2em;
+        margin-right: .5em;
+    }
+
+    &:hover {
+        text-shadow: -1px 1px 2px white;
+        color: red;
+    }
+}
+
+.social-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+
+    a {
+        text-decoration: none;
+        color: black;
+        padding: .2em 1em;
+        border-radius: 15px;
+        transition: all .3s;
+
+        i {
+            font-size: 1.5em;
+            margin-right: .5em;
+        }
+
+        @media screen and (max-width:480px) {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .gmail {
+        &:hover {
+            font-weight: 600;
+            color: rgb(255, 81, 0);
+        }
+    }
+
+    .github {
+        &:hover {
+            font-weight: 600;
+            color: rgb(195, 0, 255);
+        }
+    }
+
+    .linkedin {
+        &:hover {
+            font-weight: 600;
+            color: rgb(0, 81, 255)
+        }
+    }
 }
 </style>

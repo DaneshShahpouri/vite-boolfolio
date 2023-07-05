@@ -6,6 +6,7 @@ export default {
             store,
             openSearchBar: false,
             tempProjects: [],
+            openByugerMenu: false,
         }
     },
     methods: {
@@ -47,7 +48,17 @@ export default {
         search() {
             this.store.isLoading = true;
             this.getTempProjects();
+        },
+
+        openMenu() {
+            if (this.openByugerMenu) {
+                this.openByugerMenu = false
+            } else {
+                this.openByugerMenu = true
+            }
         }
+
+
     },
     mounted() {
 
@@ -72,20 +83,27 @@ export default {
                 </div>
 
                 <div id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <router-link class="nav-link" :to="{ name: 'home' }">Home</router-link>
+                    <div class="_burger-menu">
+                        <i class="fa-solid fa-bars" v-if="this.openByugerMenu == false" @click="this.openMenu()"></i>
+                        <i class="fa-solid fa-xmark" v-else @click="this.openMenu()"></i>
+                    </div>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0" :style="this.openByugerMenu ? 'display:flex' : ''">
+                        <li class="nav-item" @click="this.openByugerMenu = false">
+                            <router-link class="nav-link text-center" :to="{ name: 'home' }"
+                                :style="this.store.currentPage == 'home' ? 'color:white' : ''">Home</router-link>
                         </li>
-                        <li class="nav-item">
-                            <router-link class="nav-link" :to="{ name: 'projects' }">Projects</router-link>
+                        <li class="nav-item" @click="this.openByugerMenu = false">
+                            <router-link class="nav-link text-center" :to="{ name: 'works' }"
+                                :style="this.store.currentPage == 'projects' ? 'color:black' : ''"
+                                :class="this.store.currentPage == 'projects' ? 'router-link-active router-link-exact-active' : ''">Works</router-link>
                         </li>
-                        <li class="nav-item">
-                            <router-link class="nav-link" :to="{ name: 'about' }">About</router-link>
+                        <li class="nav-item" @click="this.openByugerMenu = false">
+                            <router-link class="nav-link text-center" :to="{ name: 'about' }"
+                                :style="this.store.currentPage == 'about' ? 'color:black' : ''">About</router-link>
                         </li>
                     </ul>
                     <div class="cerchio" id="cerchio-nav"
-                        :class="this.$route.name == 'home' ? 'cerchio-centro' : ' cerchio-centro-pr'"
-                        :style="this.$route.name == 'home' ? 'width: 400px;height: 300px;top: -315%;left: 50%;' : 'width: 400px;height: 300px;top: -345%;left: 50%;'">
+                        :class="this.$route.name == 'home' ? 'cerchio-centro' : ' cerchio-centro-pr'">
                     </div>
                     <div class="layout-black" :style="this.$route.name == 'home' ? '' : ''"></div>
                 </div>
@@ -97,9 +115,9 @@ export default {
                         <i class="fa-solid fa-magnifying-glass"></i></button>
                     <div class="btn-filler" :style="this.store.searchInput != '' ? 'height: 50px;' : ''"></div>
                     <div class="modulo-search">
-                        <input v-model="store.searchInput" class="form-control me-2" type="search" placeholder="Search"
+                        <input v-model="store.searchInput" class="form-control" type="search" placeholder="Search"
                             aria-label="Search" :class="this.store.confArray[2] ? 'input-light' : 'input-dark'"
-                            :style="store.searchInput == '' ? '' : 'opacity:1'">
+                            :style="store.searchInput == '' ? '' : 'opacity:1'" @input="search()">
                     </div>
                 </form>
                 <div v-else class="btn-wrapper"></div>
@@ -118,10 +136,31 @@ export default {
     position: fixed;
 }
 
+._burger-menu {
+    display: none;
+    position: relative;
+    z-index: 3;
+
+    i {
+        color: rgb(134, 134, 134);
+        font-size: 2em;
+        cursor: pointer;
+        transition: all .5s;
+
+
+    }
+
+    @media screen and (max-width: 510px) {
+
+        display: flex;
+    }
+}
+
 .navbar-wrapper {
     top: 0;
     width: 100%;
     margin: 0 auto;
+    background: linear-gradient(white 30%, transparent);
 
     nav {
         left: 0%;
@@ -164,11 +203,39 @@ export default {
                 animation: logoanimation 20s infinite;
             }
 
+            @media screen and (max-width: 510px) {
+                left: -25px
+            }
+
         }
 
         .navbar-nav {
             position: relative;
-            z-index: 2
+            flex-flow: row;
+            z-index: 3;
+
+
+            @media screen and (max-width: 510px) {
+                display: none;
+                flex-direction: column;
+                gap: 1em;
+                position: absolute;
+                background-color: #000000;
+                padding: 1em;
+                border-radius: 10px;
+                font-size: 1.1em;
+                left: 50%;
+                top: 110%;
+                transform: translateX(-50%);
+
+                li {
+                    padding: 0 3em;
+
+                    a {
+                        color: rgb(225, 225, 225);
+                    }
+                }
+            }
         }
 
         .cerchio {
@@ -193,17 +260,43 @@ export default {
             background-color: #000000;
             scale: 1;
 
+            @media screen and (max-width: 652px) {
+                top: -330%
+            }
+
+            @media screen and (max-width: 522px) {
+                width: 310px;
+                height: 280px;
+            }
+
+            @media screen and (max-width: 410px) {
+                width: 300px;
+                height: 270px;
+            }
+
         }
 
         .cerchio-centro-pr {
             width: 400px;
             height: 300px;
-            top: -305%;
+            top: -345%;
             left: 50%;
             transform: translateX(-50%);
             background-color: #ffffffe4;
             border: 1px solid black;
             scale: 1;
+
+            @media screen and (max-width: 522px) {
+                top: -330%;
+                width: 310px;
+                height: 280px;
+            }
+
+            @media screen and (max-width: 410px) {
+                top: -330%;
+                width: 280px;
+                height: 270px;
+            }
         }
 
 
@@ -237,7 +330,22 @@ export default {
 
 
         .nav-link.router-link-active {
-            font-weight: 500;
+            font-weight: 800;
+            position: relative;
+
+            &:after {
+                content: '';
+                position: absolute;
+                bottom: -5px;
+                left: 50%;
+
+                width: 5px;
+                height: 5px;
+                border: 1px solid black;
+                background-color: rgb(255, 255, 255);
+                rotate: 45deg;
+            }
+
         }
 
     }
@@ -287,6 +395,8 @@ export default {
             transition: all 1s;
             animation: 1s appear;
         }
+
+
     }
 }
 
@@ -305,13 +415,33 @@ export default {
         color: rgb(20, 2, 2);
         opacity: 0;
         transition: all 1s;
+        margin-right: 2em;
 
-        border: none;
+        border: 1px solid black;
 
         &:focus {
             opacity: 1;
             box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.126);
             outline: none
+        }
+    }
+
+    @media screen and (max-width: 900px) {
+        width: calc(100vw - 55px);
+        position: absolute;
+        top: 70px;
+        right: -55px;
+
+        .input-light {
+            background-color: rgba(255, 255, 255, 0.813);
+            margin-right: 0;
+        }
+    }
+
+    @media screen and (max-width: 900px) {
+
+        .input-light {
+            opacity: 1;
         }
     }
 }
