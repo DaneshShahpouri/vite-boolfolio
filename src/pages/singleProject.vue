@@ -39,7 +39,7 @@ export default {
 </script>
 
 <template>
-    <div class="_single-project-wrapper">
+    <div class="_single-project-wrapper" v-if="this.singleProject != ''">
 
         <div class="_single-project">
             <h1 class="">{{ singleProject.title }}</h1>
@@ -87,6 +87,12 @@ export default {
             <router-link class="btn btn-outline-dark" :to="{ name: 'works' }">Go back</router-link>
         </div>
 
+    </div>
+    <div v-else class="container" id="loading-screen">
+        <div class="icon-wrapper">
+            <i class="fa-solid fa-circle-notch"></i>
+        </div>
+        <span>Loading..</span>
     </div>
     <AppFooter></AppFooter>
 </template>
@@ -201,5 +207,22 @@ export default {
         }
     }
 
+}
+
+#loading-screen {
+    height: 50vh;
+    widows: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .icon-wrapper {
+        i {
+            font-size: 2em;
+            color: rgb(39, 39, 39);
+            animation: loading 1s linear infinite;
+        }
+    }
 }
 </style>

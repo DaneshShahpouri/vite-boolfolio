@@ -304,6 +304,16 @@
     }
 }
 
+@keyframes appear-bg {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: .8;
+    }
+}
+
 @keyframes logoanimation {
     0% {
         border-radius: 0%;

@@ -7,41 +7,47 @@ export default {
             openSearchBar: false,
             tempProjects: [],
             openByugerMenu: false,
+            isAwait: false,
         }
     },
     methods: {
         getTempProjects() {
-            this.store.projects = [];
-            axios.get('http://127.0.0.1:8000/api/projects').then(response => {
+            if (this.isAwait == false) {
+                this.isAwait = true
+                axios.get('http://127.0.0.1:8000/api/projects').then(response => {
+                    this.store.projects = [];
 
-                this.store.isLoading = true;
-                if (response.data.results) {
+                    this.store.isLoading = true;
+                    if (response.data.results) {
 
-                    response.data.results.forEach(project => {
-                        if (this.store.searchInput != '') {
+                        response.data.results.forEach(project => {
+                            if (this.store.searchInput != '') {
 
-                            if (project.title.toLocaleLowerCase().includes(this.store.searchInput.toLocaleLowerCase())) {
+                                if (project.title.toLocaleLowerCase().includes(this.store.searchInput.toLocaleLowerCase())) {
+                                    this.store.projects.push(project)
+
+                                }
+                            } else {
                                 this.store.projects.push(project)
-
                             }
-                        } else {
-                            this.store.projects.push(project)
+                        });
+
+                        this.store.isSuccess = true;
+
+                        if (this.store.projects.length == 0) {
+                            this.store.isSuccess = false
                         }
-                    });
 
-                    this.store.isSuccess = true;
+                    } else {
 
-                    if (this.store.projects.length == 0) {
-                        this.store.isSuccess = false
+                        this.store.isSuccess = false;
                     }
 
-                } else {
+                    this.store.isLoading = false
+                    this.isAwait = false
 
-                    this.store.isSuccess = false;
-                }
-
-                this.store.isLoading = false
-            });
+                });
+            }
 
         },
 
@@ -84,22 +90,25 @@ export default {
 
                 <div id="navbarSupportedContent">
                     <div class="_burger-menu">
-                        <i class="fa-solid fa-bars" v-if="this.openByugerMenu == false" @click="this.openMenu()"></i>
-                        <i class="fa-solid fa-xmark" v-else @click="this.openMenu()"></i>
+                        <i class="fa-solid fa-bars" v-if="this.openByugerMenu == false" @click="this.openMenu()"
+                            :style="this.store.currentPage == 'home' ? 'color:white' : 'color:black'"></i>
+                        <i class="fa-solid fa-xmark" v-else @click="this.openMenu()"
+                            :style="this.store.currentPage == 'home' ? 'color:white' : 'color:black'"></i>
                     </div>
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0" :style="this.openByugerMenu ? 'display:flex' : ''">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0"
+                        :style="this.openByugerMenu ? (this.store.currentPage != 'home' ? 'display:flex; background-color:rgb(242, 242, 242)' : 'display:flex; background-color:black') : ''">
                         <li class="nav-item" @click="this.openByugerMenu = false">
                             <router-link class="nav-link text-center" :to="{ name: 'home' }"
-                                :style="this.store.currentPage == 'home' ? 'color:white' : ''">Home</router-link>
+                                :style="this.store.currentPage == 'home' ? 'color:white' : 'color:rgb(100, 100, 100)'">Home</router-link>
                         </li>
                         <li class="nav-item" @click="this.openByugerMenu = false">
                             <router-link class="nav-link text-center" :to="{ name: 'works' }"
-                                :style="this.store.currentPage == 'projects' ? 'color:black' : ''"
+                                :style="this.store.currentPage == 'projects' ? 'color:black' : 'color:rgb(100, 100, 100)'"
                                 :class="this.store.currentPage == 'projects' ? 'router-link-active router-link-exact-active' : ''">Works</router-link>
                         </li>
                         <li class="nav-item" @click="this.openByugerMenu = false">
                             <router-link class="nav-link text-center" :to="{ name: 'about' }"
-                                :style="this.store.currentPage == 'about' ? 'color:black' : ''">About</router-link>
+                                :style="this.store.currentPage == 'about' ? 'color:black' : 'color:rgb(100, 100, 100)'">About</router-link>
                         </li>
                     </ul>
                     <div class="cerchio" id="cerchio-nav"
@@ -108,7 +117,7 @@ export default {
                     <div class="layout-black" :style="this.$route.name == 'home' ? '' : ''"></div>
                 </div>
 
-                <form v-if="this.$route.name == 'projects'" class="btn-wrapper" action="" @submit.prevent=" search()">
+                <form v-if="this.$route.name == 'works'" class="btn-wrapper" action="" @submit.prevent=" false">
                     <button class="btn btn-search" type="submit"
                         :class="store.confArray[store.contatoreBackground][2] || store.searchInput != '' ? 'btn-dark' : 'btn-light'"
                         :style="store.confArray[store.contatoreBackground][2] || store.searchInput != '' ? 'border:1px solid white' : ''">
@@ -117,7 +126,7 @@ export default {
                     <div class="modulo-search">
                         <input v-model="store.searchInput" class="form-control" type="search" placeholder="Search"
                             aria-label="Search" :class="this.store.confArray[2] ? 'input-light' : 'input-dark'"
-                            :style="store.searchInput == '' ? '' : 'opacity:1'" @input="search()">
+                            :style="store.searchInput == '' ? '' : 'opacity:1'" @change="search()">
                     </div>
                 </form>
                 <div v-else class="btn-wrapper"></div>
@@ -142,15 +151,12 @@ export default {
     z-index: 3;
 
     i {
-        color: rgb(134, 134, 134);
         font-size: 2em;
         cursor: pointer;
         transition: all .5s;
-
-
     }
 
-    @media screen and (max-width: 510px) {
+    @media screen and (max-width: 550px) {
 
         display: flex;
     }
@@ -215,24 +221,42 @@ export default {
             z-index: 3;
 
 
-            @media screen and (max-width: 510px) {
+            @media screen and (max-width: 550px) {
                 display: none;
                 flex-direction: column;
-                gap: 1em;
+                //gap: 1em;
                 position: absolute;
                 background-color: #000000;
-                padding: 1em;
-                border-radius: 10px;
+                //padding: 1em;
+                border-radius: 8px;
                 font-size: 1.1em;
                 left: 50%;
-                top: 110%;
+                top: 90%;
                 transform: translateX(-50%);
+                overflow: hidden;
+                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+
+                animation: appear-burger .5s;
 
                 li {
-                    padding: 0 3em;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 60vw;
+                    height: 8.5vh;
+                    //padding: 1em 7.5em;
+
+                    //border: 1px solid rgb(224, 224, 224);
+                    //border-collapse: collapse;
+                    cursor: pointer;
+
+                    &:active {
+                        background-color: rgb(72, 72, 72);
+                    }
 
                     a {
-                        color: rgb(225, 225, 225);
+                        color: rgb(229, 229, 229);
+                        font-size: 1.4em;
                     }
                 }
             }
@@ -282,8 +306,8 @@ export default {
             top: -345%;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #ffffffe4;
-            border: 1px solid black;
+            background-color: rgb(242 242 242);
+            border: 1px solid rgb(255, 255, 255);
             scale: 1;
 
             @media screen and (max-width: 522px) {
@@ -333,18 +357,18 @@ export default {
             font-weight: 800;
             position: relative;
 
-            &:after {
-                content: '';
-                position: absolute;
-                bottom: -5px;
-                left: 50%;
+            // &:after {
+            //     content: '';
+            //     position: absolute;
+            //     bottom: -5px;
+            //     left: 50%;
 
-                width: 5px;
-                height: 5px;
-                border: 1px solid black;
-                background-color: rgb(255, 255, 255);
-                rotate: 45deg;
-            }
+            //     width: 5px;
+            //     height: 5px;
+            //     border: 1px solid black;
+            //     background-color: rgb(255, 255, 255);
+            //     rotate: 45deg;
+            //}
 
         }
 
@@ -387,7 +411,7 @@ export default {
             position: absolute;
             left: 0;
             bottom: 0;
-            background: rgb(2, 143, 198);
+            background: rgb(3, 3, 3);
             width: 50px;
             height: 0px;
             border-radius: 8px;
@@ -427,7 +451,7 @@ export default {
     }
 
     @media screen and (max-width: 900px) {
-        width: calc(100vw - 55px);
+        width: calc(100vw - 35px);
         position: absolute;
         top: 70px;
         right: -55px;
@@ -457,6 +481,18 @@ export default {
 
     100% {
         opacity: 1;
+    }
+}
+
+@keyframes appear-burger {
+    0% {
+        opacity: 0;
+        height: 0vh
+    }
+
+    100% {
+        opacity: 1;
+        height: 25.5vh
     }
 }
 </style>

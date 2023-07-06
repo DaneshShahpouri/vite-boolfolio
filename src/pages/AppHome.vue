@@ -40,7 +40,8 @@ export default {
                             project.title,
                             'http://127.0.0.1:8000/storage/' + project.cover_image,
                         ],
-                        project.layout_color
+                        project.layout_color,
+
                     ];
 
                     let Eltechnologies = [];
@@ -56,6 +57,7 @@ export default {
 
                     newEl.push(Eltechnologies),
                         newEl.push(project.type)
+                    newEl.push(project.year)
 
 
 
@@ -80,6 +82,7 @@ export default {
             let cerchioHiddenTop = document.getElementById('cerchio-top-hidden')
             let cerchioHiddenBottom = document.getElementById('cerchio-bottom-hidden')
             let bg = document.getElementById('background')
+            let layout = document.getElementById('layout')
 
 
             switch (this.store.confArray[this.store.contatoreBackground][0]) {
@@ -101,20 +104,34 @@ export default {
                     break;
             }
 
+
+
             if (this.store.confArray[this.store.contatoreBackground][2] == true) {
                 // navbar.classList.add('navbar-dark')
                 //Cerchi nascossti
-                cerchioHiddenBottom.style = "display:block; background-color:rgba(0, 0, 0, 0) ;bottom:-40%; right:20%; scale:2.4;border:1px solid white"
-                cerchioHiddenTop.style = "display:block; background-color:rgba(0, 0, 0, 0) ;top:-10%; left:10%; scale:2.8; border:1px solid white"
-                //---------------
+                console.log(this.store.contatoreBackgroundOrizzontale)
+                if (this.store.contatoreBackgroundOrizzontale == 0) {
 
-                cerchioTop.style = "top:-10%; left:10%; scale:2.8; border:1px solid white"
-                cerchioBottom.style = "bottom:-40%; right:20%; scale:2.4;border:1px solid white"
-                cerchioTop.classList.add('cerchio-top-animazione')
-                cerchioTop.style = "background-color:rgba(255, 255, 255, 0.1); border:none;"
-                cerchioBottom.style = "background-color:rgba(255, 255, 255, 0.1);border:none;"
-                cerchioBottom.classList.add('cerchio-bottom-animazione')
-                bg.style = "background-color:" + this.store.confArray[this.store.contatoreBackground][4];
+                    cerchioHiddenBottom.style = "display:block; background-color:rgba(0, 0, 0, 0) ;bottom:-40%; right:20%; scale:2.4;border:1px solid white"
+                    cerchioHiddenTop.style = "display:block; background-color:rgba(0, 0, 0, 0) ;top:-10%; left:10%; scale:2.8; border:1px solid white"
+                    //---------------
+
+                    cerchioTop.style = "top:-10%; left:10%; scale:2.8; border:1px solid white"
+                    cerchioBottom.style = "bottom:-40%; right:20%; scale:2.4;border:1px solid white"
+                    cerchioTop.classList.add('cerchio-top-animazione')
+                    cerchioTop.style = "background-color:rgba(255, 255, 255, 0.1); border:none;"
+                    cerchioBottom.style = "background-color:rgba(255, 255, 255, 0.1);border:none;"
+                    cerchioBottom.classList.add('cerchio-bottom-animazione')
+                    bg.style = "background-color:" + this.store.confArray[this.store.contatoreBackground][4];
+
+                } else {
+                    cerchioTop.style = 'opacity:0';
+                    cerchioHiddenTop.style = 'opacity:0';
+                    cerchioBottom.style = 'opacity:0';
+                    cerchioHiddenBottom.style = 'opacity:0';
+                    bg.style = 'background-color:#05050a;'
+                    layout.style = 'opacity:0; background-color:#05050a;';
+                }
 
             } else if (cerchioTop.classList.contains('cerchio-top-animazione')) {
                 // navbar.classList.remove('navbar-dark')
@@ -333,8 +350,8 @@ export default {
                 }, 900)
 
                 this.store.contatoreBackground = index
-                this.backgroundAnimation();
                 this.store.contatoreBackgroundOrizzontale = 0;
+                this.backgroundAnimation();
 
             }
         },
@@ -424,7 +441,7 @@ export default {
                 :class="store.confArray[precontatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-pre">
                 <h1 :style="store.confArray[this.precontatore][2] ? 'color:white' : ''"
-                    :class="store.confArray[this.precontatore][2] ? 'bordo-nero ombra-titolo _my-title-works' : 'bordo-bianco title ombra-titolo'">
+                    :class="store.confArray[this.precontatore][2] ? '_my-title-works' : 'bordo-bianco title ombra-titolo'">
                     {{
                         this.store.confArray[this.precontatore][2] ?
                         this.store.confArray[this.precontatore][3][0] :
@@ -435,7 +452,7 @@ export default {
                     :class="store.confArray[this.precontatore][2] ? '_my-span-works' : ''" class="_my_container-main">{{
                         this.store.confArray[this.precontatore][1] }}</span>
 
-                <a class="_youtube" target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
+                <a class="_youtube " target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
                     v-if="this.store.confArray[this.precontatore][0] == 'extra'"><i class="fa-brands fa-youtube"></i>
                     Youtube Channel</a>
 
@@ -451,23 +468,29 @@ export default {
                         linkedin/Danesh-shahpouri</a>
                 </div>
 
-                <div v-if="this.store.confArray[this.precontatore][2] && this.store.contatoreOrizzontale == 0"
-                    class="container" id="spansecondario">
-                    <!-- Tipo -->
-                    <div class="types d-flex mb-3">
-                        <h4 class="text-light bordo-nero">Type_</h4>
-                        <h3 class="text-light bordo-nero ms-3">{{ this.store.confArray[this.precontatore][6].name }}</h3>
-                    </div>
+                <div v-if="this.store.confArray[this.precontatore][2] && (this.store.contatoreOrizzontale == 0 || this.precontatoreOrizzontale == 0)"
+                    class="_container" id="spansecondario">
 
                     <!-- Tecnologie -->
-                    <div class="technologies d-flex">
-                        <h4 class="text-light text-center mr-3 bordo-nero">Technologies_</h4>
+                    <div class="technologies d-flex mb-3">
+                        <h4 class="text-light text-center mr-3">Technologies_</h4>
                         <div class="badge-wrapper text-center ml-3">
                             <span class="badge" v-for="element in this.store.confArray[this.precontatore][5]"
                                 :style="'background-color: transparent; border:2px solid ' + element[1] + ';color:white'">{{
                                     element[0] }}</span>
                         </div>
                     </div>
+                    <!-- Tipo -->
+                    <div class="types d-flex mb-3">
+                        <h4 class="text-light">Type_</h4>
+                        <h3 class="text-light ms-3">{{ this.store.confArray[this.precontatore][6].name }}</h3>
+                    </div>
+                    <!-- Anno -->
+                    <div class="_years d-flex align-items-center mb-3">
+                        <h4 class="text-light">Year_</h4>
+                        <h5 class="text-light ms-4">{{ this.store.confArray[this.precontatore][7] }}</h5>
+                    </div>
+
                 </div>
             </div>
 
@@ -476,7 +499,7 @@ export default {
                 :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-1">
                 <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
-                    :class="store.confArray[store.contatore][2] ? 'bordo-nero ombra-titolo _my-title-works' : 'bordo-bianco title'">
+                    :class="store.confArray[store.contatore][2] ? '_my-title-works' : 'bordo-bianco title'">
                     {{
                         this.store.confArray[this.store.contatore][2] ?
                         this.store.confArray[this.store.contatore][3][0] :
@@ -487,7 +510,7 @@ export default {
                     :class="store.confArray[this.store.contatore][2] ? '_my-span-works' : ''" class=" _my_container-main">{{
                         this.store.confArray[this.store.contatore][1] }}</span>
 
-                <a class="_youtube" target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
+                <a class="_youtube " target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
                     v-if="this.store.confArray[this.store.contatore][0] == 'extra'"><i class="fa-brands fa-youtube"></i>
                     Youtube Channel</a>
 
@@ -505,23 +528,31 @@ export default {
 
 
                 <div v-if="this.store.confArray[this.store.contatore][2] && this.store.contatoreOrizzontale == 0"
-                    class="container" id="spansecondario">
-                    <!-- Tipo -->
-                    <div class="types d-flex mb-3">
-                        <h4 class="text-light bordo-nero">Type_</h4>
-                        <h3 class="text-light bordo-nero ms-3">{{ this.store.confArray[this.store.contatore][6].name }}</h3>
-                    </div>
-
+                    class="_container" id="spansecondario">
                     <!-- Tecnologie -->
-                    <div class="technologies d-flex">
-                        <h4 class="text-light text-center mr-3 bordo-nero">Technologies_</h4>
+                    <div class="technologies d-flex mb-3">
+                        <h4 class="text-light text-center mr-3">Technologies_</h4>
                         <div class="badge-wrapper text-center ml-3">
                             <span class="badge" v-for="element in this.store.confArray[this.store.contatore][5]"
                                 :style="'background-color: transparent; border:2px solid ' + element[1] + ';color:white'">{{
                                     element[0] }}</span>
                         </div>
                     </div>
+                    <!-- Tipo -->
+                    <div class="types d-flex mb-3">
+                        <h4 class="text-light">Type_</h4>
+                        <h3 class="text-light ms-3">{{ this.store.confArray[this.store.contatore][6].name }}</h3>
+                    </div>
+                    <!-- Anno -->
+                    <div class="_years d-flex align-items-center mb-3">
+                        <h4 class="text-light">Year_</h4>
+                        <h5 class="text-light ms-4">{{ this.store.confArray[this.store.contatore][7] }}</h5>
+                    </div>
+
+
+
                 </div>
+
             </div>
             <div v-else class="__container p-center 'justify-content-center align-items-center" id="container-1">
                 <div class="container img-wrapper">
@@ -534,7 +565,7 @@ export default {
                 :class="store.confArray[postcontatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-post">
                 <h1 :style="store.confArray[this.postcontatore][2] ? 'color:white' : ''"
-                    :class="store.confArray[postcontatore][2] ? 'bordo-nero ombra-titolo _my-title-works' : 'bordo-bianco title'">
+                    :class="store.confArray[postcontatore][2] ? '_my-title-works' : 'bordo-bianco title'">
                     {{
                         this.store.confArray[this.postcontatore][2] ?
                         this.store.confArray[this.postcontatore][3][0] :
@@ -545,7 +576,7 @@ export default {
                     :class="store.confArray[this.postcontatore][2] ? '_my-span-works' : ''" class="_my_container-main">{{
                         this.store.confArray[this.postcontatore][1] }}</span>
 
-                <a class="_youtube" target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
+                <a class="_youtube " target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
                     v-if="this.store.confArray[this.postcontatore][0] == 'extra'"><i class="fa-brands fa-youtube"></i>
                     Youtube Channel</a>
 
@@ -561,22 +592,28 @@ export default {
                         linkedin/Danesh-shahpouri</a>
                 </div>
 
-                <div v-if="this.store.confArray[this.postcontatore][2] && this.store.contatoreOrizzontale == 0"
-                    class="container" id="spansecondario">
-                    <!-- Tipo -->
-                    <div class="types d-flex mb-3">
-                        <h4 class="text-light bordo-nero">Type_</h4>
-                        <h3 class="text-light bordo-nero ms-3">{{ this.store.confArray[this.postcontatore][6].name }}</h3>
-                    </div>
-
+                <div v-if="this.store.confArray[this.postcontatore][2] && (this.store.contatoreOrizzontale == 0 || this.precontatoreOrizzontale == 0)"
+                    class="_container" id="spansecondario">
                     <!-- Tecnologie -->
-                    <div class="technologies d-flex">
-                        <h4 class="text-light text-center ml-3 bordo-nero">Technologies_</h4>
+                    <div class="technologies d-flex mb-3">
+                        <h4 class="text-light text-center mr-3">Technologies_</h4>
                         <div class="badge-wrapper text-center ml-3">
                             <span class="badge" v-for="element in this.store.confArray[this.postcontatore][5]"
                                 :style="'background-color: transparent; border:2px solid ' + element[1] + ';color:white'">{{
                                     element[0] }}</span>
                         </div>
+                    </div>
+
+                    <!-- Tipo -->
+                    <div class="types d-flex mb-3">
+                        <h4 class="text-light">Type_</h4>
+                        <h3 class="text-light ms-3">{{ this.store.confArray[this.postcontatore][6].name }}</h3>
+                    </div>
+
+                    <!-- Anno -->
+                    <div class="_years d-flex align-items-center mb-3">
+                        <h4 class="text-light">Year_</h4>
+                        <h5 class="text-light ms-4">{{ this.store.confArray[this.postcontatore][7] }}</h5>
                     </div>
                 </div>
             </div>
@@ -593,7 +630,7 @@ export default {
                     :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                     id="container-left">
                     <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
-                        :class="store.confArray[store.contatore][2] ? 'bordo-nero ombra-titolo _my-title-works' : 'bordo-bianco title'">
+                        :class="store.confArray[store.contatore][2] ? '_my-title-works' : 'bordo-bianco title'">
                         {{
                             this.store.confArray[this.store.contatore][2] ?
                             this.store.confArray[this.store.contatore][3][0] :
@@ -605,7 +642,7 @@ export default {
                         class=" _my_container-main">{{
                             this.store.confArray[this.store.contatore][1] }}</span>
 
-                    <a class="_youtube" target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
+                    <a class="_youtube " target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
                         v-if="this.store.confArray[this.store.contatore][0] == 'extra'"><i class="fa-brands fa-youtube"></i>
                         Youtube Channel</a>
 
@@ -623,22 +660,28 @@ export default {
                     </div>
 
                     <div v-if="this.store.confArray[this.store.contatore][2] && this.precontatoreOrizzontale == 0"
-                        class="container" id="spansecondario">
-                        <!-- Tipo -->
-                        <div class="types d-flex mb-3">
-                            <h4 class="text-light bordo-nero">Type_</h4>
-                            <h3 class="text-light bordo-nero ms-3">{{ this.store.confArray[this.store.contatore][6].name }}
-                            </h3>
-                        </div>
-
+                        class="_container" id="spansecondario">
                         <!-- Tecnologie -->
-                        <div class="technologies d-flex">
-                            <h4 class="text-light text-center mr-3 bordo-nero">Technologies_</h4>
+                        <div class="technologies d-flex mb-3">
+                            <h4 class="text-light text-center mr-3">Technologies_</h4>
                             <div class="badge-wrapper text-center ml-3">
                                 <span class="badge" v-for="element in this.store.confArray[this.store.contatore][5]"
                                     :style="'background-color: transparent; border:2px solid ' + element[1] + ';color:white'">{{
                                         element[0] }}</span>
                             </div>
+                        </div>
+
+                        <!-- Tipo -->
+                        <div class="types d-flex mb-3">
+                            <h4 class="text-light">Type_</h4>
+                            <h3 class="text-light ms-3">{{ this.store.confArray[this.store.contatore][6].name }}
+                            </h3>
+                        </div>
+
+                        <!-- Anno -->
+                        <div class="_years d-flex align-items-center mb-3">
+                            <h4 class="text-light">Year_</h4>
+                            <h5 class="text-light ms-4">{{ this.store.confArray[this.store.contatore][7] }}</h5>
                         </div>
                     </div>
                 </div>
@@ -647,7 +690,7 @@ export default {
                 :class="store.confArray[store.contatore][2] ? '' : 'justify-content-center align-items-center p-5'"
                 id="container-left">
                 <h1 :style="store.confArray[this.store.contatore][2] ? 'color:white' : ''"
-                    :class="store.confArray[store.contatore][2] ? 'bordo-nero ombra-titolo _my-title-works' : 'bordo-bianco title'">
+                    :class="store.confArray[store.contatore][2] ? '_my-title-works' : 'bordo-bianco title'">
                     {{
                         this.store.confArray[this.store.contatore][2] ?
                         this.store.confArray[this.store.contatore][3][0] :
@@ -658,7 +701,7 @@ export default {
                     :class="store.confArray[this.postcontatore][2] ? '_my-span-works' : ''" class=" _my_container-main">{{
                         this.store.confArray[this.store.contatore][1] }}</span>
 
-                <a class="_youtube" target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
+                <a class="_youtube " target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
                     v-if="this.store.confArray[this.store.contatore][0] == 'extra'"><i class="fa-brands fa-youtube"></i>
                     Youtube Channel</a>
 
@@ -697,7 +740,7 @@ export default {
                     class=" _my_container-main">{{
                         this.store.confArray[this.store.contatore][1] }}</span>
 
-                <a class="_youtube" target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
+                <a class="_youtube " target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
                     v-else><i class="fa-brands fa-youtube"></i> Youtube Channel</a>
             </div>
             <!-- screen -->
@@ -705,12 +748,16 @@ export default {
             <!-- Background -->
             <div class="background" id="background">
                 <div class="background layout-black bg-dark" id="layout"
-                    :style="this.store.contatoreBackgroundOrizzontale != 0 ? 'opacity:1; transition:all 1s' : 'opacity:0;transition:all 1s'">
+                    :style="this.store.contatoreBackgroundOrizzontale != 0 ? 'opacity:0.2; transition:all 1s' : 'opacity:0;transition:all 1s'">
                 </div>
                 <div class="cerchio hidden top-showroom" id="cerchio-top-hidden"></div>
                 <div class="cerchio hidden bottom-showroom" id="cerchio-bottom-hidden"></div>
                 <div class="cerchio top-showroom" id="cerchio-top"></div>
-                <div class="cerchio bottom-showroom" id="cerchio-bottom"></div>
+                <div class="cerchio bottom-showroom" id="cerchio-bottom">
+                    <img :src="this.store.confArray[this.store.contatore][3] ? this.store.confArray[this.store.contatore][3][this.postcontatoreOrizzontale] : 'https://images.unsplash.com/photo-1617309215127-ebeb4eddeba5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'"
+                        alt="" :style="this.store.confArray[this.store.contatoreBackground][2] ? 'opacity:.8' : 'opacity:0'"
+                        v-if="this.store.confArray[this.store.contatore][3]">
+                </div>
                 <!-- <div class="cerchio cerchio-centro" id="cerchio-nav"></div> -->
             </div>
 
@@ -739,10 +786,10 @@ export default {
     }
 
     ._my-title-works {
-        margin-left: 3em;
+        margin-left: 2.2em;
         margin-top: 1em;
         margin-bottom: 0;
-        text-transform: uppercase;
+        //text-transform: uppercase;
 
         @media screen and (max-width: 991px) {
             text-align: center;
@@ -943,7 +990,7 @@ export default {
 
         @media screen and (max-width: 492px) {
             display: flex;
-            justify-content: center;
+            justify-content: start;
             flex-direction: column;
             padding-top: 5em;
             padding: 3em 1.5em;
@@ -1040,6 +1087,21 @@ export default {
             transition: all .5s;
         }
 
+        #cerchio-bottom {
+            overflow: hidden;
+
+            img {
+                opacity: .5;
+                object-fit: cover;
+                width: 100%;
+                animation: appear-bg 1s;
+                transition: all 1s;
+                scale: 1.1;
+                -webkit-mask-image: -webkit-gradient(linear, left top, left bottom,
+                        from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 1)));
+            }
+        }
+
     }
 
     .cerchio-top-animazione {
@@ -1099,7 +1161,7 @@ export default {
 #spansecondario {
     position: relative;
     width: 100%;
-    padding: 2em 5em;
+    padding: .5em 5em;
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -3,15 +3,30 @@
 @import "bootstrap/scss/bootstrap";
 
 * {
-    font-family: 'Montserrat', sans-serif;
+    // font-family: 'Rowdies', cursive;
+    // font-family: 'Montserrat', sans-serif;
 }
 
 h1,
-h2,
-h3,
-h4,
-h6 {
+h2 {
     font-family: 'Rubik Moonrocks', cursive;
     font-family: 'Modak', cursive;
 
+}
+
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Rowdies', cursive;
+}
+
+._my-title-works {
+    font-family: 'Lobster', cursive;
+    font-family: 'Rowdies', cursive;
+
+}
+
+#logo {
+    font-family: 'Montserrat', sans-serif;
 }

@@ -69,7 +69,7 @@ export default {
         //console.log(this.urlImg + ptoject.cover_image)
         //console.log(this.tempProjects)
         this.store.currentPage = 'projects';
-        console.log(this.store.currentPage)
+        //console.log(this.store.currentPage)
     },
 
     updated() {
@@ -91,7 +91,7 @@ export default {
     <!-- Schermo Principale -->
     <div v-if="this.store.isLoading == false && this.store.isSuccess == true">
 
-        <div class="container d-flex justify-content-start align-item-center flex-column ">
+        <div class="container d-flex justify-content-start align-item-center flex-column _cards-container">
 
             <div class="_mycard" v-for="project in this.store.projects">
 
@@ -125,81 +125,114 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-._mycard {
-    width: 100%;
-    padding: 2em;
-    border-bottom: 1px solid rgb(42, 42, 42);
+._cards-container {
 
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: 3em;
 
-    .img-wrapper {
-        width: 25vw;
-        height: 25vw;
-        //max-width: 400px;
-        //max-height: 400px;
-        min-width: 250px;
-        min-height: 250px;
-        //border-radius: 50%;
-        overflow: hidden;
-        border: 1px solid black;
-
-        rotate: 45deg;
-        margin: 2em;
-        aspect-ratio: 1 / 1;
-
-        img {
-            width: 100%;
-            height: 100%;
-            scale: 1.2;
-            object-fit: cover;
-            object-position: center;
-            rotate: -45deg;
-        }
-    }
-
-    .text-info {
-        width: 50vw;
-        height: 100%;
-        margin-left: 2em;
+    ._mycard {
+        width: 100%;
+        padding: 4em 2em;
+        border-bottom: 1px solid rgb(42, 42, 42);
+        //margin: 2em 0em;
         display: flex;
-        flex-direction: column;
-        justify-content: s;
-        gap: 1em;
+        justify-content: space-around;
+        align-items: center;
+        gap: 3em;
+        //overflow: hidden;
+        transition: all .5s;
 
-        ._mycard-title {
-            text-transform: uppercase;
-            color: black;
-            // font-size: 2.2em;
-            border-bottom: 1px solid black;
-            text-align: center;
-            margin-top: 1em;
+        .img-wrapper {
+            width: 25vw;
+            height: 25vw;
+            max-width: 300px;
+            max-height: 300px;
+            min-width: 250px;
+            min-height: 250px;
+            //border-radius: 50%;
+            overflow: hidden;
+            border: 1px solid black;
+            //background-color: white;
+
+            rotate: 45deg;
+            //margin: 2em;
+            aspect-ratio: 1 / 1;
+
+            img {
+                width: 100%;
+                height: 100%;
+                scale: 1.45;
+                object-fit: cover;
+                object-position: center;
+                rotate: -45deg;
+            }
         }
-
-        ._mycard-body {
-            display: flex;
-            flex-direction: column;
-            gap: 1em;
-        }
-
-        ._mycard-text {
-            color: rgb(64, 63, 63);
-        }
-    }
-
-    @media screen and (max-width: 772px) {
-        flex-direction: column;
-        gap: 1em;
 
         .text-info {
-            margin-left: 0em;
-            width: 70vw;
+            width: calc(50% - 2em);
+            height: 100%;
+            margin-left: 2em;
+            display: flex;
+            flex-direction: column;
+
+            gap: 1em;
+
+            ._mycard-title {
+                text-transform: uppercase;
+                color: black;
+                // font-size: 2.2em;
+                border-bottom: 1px solid black;
+                text-align: center;
+                margin-top: 1em;
+            }
+
+            ._mycard-body {
+                display: flex;
+                flex-direction: column;
+                gap: 1em;
+            }
+
+            ._mycard-text {
+                color: rgb(64, 63, 63);
+            }
+        }
+
+        @media screen and (max-width: 772px) {
+            flex-direction: column;
+            gap: 1em;
+
+            .text-info {
+                margin-left: 0em;
+                width: 70vw;
+
+                ._mycard-title {
+                    margin-top: 2.5em;
+                }
+            }
         }
     }
-}
 
+
+
+
+    .bordo-bianco {
+        text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
+            1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+    }
+
+    .bordo-bianco-transparente {
+        text-shadow: 2px 0 #ffffff38, -2px 0 #ffffff38, 0 2px #ffffff38, 0 -2px #ffffff38,
+            1px 1px #ffffff38, -1px -1px #ffffff38, 1px -1px #ffffff38, -1px 1px #ffffff38;
+    }
+
+    &:hover>._mycard {
+        opacity: .7;
+
+
+    }
+
+    ._mycard:hover {
+        opacity: 1;
+    }
+}
 
 #loading-screen {
     height: 50vh;
@@ -216,15 +249,5 @@ export default {
             animation: loading 1s linear infinite;
         }
     }
-}
-
-.bordo-bianco {
-    text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
-        1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
-}
-
-.bordo-bianco-transparente {
-    text-shadow: 2px 0 #ffffff38, -2px 0 #ffffff38, 0 2px #ffffff38, 0 -2px #ffffff38,
-        1px 1px #ffffff38, -1px -1px #ffffff38, 1px -1px #ffffff38, -1px 1px #ffffff38;
 }
 </style>
