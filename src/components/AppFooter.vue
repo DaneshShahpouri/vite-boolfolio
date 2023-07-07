@@ -43,7 +43,7 @@ export default {
 
         <footer class="footer-container">
 
-            <div class="row">
+            <div class="row justify-content-between">
                 <div class="col-6 col-md-2 mb-3">
                     <h5 class="text-light">Site</h5>
                     <ul class="nav flex-column">
@@ -59,7 +59,7 @@ export default {
                     </ul>
                 </div>
 
-                <div class="col-md-9 offset-md-1 mb-3">
+                <div class="col-md-8 offset-md-1 mb-3">
                     <form @submit.prevent="this.inviaEmail()">
                         <h5 class="text-light">Scrivimi una email</h5>
                         <div class="d-flex flex-column flex-sm-col w-100 gap-2">

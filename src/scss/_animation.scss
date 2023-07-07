@@ -229,6 +229,27 @@
     }
 }
 
+// @keyframes cerchio-bottom {
+
+//     0% {
+//         bottom: -40vh;
+//         right: 20%;
+//         scale: 2.4;
+//     }
+
+//     50% {
+//         bottom: -41vh;
+//         right: 21%;
+//         scale: 2.6;
+//     }
+
+//     100% {
+//         bottom: -40vh;
+//         right: 20%;
+//         scale: 2.4;
+//     }
+
+// }
 @keyframes cerchio-bottom {
 
     0% {
@@ -237,11 +258,6 @@
         scale: 2.4;
     }
 
-    50% {
-        bottom: -41vh;
-        right: 21%;
-        scale: 2.6;
-    }
 
     100% {
         bottom: -40vh;

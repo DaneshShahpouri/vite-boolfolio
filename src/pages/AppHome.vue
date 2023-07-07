@@ -83,6 +83,8 @@ export default {
             let cerchioHiddenBottom = document.getElementById('cerchio-bottom-hidden')
             let bg = document.getElementById('background')
             let layout = document.getElementById('layout')
+            let layoutbg = document.getElementById('bottom-layer')
+            let imgBg = document.getElementById('img-bg')
 
 
             switch (this.store.confArray[this.store.contatoreBackground][0]) {
@@ -109,7 +111,7 @@ export default {
             if (this.store.confArray[this.store.contatoreBackground][2] == true) {
                 // navbar.classList.add('navbar-dark')
                 //Cerchi nascossti
-                console.log(this.store.contatoreBackgroundOrizzontale)
+                //console.log(this.store.contatoreBackgroundOrizzontale)
                 if (this.store.contatoreBackgroundOrizzontale == 0) {
 
                     cerchioHiddenBottom.style = "display:block; background-color:rgba(0, 0, 0, 0) ;bottom:-40%; right:20%; scale:2.4;border:1px solid white"
@@ -122,7 +124,25 @@ export default {
                     cerchioTop.style = "background-color:rgba(255, 255, 255, 0.1); border:none;"
                     cerchioBottom.style = "background-color:rgba(255, 255, 255, 0.1);border:none;"
                     cerchioBottom.classList.add('cerchio-bottom-animazione')
+                    //img background works
                     bg.style = "background-color:" + this.store.confArray[this.store.contatoreBackground][4];
+                    if (imgBg) {
+                        imgBg.style = 'opacity:0'
+                    }
+                    setTimeout(() => {
+                        layoutbg.style = 'background: linear-gradient(#ffffff00 60%, ' + this.store.confArray[this.store.contatore][4] + ' 85%);opacity : 0';
+                    }, 0)
+                    setTimeout(() => {
+                        if (imgBg) {
+                            imgBg.style = 'opacity:1'
+                        }
+                    }, 1000)
+
+                    setTimeout(() => {
+                        layoutbg.style = 'background: linear-gradient(#ffffff00 60%, ' + this.store.confArray[this.store.contatoreBackground][4] + ' 85%);opacity : 1'
+                    }, 800)
+
+
 
                 } else {
                     cerchioTop.style = 'opacity:0';
@@ -144,6 +164,8 @@ export default {
                 cerchioHiddenBottom.classList.add('cerchio-bottom-animazione-hidden')
                 //---------------
                 bg.style = "background-color:white";
+
+                layoutbg.style = 'opacity:0';
             } else {
                 // navbar.classList.remove('navbar-dark')
                 //Cerchi nascossti
@@ -153,6 +175,8 @@ export default {
                 cerchioHiddenBottom.classList.add('cerchio-bottom-animazione-hidden')
                 //---------------
                 bg.style = "background-color:white";
+
+                layoutbg.style = 'opacity:0';
             }
 
             if (this.store.confArray[this.store.contatoreBackground][0] == 'extra') {
@@ -385,7 +409,7 @@ export default {
         this.store.contatoreBackground = 0;
         this.backgroundAnimation();
         this.store.currentPage = 'home';
-        console.log(this.store.currentPage)
+        //console.log(this.store.currentPage)
 
     },
 
@@ -754,9 +778,14 @@ export default {
                 <div class="cerchio hidden bottom-showroom" id="cerchio-bottom-hidden"></div>
                 <div class="cerchio top-showroom" id="cerchio-top"></div>
                 <div class="cerchio bottom-showroom" id="cerchio-bottom">
-                    <img :src="this.store.confArray[this.store.contatore][3] ? this.store.confArray[this.store.contatore][3][this.postcontatoreOrizzontale] : 'https://images.unsplash.com/photo-1617309215127-ebeb4eddeba5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'"
-                        alt="" :style="this.store.confArray[this.store.contatoreBackground][2] ? 'opacity:.8' : 'opacity:0'"
-                        v-if="this.store.confArray[this.store.contatore][3]">
+                    <div class="_bottom-slayer" id="bottom-layer"></div>
+                    <div class="_bottom-slayer-bottom"
+                        :style="this.store.confArray[this.store.contatoreBackground][4] ? 'background-color:' + this.store.confArray[this.store.contatoreBackground][4] : ''">
+                    </div>
+                    <img id="img-bg"
+                        :src="this.store.confArray[this.store.contatore][3] ? this.store.confArray[this.store.contatore][3][1] : 'https://images.unsplash.com/photo-1617309215127-ebeb4eddeba5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'"
+                        alt="" :style="this.store.confArray[this.store.contatoreBackground][2] ? 'opacity:1' : 'opacity:0'"
+                        v-if="this.store.confArray[this.store.contatore][2]">
                 </div>
                 <!-- <div class="cerchio cerchio-centro" id="cerchio-nav"></div> -->
             </div>
@@ -787,18 +816,18 @@ export default {
 
     ._my-title-works {
         margin-left: 2.2em;
-        margin-top: 1em;
+        margin-top: .4em;
         margin-bottom: 0;
         //text-transform: uppercase;
 
         @media screen and (max-width: 991px) {
             text-align: center;
-            margin-left: 0em;
-            margin-top: 1em;
+            margin-left: 0.2em;
+            margin-top: 0.3em;
         }
 
         @media screen and (max-width: 492px) {
-            margin-top: 1.2em;
+            margin-top: 1em;
         }
     }
 
@@ -816,7 +845,7 @@ export default {
             padding: 1em;
         }
 
-        @media screen and (max-width: 492px) {
+        @media screen and (max-width: 562px) {
             padding: .5em;
             margin: .5em;
             font-size: .9em;
@@ -859,7 +888,7 @@ export default {
         height: 30px;
 
         &:hover .border-circle-wrapper .overspan {
-            opacity: .3;
+            opacity: .6;
         }
 
         &:hover .border-circle.active+.overspan {
@@ -935,12 +964,16 @@ export default {
                 display: inline;
                 text-align: center;
                 text-transform: capitalize;
-                font-size: .8em;
+                font-size: 1npem;
                 transition: all .7s;
                 opacity: 0;
                 transform: translateX(-50%);
 
                 font-size: 0.65em;
+
+                @media screen and (max-width:1200px) {
+                    opacity: .7
+                }
             }
 
             &:hover {
@@ -1089,16 +1122,49 @@ export default {
 
         #cerchio-bottom {
             overflow: hidden;
+            -webkit-mask-image: -webkit-radial-gradient(50% 50%, 280px 280px, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+
+            @media screen and (max-width: 652px) {
+                -webkit-mask-image: -webkit-radial-gradient(50% 60%, 270px 250px, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+
+            }
+
+            ._bottom-slayer {
+                position: absolute;
+                bottom: 230px;
+                width: 100vh;
+                height: 170px;
+                z-index: 1;
+                opacity: 1;
+                transition: all 1s;
+
+                @media screen and (max-width: 652px) {
+                    display: none;
+                }
+            }
+
+            ._bottom-slayer-bottom {
+                position: absolute;
+                bottom: 10px;
+                width: 100vh;
+                height: 226px;
+                z-index: 1;
+                opacity: 1;
+                transition: all 1s;
+
+                @media screen and (max-width: 652px) {
+                    display: none;
+                }
+            }
 
             img {
-                opacity: .5;
+                opacity: 1;
                 object-fit: cover;
                 width: 100%;
                 animation: appear-bg 1s;
                 transition: all 1s;
-                scale: 1.1;
-                -webkit-mask-image: -webkit-gradient(linear, left top, left bottom,
-                        from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 1)));
+                scale: 1;
+
             }
         }
 
@@ -1172,25 +1238,39 @@ export default {
     }
 
     @media screen and (max-width: 992px) {
-        align-items: center;
-        margin-top: 3em;
+        align-items: flex-start;
+        display: flex;
+        flex-direction: row;
+        gap: 2em;
 
         .badge-wrapper {
             width: 100%;
         }
-    }
-
-    @media screen and (max-width: 492px) {
-
-        padding: 1em 1em;
-        margin-top: 1em;
 
         h4 {
-            font-size: 1em;
+            font-size: 1.3em;
         }
 
         h3 {
-            font-size: 1.4em;
+            font-size: 1.3em;
+        }
+    }
+
+    @media screen and (max-width: 552px) {
+
+        padding: 1em 1em;
+        margin-top: .5em;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0em;
+
+        h4 {
+            font-size: 1.2em;
+        }
+
+        h3 {
+            font-size: 1.2em;
         }
     }
 }

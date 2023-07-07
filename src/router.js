@@ -4,7 +4,12 @@ import AppProjects from './pages/AppProjects.vue';
 import AppAbout from './pages/AppAbout.vue';
 import singleProject from './pages/singleProject.vue';
 
+
 const router = createRouter({
+    scrollBehavior(to, from, savedPosition) {
+        // always scroll to top
+        return { top: 0 }
+    },
     history: createWebHistory(),
     routes: [
         {

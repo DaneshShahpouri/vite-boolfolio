@@ -113,7 +113,7 @@ export default {
         align-items: start;
 
         h1 {
-            width: 100%;
+            width: calc(100% - 3em);
             margin-left: 3em;
 
             @media screen and (max-width: 772px) {

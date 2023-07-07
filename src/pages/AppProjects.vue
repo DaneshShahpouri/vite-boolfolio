@@ -115,7 +115,7 @@ export default {
     <!-- Nessun Risultato -->
     <div v-if="this.store.isLoading == false && this.store.isSuccess == false">
         <div class="container d-flex justify-content-center align-item-center flex-wrap p-2">
-            <div class="alert alert-danger w-100" role="alert">
+            <div class="alert alert-dark w-100" role="alert">
                 Spiacenti, Nessun Risultato.
             </div>
         </div>
@@ -141,28 +141,29 @@ export default {
         transition: all .5s;
 
         .img-wrapper {
-            width: 25vw;
-            height: 25vw;
-            max-width: 300px;
+            width: 35vw;
+            height: 20vw;
+            max-width: 450px;
             max-height: 300px;
             min-width: 250px;
-            min-height: 250px;
+            min-height: 200px;
             //border-radius: 50%;
+            border-radius: 8px;
             overflow: hidden;
             border: 1px solid black;
             //background-color: white;
 
-            rotate: 45deg;
+
             //margin: 2em;
             aspect-ratio: 1 / 1;
 
             img {
                 width: 100%;
                 height: 100%;
-                scale: 1.45;
+                scale: 1;
                 object-fit: cover;
                 object-position: center;
-                rotate: -45deg;
+
             }
         }
 
@@ -223,14 +224,18 @@ export default {
             1px 1px #ffffff38, -1px -1px #ffffff38, 1px -1px #ffffff38, -1px 1px #ffffff38;
     }
 
-    &:hover>._mycard {
-        opacity: .7;
+
+    @media screen and (min-width: 882px) {
+
+        &:hover>._mycard {
+            opacity: .7;
 
 
-    }
+        }
 
-    ._mycard:hover {
-        opacity: 1;
+        ._mycard:hover {
+            opacity: 1;
+        }
     }
 }
 

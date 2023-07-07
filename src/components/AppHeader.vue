@@ -435,7 +435,7 @@ export default {
     z-index: 2;
 
     .input-light {
-        background-color: rgba(245, 245, 245, 0.598);
+        background-color: rgba(245, 245, 245, 0.8);
         color: rgb(20, 2, 2);
         opacity: 0;
         transition: all 1s;
@@ -465,6 +465,7 @@ export default {
     @media screen and (max-width: 900px) {
 
         .input-light {
+            background-color: rgb(255, 255, 255);
             opacity: 1;
         }
     }
