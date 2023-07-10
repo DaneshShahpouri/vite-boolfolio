@@ -114,7 +114,7 @@ export default {
                     <div class="cerchio" id="cerchio-nav"
                         :class="this.$route.name == 'home' ? 'cerchio-centro' : ' cerchio-centro-pr'">
                     </div>
-                    <div class="layout-black" :style="this.$route.name == 'home' ? '' : ''"></div>
+                    <!-- <div class="layout-black" :style="this.$route.name == 'home' ? '' : ''"></div> -->
                 </div>
 
                 <form v-if="this.$route.name == 'works'" class="btn-wrapper" action="" @submit.prevent=" false">
@@ -132,6 +132,8 @@ export default {
                 <div v-else class="btn-wrapper"></div>
             </div>
         </nav>
+
+        <div class="_bg-navbar" v-if="this.store.currentPage != 'home'"></div>
     </div>
     <!-- Modulo Ricerca -->
 </template>
@@ -139,6 +141,7 @@ export default {
 <style  lang="scss" scoped>
 ._absolute {
     position: absolute;
+    z-index: 5;
 }
 
 ._fixed {
@@ -495,5 +498,16 @@ export default {
         opacity: 1;
         height: 25.5vh
     }
+}
+
+._bg-navbar {
+    background: linear-gradient(white 0%, rgba(0, 0, 0, 0));
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 1;
+
 }
 </style>

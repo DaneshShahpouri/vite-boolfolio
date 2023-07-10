@@ -15,6 +15,7 @@ export default {
             postcontatoreOrizzontale: 1,
 
             isAnimated: false,
+            contatoreProva: 0,
         }
     },
 
@@ -77,111 +78,121 @@ export default {
         //Gestisce le animazioni dello sfondo e alcuni caratteri estetici
         //Praticamente modulare, serve solo l'html di riferimento.
         backgroundAnimation() {
-            let cerchioTop = document.getElementById('cerchio-top')
-            let cerchioBottom = document.getElementById('cerchio-bottom')
-            let cerchioHiddenTop = document.getElementById('cerchio-top-hidden')
-            let cerchioHiddenBottom = document.getElementById('cerchio-bottom-hidden')
-            let bg = document.getElementById('background')
-            let layout = document.getElementById('layout')
-            let layoutbg = document.getElementById('bottom-layer')
-            let imgBg = document.getElementById('img-bg')
+            if (this.store.currentPage == 'home') {
+
+                let cerchioTop = document.getElementById('cerchio-top')
+                let cerchioBottom = document.getElementById('cerchio-bottom')
+                let cerchioHiddenTop = document.getElementById('cerchio-top-hidden')
+                let cerchioHiddenBottom = document.getElementById('cerchio-bottom-hidden')
+                let bg = document.getElementById('background')
+                let layout = document.getElementById('layout')
+                let layoutbg = document.getElementById('bottom-layer')
+                let imgBg = document.getElementById('img-bg')
 
 
-            switch (this.store.confArray[this.store.contatoreBackground][0]) {
-                case 'Danesh Shahpouri':
-                    cerchioTop.style = "top:-30%; left:-20%;scale:3;"
-                    cerchioBottom.style = "bottom:0%; right:0%; scale:2;"
-                    break;
-                case 'works':
-                    cerchioTop.style = "top:-10%; left:10%; scale:2.8;"
-                    cerchioBottom.style = "bottom:-40%; right:20%; scale:2.4;"
-                    break;
-                case 'contacts':
-                    cerchioTop.style = "top:-10%; left:10%; scale:2.8;"
-                    cerchioBottom.style = "bottom:-40%; right:20%; scale:2.4;"
-                    break;
-                case 'extra':
-                    cerchioTop.style = "top:-30%; left:50%;scale:2.4;"
-                    cerchioBottom.style = "bottom:0%; right:40%; scale:2.3;"
-                    break;
-            }
-
-
-
-            if (this.store.confArray[this.store.contatoreBackground][2] == true) {
-                // navbar.classList.add('navbar-dark')
-                //Cerchi nascossti
-                //console.log(this.store.contatoreBackgroundOrizzontale)
-                if (this.store.contatoreBackgroundOrizzontale == 0) {
-
-                    cerchioHiddenBottom.style = "display:block; background-color:rgba(0, 0, 0, 0) ;bottom:-40%; right:20%; scale:2.4;border:1px solid white"
-                    cerchioHiddenTop.style = "display:block; background-color:rgba(0, 0, 0, 0) ;top:-10%; left:10%; scale:2.8; border:1px solid white"
-                    //---------------
-
-                    cerchioTop.style = "top:-10%; left:10%; scale:2.8; border:1px solid white"
-                    cerchioBottom.style = "bottom:-40%; right:20%; scale:2.4;border:1px solid white"
-                    cerchioTop.classList.add('cerchio-top-animazione')
-                    cerchioTop.style = "background-color:rgba(255, 255, 255, 0.1); border:none;"
-                    cerchioBottom.style = "background-color:rgba(255, 255, 255, 0.1);border:none;"
-                    cerchioBottom.classList.add('cerchio-bottom-animazione')
-                    //img background works
-                    bg.style = "background-color:" + this.store.confArray[this.store.contatoreBackground][4];
-                    if (imgBg) {
-                        imgBg.style = 'opacity:0'
-                    }
-                    setTimeout(() => {
-                        layoutbg.style = 'background: linear-gradient(#ffffff00 60%, ' + this.store.confArray[this.store.contatore][4] + ' 85%);opacity : 0';
-                    }, 0)
-                    setTimeout(() => {
-                        if (imgBg) {
-                            imgBg.style = 'opacity:1'
-                        }
-                    }, 1000)
-
-                    setTimeout(() => {
-                        layoutbg.style = 'background: linear-gradient(#ffffff00 60%, ' + this.store.confArray[this.store.contatoreBackground][4] + ' 85%);opacity : 1'
-                    }, 800)
-
-
-
-                } else {
-                    cerchioTop.style = 'opacity:0';
-                    cerchioHiddenTop.style = 'opacity:0';
-                    cerchioBottom.style = 'opacity:0';
-                    cerchioHiddenBottom.style = 'opacity:0';
-                    bg.style = 'background-color:#05050a;'
-                    layout.style = 'opacity:0; background-color:#05050a;';
+                switch (this.store.confArray[this.store.contatoreBackground][0]) {
+                    case 'Welcome':
+                        cerchioTop.style = "top:-30%; left:-20%;scale:3;"
+                        cerchioBottom.style = "bottom:0%; right:0%; scale:2;"
+                        break;
+                    case 'works':
+                        cerchioTop.style = "top:-10%; left:10%; scale:2.8;"
+                        cerchioBottom.style = "bottom:-40%; right:20%; scale:2.4;"
+                        break;
+                    case 'contacts':
+                        cerchioTop.style = "top:-10%; left:10%; scale:2.8;"
+                        cerchioBottom.style = "bottom:-40%; right:20%; scale:2.4;"
+                        break;
+                    case 'extra':
+                        cerchioTop.style = "top:-30%; left:50%;scale:2.4;"
+                        cerchioBottom.style = "bottom:0%; right:40%; scale:2.3;"
+                        break;
                 }
 
-            } else if (cerchioTop.classList.contains('cerchio-top-animazione')) {
-                // navbar.classList.remove('navbar-dark')
-                cerchioTop.classList.remove('cerchio-top-animazione')
-                cerchioBottom.classList.remove('cerchio-bottom-animazione')
-                //Cerchi nascossti
-                cerchioHiddenBottom.style = "display:block; background-color:rgba(160, 160, 160, 0.1) ;bottom:-40%; right:20%; scale:2.4;border:1px solid white; border:none"
-                cerchioHiddenTop.style = "display:block; background-color:rgba(160, 160, 160, 0.1) ;top:-10%; left:10%; scale:2.8; border:1px solid white; border:none"
-                cerchioHiddenTop.classList.add('cerchio-top-animazione-hidden')
-                cerchioHiddenBottom.classList.add('cerchio-bottom-animazione-hidden')
-                //---------------
-                bg.style = "background-color:white";
 
-                layoutbg.style = 'opacity:0';
-            } else {
-                // navbar.classList.remove('navbar-dark')
-                //Cerchi nascossti
-                cerchioHiddenBottom.style = "display:block; background-color:rgba(160, 160, 160, 0.1) ;bottom:-40%; right:20%; scale:2.4;border:1px solid white; border:none"
-                cerchioHiddenTop.style = "display:block; background-color:rgba(160, 160, 160, 0.1) ;top:-10%; left:10%; scale:2.8; border:1px solid white; border:none"
-                cerchioHiddenTop.classList.add('cerchio-top-animazione-hidden')
-                cerchioHiddenBottom.classList.add('cerchio-bottom-animazione-hidden')
-                //---------------
-                bg.style = "background-color:white";
 
-                layoutbg.style = 'opacity:0';
-            }
+                if (this.store.confArray[this.store.contatoreBackground][2] == true) {
+                    // navbar.classList.add('navbar-dark')
+                    //Cerchi nascossti
+                    //console.log(this.store.contatoreBackgroundOrizzontale)
+                    if (this.store.contatoreBackgroundOrizzontale == 0) {
 
-            if (this.store.confArray[this.store.contatoreBackground][0] == 'extra') {
-                cerchioHiddenBottom.style = "display:block; background-color:rgba(0, 0, 255, 0.3);bottom:-40%; right:20%; scale:2.4;border:1px solid white; border:none"
-                cerchioHiddenTop.style = "display:block; background-color:rgba(255, 0, 0, 0.3) ;top:-10%; left:10%; scale:2.8; border:1px solid white; border:none"
+                        cerchioHiddenBottom.style = "display:block; background-color:rgba(0, 0, 0, 0) ;bottom:-40%; right:20%; scale:2.4;border:1px solid white"
+                        cerchioHiddenTop.style = "display:block; background-color:rgba(0, 0, 0, 0) ;top:-10%; left:10%; scale:2.8; border:1px solid white"
+                        //---------------
+
+                        cerchioTop.style = "top:-10%; left:10%; scale:2.8; border:1px solid white"
+
+                        cerchioTop.classList.add('cerchio-top-animazione')
+                        cerchioTop.style = "background-color:rgba(255, 255, 255, 0.1); border:none;"
+                        cerchioBottom.classList.add('cerchio-bottom-animazione')
+                        cerchioBottom.style = "background-color:rgba(255, 255, 255, 0.1);border:none; bottom:-40%; right:20%; scale:2.4;"
+                        //img background works
+                        bg.style = "background-color:" + this.store.confArray[this.store.contatoreBackground][4];
+                        if (imgBg) {
+                            imgBg.style = 'opacity:0'
+                        }
+                        setTimeout(() => {
+                            layoutbg.style = 'background: linear-gradient(#ffffff00 60%, ' + this.store.confArray[this.store.contatoreBackground][4] + ' 85%);opacity : 0';
+                        }, 200)
+                        setTimeout(() => {
+                            if (imgBg) {
+                                imgBg.style = 'opacity:1'
+                            }
+                        }, 850)
+
+                        setTimeout(() => {
+                            layoutbg.style = 'background: linear-gradient(#ffffff00 60%, ' + this.store.confArray[this.store.contatoreBackground][4] + ' 85%);opacity : 1'
+                        }, 500)
+
+
+
+                    } else {
+                        cerchioTop.style = 'opacity:0';
+                        cerchioHiddenTop.style = 'opacity:0';
+                        cerchioBottom.style = 'opacity:0; bottom:-40%; right:20%; scale:2.4;';
+                        cerchioHiddenBottom.style = 'opacity:0';
+                        bg.style = 'background-color:#05050a;'
+                        layout.style = 'opacity:0; background-color:#05050a;';
+                    }
+
+                } else if (cerchioTop.classList.contains('cerchio-top-animazione')) {
+                    // navbar.classList.remove('navbar-dark')
+                    cerchioTop.classList.remove('cerchio-top-animazione')
+                    cerchioBottom.classList.remove('cerchio-bottom-animazione')
+                    //Cerchi nascossti
+                    cerchioHiddenBottom.style = "display:block; background-color:rgba(160, 160, 160, 0.1) ;bottom:-40%; right:20%; scale:2.4;border:1px solid white; border:none"
+                    cerchioHiddenTop.style = "display:block; background-color:rgba(160, 160, 160, 0.1) ;top:-10%; left:10%; scale:2.8; border:1px solid white; border:none"
+                    cerchioHiddenTop.classList.add('cerchio-top-animazione-hidden')
+                    cerchioHiddenBottom.classList.add('cerchio-bottom-animazione-hidden')
+                    //---------------
+                    bg.style = "background-color:white";
+
+                    setTimeout(() => {
+                        layoutbg.style = 'background: linear-gradient(#ffffff00 60%, ' + this.store.confArray[this.store.contatoreBackground][4] + ' 85%);opacity : 0';
+                    }, 200)
+                } else {
+                    // navbar.classList.remove('navbar-dark')
+                    //Cerchi nascossti
+                    cerchioHiddenBottom.style = "display:block; background-color:rgba(160, 160, 160, 0.1) ;bottom:-40%; right:20%; scale:2.4;border:1px solid white; border:none"
+                    cerchioHiddenTop.style = "display:block; background-color:rgba(160, 160, 160, 0.1) ;top:-10%; left:10%; scale:2.8; border:1px solid white; border:none"
+                    cerchioHiddenTop.classList.add('cerchio-top-animazione-hidden')
+                    cerchioHiddenBottom.classList.add('cerchio-bottom-animazione-hidden')
+                    //---------------
+                    bg.style = "background-color:white";
+
+                    if (layoutbg) {
+                        setTimeout(() => {
+                            layoutbg.style = 'background: linear-gradient(#ffffff00 60%, ' + this.store.confArray[this.store.contatoreBackground][4] + ' 85%);opacity : 0';
+                        }, 200)
+                    }
+                }
+
+                if (this.store.confArray[this.store.contatoreBackground][0] == 'extra') {
+                    cerchioHiddenBottom.style = "display:block; background-color:rgba(0, 0, 255, 0.3);bottom:-40%; right:20%; scale:2.4;border:1px solid white; border:none"
+                    cerchioHiddenTop.style = "display:block; background-color:rgba(255, 0, 0, 0.3) ;top:-10%; left:10%; scale:2.8; border:1px solid white; border:none"
+                }
+
             }
         },
 
@@ -189,31 +200,39 @@ export default {
         //Scroll Verticale
         // Dal centro al basso
         scrollElCenterDown(elemento) {
-            elemento.classList.add('move-center-top');
-            let disbandClass = setTimeout(() => {
-                elemento.classList.remove('move-center-top');
-            }, 1200);
+            if (elemento) {
+                elemento.classList.add('move-center-top');
+                let disbandClass = setTimeout(() => {
+                    elemento.classList.remove('move-center-top');
+                }, 1200);
+            }
         },
         // Dal centro al alto
         scrollElCenterUp(elemento) {
-            elemento.classList.add('move-center-bottom');
-            let disbandClass = setTimeout(() => {
-                elemento.classList.remove('move-center-bottom');
-            }, 1200);
+            if (elemento) {
+                elemento.classList.add('move-center-bottom');
+                let disbandClass = setTimeout(() => {
+                    elemento.classList.remove('move-center-bottom');
+                }, 1200);
+            }
         },
         //Dall alto al centro
         scrollElTopCenter(elemento) {
-            elemento.classList.add('move-top-center');
-            let disbandClass = setTimeout(() => {
-                elemento.classList.remove('move-top-center');
-            }, 1200);
+            if (elemento) {
+                elemento.classList.add('move-top-center');
+                let disbandClass = setTimeout(() => {
+                    elemento.classList.remove('move-top-center');
+                }, 1200);
+            }
         },
         //Dall basso al centro
         scrollElBottomCenter(elemento) {
-            elemento.classList.add('move-bottom-center');
-            let disbandClass = setTimeout(() => {
-                elemento.classList.remove('move-bottom-center');
-            }, 1200);
+            if (elemento) {
+                elemento.classList.add('move-bottom-center');
+                let disbandClass = setTimeout(() => {
+                    elemento.classList.remove('move-bottom-center');
+                }, 1200);
+            }
         },
         //Scroll Orizzontale
         // Dal centro a sinistra
@@ -364,7 +383,9 @@ export default {
                 let timer = setTimeout(() => {
                     this.isAnimated = false
                     this.checkContatori()
-                }, 2200)
+                }, 1200)
+
+
 
                 let changeIndex = setTimeout(() => {
 
@@ -377,6 +398,8 @@ export default {
                 this.store.contatoreBackgroundOrizzontale = 0;
                 this.backgroundAnimation();
 
+                // clearTimeout(timer);
+
             }
         },
 
@@ -386,29 +409,29 @@ export default {
     created() {
         if (this.$route.name == 'home') {
             window.onwheel = event => {
-                if (event.deltaY >= 0) {
+                if (event.deltaY >= 90) {
                     this.scrollTo(this.store.contatore + 1)
-
-                } else {
+                }
+                else if (event.deltaY <= -90) {
                     this.scrollTo(this.store.contatore - 1)
                 }
-            },
-
-                this.getImpProjects(),
-                this.setPrecontatore();
+            }
         }
+        this.getImpProjects(),
+            this.setPrecontatore();
+    }
 
-    },
+    ,
 
     mounted() {
         //Animazione Background
-        this.backgroundAnimation();
         this.store.contatore = 0;
         this.postcontatore = 1;
         this.precontatore = this.store.confArray.length - 1;
         this.store.contatoreBackground = 0;
-        this.backgroundAnimation();
+
         this.store.currentPage = 'home';
+        this.backgroundAnimation();
         //console.log(this.store.currentPage)
 
     },
@@ -452,11 +475,11 @@ export default {
             <!-- Bottoni -->
             <button v-if="store.confArray[store.contatore][2]" class="btn btn-arrow-left"
                 @click="scrollLeftRight((store.contatoreOrizzontale - 1))"
-                :style="store.contatoreOrizzontale > 0 ? 'transition: all 1s; opacity:1;' : 'transition: all 1s; opacity:.3;cursor:auto'"><i
+                :style="store.contatoreOrizzontale > 0 ? 'transition: all 1s; opacity:1;' : 'transition: all 1s; opacity:0;cursor:auto; background:none'"><i
                     class="fa-solid fa-caret-left rounded-circle"></i></button>
             <button v-if="store.confArray[store.contatore][2]" class="btn btn-arrow-right"
                 @click="scrollLeftRight((store.contatoreOrizzontale + 1))"
-                :style="store.contatoreOrizzontale < store.confArray[store.contatore][3].length - 1 ? 'transition: all 1s; opacity:1;' : 'transition: all 1s; opacity:.3;cursor:auto'"><i
+                :style="store.contatoreOrizzontale < store.confArray[store.contatore][3].length - 1 ? 'transition: all 1s; opacity:1;' : 'transition: all 1s; opacity:0;cursor:auto; background:none'"><i
                     class="fa-solid fa-caret-right rounded-circle"></i></button>
 
             <!-- screen -->
@@ -473,7 +496,8 @@ export default {
                 <span
                     v-if="this.store.confArray[this.precontatore][0] != 'extra' && this.store.confArray[this.precontatore][0] != 'contacts'"
                     :style="store.confArray[this.precontatore][2] ? 'color:white' : 'width:70%; text-align:center'"
-                    :class="store.confArray[this.precontatore][2] ? '_my-span-works' : ''" class="_my_container-main">{{
+                    :class="store.confArray[this.precontatore][2] ? '_my-span-works' : '_my-span_title bordo-bianco'"
+                    class="_my_container-main">{{
                         this.store.confArray[this.precontatore][1] }}</span>
 
                 <a class="_youtube " target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
@@ -500,7 +524,7 @@ export default {
                         <h4 class="text-light text-center mr-3">Technologies_</h4>
                         <div class="badge-wrapper text-center ml-3">
                             <span class="badge" v-for="element in this.store.confArray[this.precontatore][5]"
-                                :style="'background-color: transparent; border:2px solid ' + element[1] + ';color:white'">{{
+                                :style="'background-color: black;color:white'">{{
                                     element[0] }}</span>
                         </div>
                     </div>
@@ -531,7 +555,8 @@ export default {
                 <span
                     v-if="this.store.confArray[this.store.contatore][0] != 'extra' && this.store.confArray[this.store.contatore][0] != 'contacts'"
                     :style="store.confArray[this.store.contatore][2] ? 'color:white' : 'width:70%; text-align:center'"
-                    :class="store.confArray[this.store.contatore][2] ? '_my-span-works' : ''" class=" _my_container-main">{{
+                    :class="store.confArray[this.store.contatore][2] ? '_my-span-works' : '_my-span_title bordo-bianco'"
+                    class=" _my_container-main">{{
                         this.store.confArray[this.store.contatore][1] }}</span>
 
                 <a class="_youtube " target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
@@ -558,7 +583,7 @@ export default {
                         <h4 class="text-light text-center mr-3">Technologies_</h4>
                         <div class="badge-wrapper text-center ml-3">
                             <span class="badge" v-for="element in this.store.confArray[this.store.contatore][5]"
-                                :style="'background-color: transparent; border:2px solid ' + element[1] + ';color:white'">{{
+                                :style="'background-color: black;color:white'">{{
                                     element[0] }}</span>
                         </div>
                     </div>
@@ -578,7 +603,7 @@ export default {
                 </div>
 
             </div>
-            <div v-else class="__container p-center 'justify-content-center align-items-center" id="container-1">
+            <div v-else class="__container p-center 'justify-content-center align-items-center p-0" id="container-1">
                 <div class="container img-wrapper">
                     <img :src="store.confArray[store.contatore][3][store.contatoreOrizzontale]" alt="prova">
                 </div>
@@ -597,7 +622,8 @@ export default {
                 <span
                     v-if="this.store.confArray[this.postcontatore][0] != 'extra' && this.store.confArray[this.postcontatore][0] != 'contacts'"
                     :style="store.confArray[this.postcontatore][2] ? 'color:white' : 'width:70%; text-align:center'"
-                    :class="store.confArray[this.postcontatore][2] ? '_my-span-works' : ''" class="_my_container-main">{{
+                    :class="store.confArray[this.postcontatore][2] ? '_my-span-works' : '_my-span_title bordo-bianco'"
+                    class="_my_container-main">{{
                         this.store.confArray[this.postcontatore][1] }}</span>
 
                 <a class="_youtube " target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
@@ -623,7 +649,7 @@ export default {
                         <h4 class="text-light text-center mr-3">Technologies_</h4>
                         <div class="badge-wrapper text-center ml-3">
                             <span class="badge" v-for="element in this.store.confArray[this.postcontatore][5]"
-                                :style="'background-color: transparent; border:2px solid ' + element[1] + ';color:white'">{{
+                                :style="'background-color: black;color:white'">{{
                                     element[0] }}</span>
                         </div>
                     </div>
@@ -662,7 +688,7 @@ export default {
                     <span
                         v-if="this.store.confArray[this.store.contatore][0] != 'extra' && this.store.confArray[this.store.contatore][0] != 'contacts'"
                         :style="store.confArray[this.store.contatore][2] ? 'color:white' : 'width:70%; text-align:center'"
-                        :class="store.confArray[this.store.contatore][2] ? '_my-span-works' : ''"
+                        :class="store.confArray[this.store.contatore][2] ? '_my-span-works' : '_my-span_title bordo-bianco'"
                         class=" _my_container-main">{{
                             this.store.confArray[this.store.contatore][1] }}</span>
 
@@ -690,7 +716,7 @@ export default {
                             <h4 class="text-light text-center mr-3">Technologies_</h4>
                             <div class="badge-wrapper text-center ml-3">
                                 <span class="badge" v-for="element in this.store.confArray[this.store.contatore][5]"
-                                    :style="'background-color: transparent; border:2px solid ' + element[1] + ';color:white'">{{
+                                    :style="'background-color: black;color:white'">{{
                                         element[0] }}</span>
                             </div>
                         </div>
@@ -722,7 +748,8 @@ export default {
                 <span
                     v-if="this.store.confArray[this.store.contatore][0] != 'extra' && this.store.confArray[this.store.contatore][0] != 'contacts'"
                     :style="store.confArray[this.store.contatore][2] ? 'color:white' : 'width:70%; text-align:center'"
-                    :class="store.confArray[this.postcontatore][2] ? '_my-span-works' : ''" class=" _my_container-main">{{
+                    :class="store.confArray[this.postcontatore][2] ? '_my-span-works' : '_my-span_title bordo-bianco'"
+                    class=" _my_container-main">{{
                         this.store.confArray[this.store.contatore][1] }}</span>
 
                 <a class="_youtube " target="_blank" href="https://www.youtube.com/channel/UC7aGxhtTV2eEZFpT2tlNFAA"
@@ -745,7 +772,7 @@ export default {
 
             <!-- Destra -->
             <div v-if="this.store.confArray[this.store.contatore][3]"
-                class="__container p-right 'justify-content-center align-items-center" id="container-right">
+                class="__container p-right 'justify-content-center align-items-center p-0" id="container-right">
                 <div class="container img-wrapper">
                     <img :src="this.store.confArray[this.store.contatore][3][this.postcontatoreOrizzontale]" alt="prova">
                 </div>
@@ -778,19 +805,23 @@ export default {
                 <div class="cerchio hidden bottom-showroom" id="cerchio-bottom-hidden"></div>
                 <div class="cerchio top-showroom" id="cerchio-top"></div>
                 <div class="cerchio bottom-showroom" id="cerchio-bottom">
-                    <div class="_bottom-slayer" id="bottom-layer"></div>
+                    <div class="_bottom-slayer" id="bottom-layer"
+                        v-if="this.store.contatoreBackground != 0 && this.store.contatoreBackground != (this.store.confArray.length - 1)">
+                    </div>
                     <div class="_bottom-slayer-bottom"
-                        :style="this.store.confArray[this.store.contatoreBackground][4] ? 'background-color:' + this.store.confArray[this.store.contatoreBackground][4] : ''">
+                        :style="this.store.confArray[this.store.contatoreBackground][4] ? 'background-color:' + this.store.confArray[this.store.contatoreBackground][4] : 'background-color:rgb(0,0,0,0)'"
+                        v-if="this.store.contatoreBackground != 0 && this.store.contatoreBackground != (this.store.confArray.length - 1)">
+
                     </div>
                     <img id="img-bg"
-                        :src="this.store.confArray[this.store.contatore][3] ? this.store.confArray[this.store.contatore][3][1] : 'https://images.unsplash.com/photo-1617309215127-ebeb4eddeba5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'"
+                        :src="this.store.confArray[this.store.contatore][3] ? this.store.confArray[this.store.contatore][3][1] : ''"
                         alt="" :style="this.store.confArray[this.store.contatoreBackground][2] ? 'opacity:1' : 'opacity:0'"
-                        v-if="this.store.confArray[this.store.contatore][2]">
+                        v-if="this.store.contatoreBackground != 0 && this.store.contatoreBackground != (this.store.confArray.length - 1)">
                 </div>
                 <!-- <div class="cerchio cerchio-centro" id="cerchio-nav"></div> -->
             </div>
-
         </div>
+
     </div>
 </template>
 
@@ -812,12 +843,14 @@ export default {
 
     .title {
         text-transform: uppercase;
+        text-transform: capitalize;
     }
 
     ._my-title-works {
         margin-left: 2.2em;
         margin-top: .4em;
         margin-bottom: 0;
+        text-shadow: 1px 1px 2px rgb(0, 0, 0, .2);
         //text-transform: uppercase;
 
         @media screen and (max-width: 991px) {
@@ -831,6 +864,12 @@ export default {
         }
     }
 
+    ._my-span_title {
+        text-shadow: 1px 1px 2px white;
+        position: relative;
+        z-index: 2;
+    }
+
     ._my-span-works {
         width: 45%;
         margin: 1em 3em;
@@ -838,6 +877,7 @@ export default {
         padding: 1em;
         text-align: center;
         border-bottom: 1px solid white;
+        text-shadow: 1px 1px 2px rgb(0, 0, 0, .2);
 
         @media screen and (max-width: 991px) {
             width: auto;
@@ -858,8 +898,8 @@ export default {
         display: flex;
         padding: 0em;
         //padding-top: 1em;
-        margin-top: 1em;
-        background-color: #000;
+        margin-top: 110px;
+        //background-color: #000;
         border-radius: 10px;
         //border: 1px solid white;
 
@@ -884,7 +924,7 @@ export default {
         bottom: 5%;
         left: 50%;
         transform: translateX(-50%);
-        z-index: 3;
+        z-index: 5;
         height: 30px;
 
         &:hover .border-circle-wrapper .overspan {
@@ -903,7 +943,7 @@ export default {
 
             .border-circle-mini-wrapper {
                 cursor: pointer;
-                z-index: 4;
+                z-index: 6;
                 transition: all .4s;
 
                 padding: 1.2em 1.7em;
@@ -943,7 +983,7 @@ export default {
 
         .border-circle-wrapper {
             cursor: pointer;
-            z-index: 4;
+            z-index: 6;
             transition: all .4s;
             padding: 1.2em 1.7em;
             rotate: 45deg;
@@ -1125,18 +1165,21 @@ export default {
             -webkit-mask-image: -webkit-radial-gradient(50% 50%, 280px 280px, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 
             @media screen and (max-width: 652px) {
-                -webkit-mask-image: -webkit-radial-gradient(50% 60%, 270px 250px, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+                -webkit-mask-image: -webkit-radial-gradient(50% 65%, 270px 250px, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2));
 
+                img {
+                    object-position: 20px 15px;
+                }
             }
 
             ._bottom-slayer {
                 position: absolute;
-                bottom: 230px;
+                bottom: 250px;
                 width: 100vh;
-                height: 170px;
+                height: 240px;
                 z-index: 1;
                 opacity: 1;
-                transition: all 1s;
+                transition: all 1.5s;
 
                 @media screen and (max-width: 652px) {
                     display: none;
@@ -1150,7 +1193,7 @@ export default {
                 height: 226px;
                 z-index: 1;
                 opacity: 1;
-                transition: all 1s;
+                transition: all 1.5s;
 
                 @media screen and (max-width: 652px) {
                     display: none;
@@ -1161,8 +1204,8 @@ export default {
                 opacity: 1;
                 object-fit: cover;
                 width: 100%;
-                animation: appear-bg 1s;
-                transition: all 1s;
+                animation: appear-bg .7s;
+                transition: all 1.2s;
                 scale: 1;
 
             }
@@ -1233,6 +1276,12 @@ export default {
     justify-content: center;
     align-items: start;
 
+    h3,
+    h4,
+    h5 {
+        text-shadow: 1px 1px 2px rgb(0, 0, 0, .2);
+    }
+
     .badge-wrapper {
         width: 50%;
     }
@@ -1278,8 +1327,9 @@ export default {
 .technologies {
     gap: 1em;
 
+
     span {
-        border: 1px solid white;
+        //border: 1px solid white;
         margin: 0em .3em;
     }
 
@@ -1307,9 +1357,16 @@ export default {
     color: rgb(232, 226, 226);
     background-color: rgba(0, 0, 0, 0);
     z-index: 3;
+    border-radius: 50%;
+    scale: 1.5;
 
     &:hover {
-        background-color: rgba(0, 0, 0, 0.135);
+        background-color: rgba(0, 0, 0, 0.9);
+        color: rgba(255, 255, 255);
+    }
+
+    &:active {
+        background-color: rgba(173, 173, 173);
         color: rgba(255, 255, 255);
     }
 }
@@ -1326,9 +1383,16 @@ export default {
     color: rgb(232, 226, 226);
     background-color: rgba(0, 0, 0, 0);
     z-index: 3;
+    border-radius: 50%;
+    scale: 1.5;
 
     &:hover {
-        background-color: rgba(0, 0, 0, 0.135);
+        background-color: rgba(0, 0, 0, 0.9);
+        color: rgba(255, 255, 255);
+    }
+
+    &:active {
+        background-color: rgba(173, 173, 173);
         color: rgba(255, 255, 255);
     }
 

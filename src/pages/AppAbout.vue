@@ -15,15 +15,61 @@ export default {
     },
 
     methods: {
+        animationTextAppear() {
+            let textWrapper = document.querySelector('.ml3');
+            textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
 
+
+            anime.timeline({ loop: false })
+                .add({
+                    targets: '.ml3 .letter',
+                    opacity: [0, 1],
+                    easing: "easeInOutQuad",
+                    duration: 2250,
+                    delay: (el, i) => 20 * (i + 1)
+                }).add({
+                    targets: '.ml3',
+                    opacity: 1,
+                    duration: 1000,
+                    easing: "easeOutExpo",
+                    delay: 1000
+                });
+
+        },
+        animationIcon() {
+            let iconsArray = document.querySelectorAll('._animation-icons');
+            let contatore = 0;
+            let time = 200;
+
+            let iconPos = iconsArray[0].getBoundingClientRect();
+
+            if (iconPos.top < 700) {
+
+                function contatoreFun() {
+
+                    setTimeout(() => {
+                        if (contatore <= iconsArray.length - 1) {
+                            iconsArray[contatore].style = 'bottom:0; opacity:1';
+                            contatore++
+                            //time += 100;
+                            contatoreFun();
+                        }
+                    }, time)
+                };
+
+                contatoreFun()
+            }
+
+        }
     },
 
     mounted() {
-        //console.log(this.$router.currentRoute.value.name)
         this.store.currentPage = 'about';
         console.log(this.store.currentPage)
-    }
-
+        this.animationIcon()
+        this.animationTextAppear()
+        window.addEventListener('scroll', this.animationIcon);
+    },
 }
 </script>
 
@@ -47,7 +93,8 @@ export default {
             <div class="_info-wrapper">
                 <div class="_section-info mb-4">
                     <h2>Chi sono?</h2>
-                    <span>Ho percorso un sentiero ibrido tra informatica e arte, fisiologicamente
+                    <span id="animation-text-appear" class="ml3">Ho percorso un sentiero ibrido tra informatica e arte,
+                        fisiologicamente
                         sfociato nella programmazione. Mi definisco una persona calma e
                         riflessiva e sono cresciuto in mezzo ai computer. Suono la chitarra e
                         quando non scrivo codice, scrivo canzoni.
@@ -57,14 +104,14 @@ export default {
                     <h2>Le mie Skills</h2>
                     <div class="skills">
 
-                        <i class="fa-brands fa-html5"></i>
-                        <i class="fa-brands fa-css3-alt"></i>
-                        <i class="fa-brands fa-square-js"></i>
-                        <i class="fa-brands fa-bootstrap"></i>
-                        <i class="fa-brands fa-sass"></i>
-                        <i class="fa-brands fa-vuejs"></i>
-                        <i class="fa-brands fa-php"></i>
-                        <i class="fa-brands fa-laravel"></i>
+                        <i class="_animation-icons fa-brands fa-html5"></i>
+                        <i class="_animation-icons fa-brands fa-css3-alt"></i>
+                        <i class="_animation-icons fa-brands fa-square-js"></i>
+                        <i class="_animation-icons fa-brands fa-bootstrap"></i>
+                        <i class="_animation-icons fa-brands fa-sass"></i>
+                        <i class="_animation-icons fa-brands fa-vuejs"></i>
+                        <i class="_animation-icons fa-brands fa-php"></i>
+                        <i class="_animation-icons fa-brands fa-laravel"></i>
 
                     </div>
                 </div>
@@ -99,7 +146,7 @@ export default {
             position: absolute;
             left: 2em;
             top: 1em;
-            scale: 1.1;
+            scale: .95;
             transition: all 1s;
 
             width: 22vw;
@@ -145,7 +192,7 @@ export default {
             position: absolute;
             left: 2em;
             top: 1em;
-            scale: 1.1;
+            scale: .95;
             transition: all 1s;
 
             width: 23vw;
@@ -222,6 +269,10 @@ export default {
 
                     i {
                         font-size: 2em;
+                        position: relative;
+                        bottom: 10px;
+                        opacity: 0;
+                        transition: all 1s;
                     }
                 }
 

@@ -105,6 +105,8 @@ export default {
     padding: 1em;
     background-color: black;
     margin-top: 4em;
+    position: relative;
+    z-index: 2;
 
     .footer-container {
         max-width: 1100px;

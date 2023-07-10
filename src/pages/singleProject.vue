@@ -22,13 +22,13 @@ export default {
         this.PostSlug = this.$route.params.slug,
             this.getProject(),
             this.store.currentPage = 'projects';
-        console.log(this.PostSlug)
+        //console.log(this.PostSlug)
     },
 
     methods: {
         getProject() {
             axios.get('http://127.0.0.1:8000/api/projects/' + this.PostSlug).then(response => {
-                console.log(response.data.results)
+                //console.log(response.data.results)
                 this.singleProject = response.data.results;
 
             })
@@ -118,6 +118,7 @@ export default {
 
             @media screen and (max-width: 772px) {
                 margin-left: 0;
+                width: 100%;
                 text-align: center;
             }
         }
