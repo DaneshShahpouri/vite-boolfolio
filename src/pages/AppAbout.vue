@@ -37,29 +37,32 @@ export default {
 
         },
         animationIcon() {
-            let iconsArray = document.querySelectorAll('._animation-icons');
-            let contatore = 0;
-            let time = 200;
+            if (this.store.currentPage == 'about') {
 
-            let iconPos = iconsArray[0].getBoundingClientRect();
+                let iconsArray = document.querySelectorAll('._animation-icons');
+                let contatore = 0;
+                let time = 200;
 
-            if (iconPos.top < 700) {
+                let iconPos = iconsArray[0].getBoundingClientRect();
 
-                function contatoreFun() {
+                if (iconPos.top < 700) {
 
-                    setTimeout(() => {
-                        if (contatore <= iconsArray.length - 1) {
-                            iconsArray[contatore].style = 'bottom:0; opacity:1';
-                            contatore++
-                            //time += 100;
-                            contatoreFun();
-                        }
-                    }, time)
-                };
+                    function contatoreFun() {
 
-                contatoreFun()
+                        setTimeout(() => {
+                            if (contatore <= iconsArray.length - 1) {
+                                iconsArray[contatore].style = 'bottom:0; opacity:1';
+                                contatore++
+                                //time += 100;
+                                contatoreFun();
+                            }
+                        }, time)
+                    };
+
+                    contatoreFun()
+                }
+
             }
-
         }
     },
 

@@ -5,7 +5,11 @@ export default {
         return {
             store,
             email: '',
-            contenuto: ''
+            name: '',
+            contenuto: '',
+            sendOk: false,
+            sendNo: false,
+            isAnimationSend: false,
         }
     },
     methods: {
@@ -13,20 +17,32 @@ export default {
         inviaEmail() {
             // Effettua la chiamata al backend Laravel per inviare l'email
             // Utilizza axios o una chiamata AJAX per inviare i dati del form
-            axios.post('http://127.0.0.1:8000/api/invia-email', {
+            axios.post('http://127.0.0.1:8000/api/messages/store', {
                 email: this.email,
-                contenuto: this.contenuto
+                username: this.name,
+                content: this.contenuto
+            }).then(response => {
+                console.log(response)
+
+                if (response.status == 200) {
+                    this.isAnimationSend = true;
+                    this.sendOk = true;
+                    this.sendNo = false
+                    setTimeout(
+                        () => {
+                            this.email = '';
+                            this.name = '';
+                            this.contenuto = '';
+                        }, 200);
+
+                }
             })
-                .then(response => {
-                    // Gestisci la risposta del backend dopo l'invio dell'email
-                    console.log(response.data);
-                    // Resetta i campi del form
-                    this.email = '';
-                    this.contenuto = '';
-                })
                 .catch(error => {
                     // Gestisci eventuali errori
                     console.error(error);
+                    this.isAnimationSend = false;
+                    this.sendOk = false
+                    this.sendNo = true
                 });
         }
 
@@ -60,15 +76,28 @@ export default {
                 </div>
 
                 <div class="col-md-8 offset-md-1 mb-3">
-                    <form @submit.prevent="this.inviaEmail()">
-                        <h5 class="text-light">Scrivimi una email</h5>
+                    <form @submit.prevent="inviaEmail()">
+                        <h5 class="text-light">Scrivimi un messaggio</h5>
                         <div class="d-flex flex-column flex-sm-col w-100 gap-2">
                             <label for="email" class="visually-hidden">Email</label>
-                            <input type="email" name="email" typeof="text" class="form-control" v-model="email"
-                                placeholder="indirizzo email" required>
-                            <input class="form-control" name="content" placeholder="scrivi qui" min:3 v-model="contenuto"
-                                required>
+                            <input type="name" name="name" typeof="text" class="form-control" v-model="this.name"
+                                placeholder="Nome*" required>
+                            <input type="email" name="email" typeof="text" class="form-control" v-model="this.email"
+                                placeholder="Email*" required>
+                            <input class="form-control" name="content" placeholder="Scrivi qui.." min:3
+                                v-model="this.contenuto" required>
                             <button class="btn btn-dark" type="submit">Invia</button>
+                        </div>
+                        <div class="send-bar" v-if="this.isAnimationSend == true"
+                            :class="this.isAnimationSend ? 'send-bar-animation' : ''">
+                        </div>
+                        <div class="message-status-success text-success" v-show="this.sendOk == true">
+                            <i class="fa-solid fa-check"></i>
+                            <span class="ps-1">Messaggio Inviato</span>
+                        </div>
+                        <div class="message-status-success text-danger" v-show="this.sendNo == true">
+                            <i class="fa-solid fa-x"></i>
+                            <span class="ps-1">Errore di Invio</span>
                         </div>
 
                     </form>
@@ -138,6 +167,32 @@ export default {
         p {
             color: rgb(168, 168, 168);
         }
+    }
+
+    .send-bar {
+        width: 100%;
+        height: 5px;
+        border-radius: 5px;
+        background-color: green;
+    }
+
+    .send-bar-animation {
+        animation: 1s sendMessage ease;
+    }
+
+    .message-status-success {
+        display: flex;
+        align-items: center;
+    }
+}
+
+@keyframes sendMessage {
+    0% {
+        width: 0%;
+    }
+
+    100% {
+        width: 100%;
     }
 }
 </style>

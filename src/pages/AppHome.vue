@@ -132,18 +132,18 @@ export default {
                         if (imgBg) {
                             imgBg.style = 'opacity:0'
                         }
-                        setTimeout(() => {
-                            layoutbg.style = 'background: linear-gradient(#ffffff00 60%, ' + this.store.confArray[this.store.contatoreBackground][4] + ' 85%);opacity : 0';
-                        }, 200)
+                        // setTimeout(() => {
+                        //     layoutbg.style = 'background: linear-gradient(#ffffff00 60%, ' + this.store.confArray[this.store.contatoreBackground][4] + ' 85%);opacity : 0';
+                        // }, 100)
                         setTimeout(() => {
                             if (imgBg) {
                                 imgBg.style = 'opacity:1'
                             }
-                        }, 850)
+                        }, 700)
 
                         setTimeout(() => {
                             layoutbg.style = 'background: linear-gradient(#ffffff00 60%, ' + this.store.confArray[this.store.contatoreBackground][4] + ' 85%);opacity : 1'
-                        }, 500)
+                        }, 200)
 
 
 
@@ -323,11 +323,11 @@ export default {
                 let timer = setTimeout(() => {
                     this.isAnimated = false
                     this.checkContatoriOrizzontali()
-                }, 1900)
+                }, 1000)
 
                 let changeIndex = setTimeout(() => {
                     this.store.contatoreOrizzontale = index;
-                }, 900)
+                }, 700)
 
                 //this.checkContatoriOrizzontali()
                 this.store.contatoreBackgroundOrizzontale = this.precontatoreOrizzontale
@@ -383,7 +383,7 @@ export default {
                 let timer = setTimeout(() => {
                     this.isAnimated = false
                     this.checkContatori()
-                }, 1200)
+                }, 1000)
 
 
 
@@ -392,7 +392,7 @@ export default {
                     this.store.contatore = index;
 
                     this.store.contatoreOrizzontale = 0
-                }, 900)
+                }, 700)
 
                 this.store.contatoreBackground = index
                 this.store.contatoreBackgroundOrizzontale = 0;
@@ -402,7 +402,6 @@ export default {
 
             }
         },
-
 
     },
 
@@ -416,12 +415,11 @@ export default {
                     this.scrollTo(this.store.contatore - 1)
                 }
             }
-        }
-        this.getImpProjects(),
-            this.setPrecontatore();
-    }
+        };
 
-    ,
+        this.getImpProjects();
+        this.setPrecontatore();
+    },
 
     mounted() {
         //Animazione Background
@@ -432,8 +430,33 @@ export default {
 
         this.store.currentPage = 'home';
         this.backgroundAnimation();
-        //console.log(this.store.currentPage)
 
+        //Movimento frecce
+        if (this.store.currentPage == 'home') {
+            window.addEventListener('keydown', (event) => {
+                switch (event.key) {
+                    case "ArrowLeft":
+                        if (this.store.confArray[this.store.contatore][2]) {
+                            this.scrollLeftRight(this.store.contatoreOrizzontale - 1)
+                        }
+                        break;
+
+                    case "ArrowRight":
+                        if (this.store.confArray[this.store.contatore][2]) {
+                            this.scrollLeftRight(this.store.contatoreOrizzontale + 1)
+                        }
+                        break;
+
+                    case "ArrowUp":
+                        this.scrollTo(this.store.contatore - 1)
+                        break
+
+                    case "ArrowDown":
+                        this.scrollTo(this.store.contatore + 1)
+                        break;
+                }
+            });
+        }
     },
 
     unmounted() {
@@ -441,6 +464,7 @@ export default {
         this.store.contatoreBackground = 0;
         this.store.contatoreOrizzontale = 0;
         this.store.contatore = 0;
+
     }
 }
 
@@ -505,7 +529,7 @@ export default {
                     Youtube Channel</a>
 
                 <div class="social-container" v-if="this.store.confArray[this.precontatore][0] == 'contacts'">
-                    <a href="https://www.google.com/intl/it/gmail/about" target="_blank" class="gmail bordo-bianco"><i
+                    <a href="mailto:danesh.shahpouri@gmail.com" target="_blank" class="gmail bordo-bianco"><i
                             class="fa-regular fa-envelope"></i>
                         Danesh.Shahpouri@gmail.com</a>
                     <a href="https://github.com/DaneshShahpouri" target="_blank" class="github bordo-bianco">
@@ -564,7 +588,7 @@ export default {
                     Youtube Channel</a>
 
                 <div class="social-container" v-if="this.store.confArray[this.store.contatore][0] == 'contacts'">
-                    <a href="https://www.google.com/intl/it/gmail/about" target="_blank" class="gmail bordo-bianco"><i
+                    <a href="mailto:danesh.shahpouri@gmail.com" class="gmail bordo-bianco"><i
                             class="fa-regular fa-envelope"></i>
                         Danesh.Shahpouri@gmail.com</a>
                     <a href="https://github.com/DaneshShahpouri" target="_blank" class="github bordo-bianco">
@@ -631,7 +655,7 @@ export default {
                     Youtube Channel</a>
 
                 <div class="social-container" v-if="this.store.confArray[this.postcontatore][0] == 'contacts'">
-                    <a href="https://www.google.com/intl/it/gmail/about" target="_blank" class="gmail bordo-bianco"><i
+                    <a href="mailto:danesh.shahpouri@gmail.com" target="_blank" class="gmail bordo-bianco"><i
                             class="fa-regular fa-envelope"></i>
                         Danesh.Shahpouri@gmail.com</a>
                     <a href="https://github.com/DaneshShahpouri" target="_blank" class="github bordo-bianco">
@@ -939,7 +963,7 @@ export default {
             display: flex;
             justify-content: center;
             align-items: center;
-            top: 7.5%;
+            top: 70px;
 
             .border-circle-mini-wrapper {
                 cursor: pointer;
@@ -1179,7 +1203,7 @@ export default {
                 height: 240px;
                 z-index: 1;
                 opacity: 1;
-                transition: all 1.5s;
+                transition: all .5s;
 
                 @media screen and (max-width: 652px) {
                     display: none;
@@ -1188,12 +1212,12 @@ export default {
 
             ._bottom-slayer-bottom {
                 position: absolute;
-                bottom: 10px;
+                bottom: 24px;
                 width: 100vh;
                 height: 226px;
                 z-index: 1;
                 opacity: 1;
-                transition: all 1.5s;
+                transition: all .5s;
 
                 @media screen and (max-width: 652px) {
                     display: none;
@@ -1233,36 +1257,36 @@ export default {
 
     // Classi animazioni Verticali
     .move-center-top {
-        animation: 1s moveCenterTop;
+        animation: .8s moveCenterTop;
     }
 
     .move-center-bottom {
-        animation: 1s moveCenterBottom;
+        animation: .8s moveCenterBottom;
     }
 
     .move-bottom-center {
-        animation: 1s moveBottomCenter;
+        animation: .8s moveBottomCenter;
     }
 
     .move-top-center {
-        animation: 1s moveTopCenter;
+        animation: .8s moveTopCenter;
     }
 
     // Classi animazioni Orizzontali
     .move-center-left {
-        animation: 1s moveCenterLeft;
+        animation: .8s moveCenterLeft;
     }
 
     .move-center-right {
-        animation: 1s moveCenterRight;
+        animation: .8s moveCenterRight;
     }
 
     .move-right-center {
-        animation: 1s moveRightCenter;
+        animation: .8s moveRightCenter;
     }
 
     .move-left-center {
-        animation: 1s moveLeftCenter;
+        animation: .8s moveLeftCenter;
     }
 
 }

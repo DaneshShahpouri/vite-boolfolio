@@ -277,31 +277,25 @@ export default {
         z-index: 2;
         width: 100%;
         padding: 4em 2em;
-        //border-bottom: 1px solid rgb(42, 42, 42);
-        //margin: 2em 0em;
+
         display: flex;
         justify-content: space-around;
         align-items: center;
         gap: 3em;
-        //overflow: hidden;
+
         transition: all .5s;
 
         .img-wrapper {
-            width: 35vw;
+            width: 60vw;
             height: 20vw;
             max-width: 450px;
             max-height: 300px;
             min-width: 250px;
             min-height: 200px;
-            //border-radius: 50%;
+
             border-radius: 8px;
             overflow: hidden;
             border: 1px solid black;
-            //background-color: white;
-
-
-            //margin: 2em;
-            aspect-ratio: 1 / 1;
 
             img {
                 width: 100%;

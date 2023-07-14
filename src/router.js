@@ -25,7 +25,7 @@ const router = createRouter({
             path: '/works',
             component: AppProjects,
             meta: {
-                title: 'works'
+                title: 'Works'
             }
         },
         {
